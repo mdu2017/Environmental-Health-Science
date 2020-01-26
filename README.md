@@ -5,7 +5,7 @@ A mobile application used by Baylor students on their mission trips to measure e
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
+These instructions will get you a copy of the project up and running on your local machine and mobile phone for development and testing purposes.
 
 ### Prerequisites
 
@@ -14,6 +14,7 @@ What things you need to install the software
 - Node.js v13.7+ ([Download Link](https://nodejs.org/en/download/))
 - npm 6.13.6+ ([Download Link](https://nodejs.org/en/))
 - Git ([Download Link](https://git-scm.com/downloads))
+- Expo Client ([Download Link](https://expo.io/tools))
 
 ### Installation
 
@@ -33,13 +34,35 @@ What things you need to install the software
 
 ### Dependencies
 
+React-Native libraries required for the mobile application to run
+
+- `react`
+- `react-native`
+- `expo / expo babel-preset-expo'
+- `expo / expo'
+- `expo / expo expo-asset'
+- `expo / expo expo-constants'
+- `expo / expo expo-font'
+- `expo / expo expo-web-browser'
+- `expo / expo jest-expo'
+- `facebook / react'
+- `facebook / react react-dom'
+- `software-mansion / react-native-gesture-handler'
+- `software-mansion / react-native-reanimated'
+- `kmagiera / react-native-screens'
+- `necolas / react-native-web'
+- `react-navigation / react-navigation'
+- `react-navigation / stack react-navigation-stack'
+- `react-navigation / tabs react-navigation-tabs'
+- `react-native-form-builder`
+
 
 ## Authors
 
-- **Schaeffer Duncan** - *Initial work* - [Github](https://github.com/SchaefferDuncan)
-- **Andrew Walker** - *Initial work* - [Github](https://github.com/walker76)
-- **Matt Giles** - *Initial work* - [Github](https://github.com/DarthIguanadon)
-- **Mark Du** - *Initial work* - [Github](https://github.com/mdu2017)
+- **Schaeffer Duncan** - *Initial work* - [GitHub](https://github.com/SchaefferDuncan)
+- **Andrew Walker** - *Initial work* - [GitHub](https://github.com/walker76)
+- **Matt Giles** - *Initial work* - [GitHub](https://github.com/DarthIguanadon)
+- **Mark Du** - *Initial work* - [GitHub](https://github.com/mdu2017)
 
 ## Acknowledgments
 
