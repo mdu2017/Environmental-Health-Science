@@ -52,6 +52,7 @@ LinksStack.navigationOptions = {
 
 LinksStack.path = '';
 
+//Path to settings page
 const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen,
@@ -68,6 +69,7 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
+//Navigation tabs on the bottom of the screen
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   LinksStack,

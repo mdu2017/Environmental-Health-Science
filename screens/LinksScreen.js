@@ -1,27 +1,78 @@
+import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
-import { ExpoLinksView } from '@expo/samples';
+import { StyleSheet, Image, Text, View } from 'react-native';
+import Touchable from 'react-native-platform-touchable';
 
-export default function LinksScreen() {
-  return (
-    <ScrollView style={styles.container}>
-      {/**
-       * Go ahead and delete ExpoLinksView and replace it with your content;
-       * we just wanted to provide you with some helpful links.
-       */}
-      <ExpoLinksView />
-    </ScrollView>
-  );
+export default class LinksScreen extends React.Component {
+  render() {
+    return (
+      <View>
+        <Text style={styles.optionsTitleText}>Resources</Text>
+
+        <Touchable
+          style={styles.option}
+          background={Touchable.Ripple('#ccc', false)}
+          onPress={this._handlePressDocs}>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={styles.optionIconContainer}>
+              {/* image can go here */}
+            </View>
+            <View style={styles.optionTextContainer}>
+              <Text style={styles.optionText}>Read the Expo documentation</Text>
+            </View>
+          </View>
+        </Touchable>
+
+        <Touchable
+          style={styles.option}
+          background={Touchable.Ripple('#ccc', false)}
+          onPress={this._handlePressForums}>
+          <View style={{ flexDirection: 'row' }}>
+            <View style={styles.optionIconContainer}>
+              {/* Image can go here */}
+            </View>
+            <View style={styles.optionTextContainer}>
+              <Text style={styles.optionText}>Ask a question on the Expo forums</Text>
+            </View>
+          </View>
+        </Touchable>
+      </View>
+    );
+  }
+
+  _handlePressDocs = () => {
+    WebBrowser.openBrowserAsync('http://docs.expo.io');
+  };
+
+  _handlePressForums = () => {
+    WebBrowser.openBrowserAsync('http://forums.expo.io');
+  };
 }
-
-LinksScreen.navigationOptions = {
-  title: 'Links',
-};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 15,
-    backgroundColor: '#fff',
+  },
+  optionsTitleText: {
+    fontSize: 16,
+    marginLeft: 15,
+    marginTop: 9,
+    marginBottom: 12,
+  },
+  optionIconContainer: {
+    marginRight: 9,
+  },
+  option: {
+    backgroundColor: '#fdfdfd',
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#EDEDED',
+  },
+  optionText: {
+    fontSize: 15,
+    marginTop: 1,
   },
 });
+
