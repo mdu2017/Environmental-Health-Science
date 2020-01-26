@@ -1,7 +1,7 @@
 import React from 'react';
 import { Platform } from 'react-native';
 import { createStackNavigator } from 'react-navigation-stack';
-import { createBottomTabNavigator } from 'react-navigation-tabs';
+import { createBottomTabNavigator, createMaterialTopTabNavigator } from 'react-navigation-tabs';
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
@@ -13,6 +13,7 @@ const config = Platform.select({
   default: {},
 });
 
+//Creates a home stack navigator
 const HomeStack = createStackNavigator(
   {
     Home: HomeScreen,
@@ -20,22 +21,20 @@ const HomeStack = createStackNavigator(
   config
 );
 
+//Options for home nav button
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
+      name={Platform.OS === 'ios' ? `ios-information-circle${focused ? '' : '-outline'}` : 'md-information-circle'}
     />
   ),
 };
 
 HomeStack.path = '';
 
+//Link stack navigator
 const LinksStack = createStackNavigator(
   {
     Links: LinksScreen,
@@ -43,6 +42,7 @@ const LinksStack = createStackNavigator(
   config
 );
 
+//Link stack navigation options
 LinksStack.navigationOptions = {
   tabBarLabel: 'Links',
   tabBarIcon: ({ focused }) => (
@@ -60,6 +60,7 @@ const SettingsStack = createStackNavigator(
   config
 );
 
+//Setting stack nav options
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
   tabBarIcon: ({ focused }) => (

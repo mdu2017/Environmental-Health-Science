@@ -134,6 +134,7 @@ const Color = ({ value }) => {
   }
 };
 
+// Styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
