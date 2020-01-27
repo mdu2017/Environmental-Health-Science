@@ -38,15 +38,15 @@ React-Native libraries required for the mobile application to run
 
 - `react`
 - `react-native`
-- `expo/expo'
-- `facebook/react'
-- `software-mansion/react-native-gesture-handler'
-- `software-mansion/react-native-reanimated'
-- `kmagiera/react-native-screens'
-- `necolas/react-native-web'
-- `react-navigation/react-navigation'
-- `react-navigation/stack'
-- `react-navigation/tabs'
+- `expo/expo`
+- `facebook/react`
+- `software-mansion/react-native-gesture-handler`
+- `software-mansion/react-native-reanimated`
+- `kmagiera/react-native-screens`
+- `necolas/react-native-web`
+- `react-navigation/react-navigation`
+- `react-navigation/stack`
+- `react-navigation/tabs`
 - `react-native-form-builder`
 
 ## Authors
