@@ -59,6 +59,6 @@ React-Native libraries required for the mobile application to run
 ## Acknowledgments
 
 - [Dr. Matthew Fendt](https://www.ecs.baylor.edu/index.php?id=961900)
-- [Benjamin Ryan](https://www.baylor.edu/environmentalscience/index.php?id=964879)
+- [Dr. Benjamin Ryan](https://www.baylor.edu/environmentalscience/index.php?id=964879)
 - Kemper Beard
 - [Baylor Missions](https://www.baylor.edu/missions/)
