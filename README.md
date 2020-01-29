@@ -48,6 +48,7 @@ React-Native libraries required for the mobile application to run
 - `react-navigation/stack`
 - `react-navigation/tabs`
 - `react-native-form-builder`
+- `react-native-elements`
 
 ## Authors
 
