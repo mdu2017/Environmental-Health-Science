@@ -38,16 +38,17 @@ React-Native libraries required for the mobile application to run
 
 - `react`
 - `react-native`
-- `expo/expo'
-- `facebook/react'
-- `software-mansion/react-native-gesture-handler'
-- `software-mansion/react-native-reanimated'
-- `kmagiera/react-native-screens'
-- `necolas/react-native-web'
-- `react-navigation/react-navigation'
-- `react-navigation/stack'
-- `react-navigation/tabs'
+- `expo/expo`
+- `facebook/react`
+- `software-mansion/react-native-gesture-handler`
+- `software-mansion/react-native-reanimated`
+- `kmagiera/react-native-screens`
+- `necolas/react-native-web`
+- `react-navigation/react-navigation`
+- `react-navigation/stack`
+- `react-navigation/tabs`
 - `react-native-form-builder`
+- `react-native-elements`
 
 ## Authors
 
@@ -59,6 +60,6 @@ React-Native libraries required for the mobile application to run
 ## Acknowledgments
 
 - [Dr. Matthew Fendt](https://www.ecs.baylor.edu/index.php?id=961900)
-- [Benjamin Ryan](https://www.baylor.edu/environmentalscience/index.php?id=964879)
+- [Dr. Benjamin Ryan](https://www.baylor.edu/environmentalscience/index.php?id=964879)
 - Kemper Beard
 - [Baylor Missions](https://www.baylor.edu/missions/)
