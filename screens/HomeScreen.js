@@ -9,12 +9,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-
+import { CheckBox } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 
-export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
+export default class HomeScreen extends React.Component {
+  render() {
+    return (
+      <View style={styles.container}>
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}>
@@ -38,6 +39,14 @@ export default function HomeScreen() {
             style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
             <MonoText>screens/HomeScreen.js</MonoText>
           </View>
+
+          <CheckBox title='Click Here'/>
+          <CheckBox
+          center
+          title='Click Here'
+          checkedIcon='dot-circle-o'
+          uncheckedIcon='circle-o'
+          />
 
           <Text style={styles.getStartedText}>
             Change this text and your app will automatically reload.
@@ -66,7 +75,8 @@ export default function HomeScreen() {
         </View>
       </View>
     </View>
-  );
+    );
+  }
 }
 
 HomeScreen.navigationOptions = {
@@ -107,6 +117,16 @@ function handleHelpPress() {
     'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
   );
 }
+
+_handlePressDocs = () => {
+  WebBrowser.openBrowserAsync('http://docs.expo.io');
+};
+
+_handlePressForums = () => {
+  WebBrowser.openBrowserAsync('http://forums.expo.io');
+};
+      
+
 
 const styles = StyleSheet.create({
   container: {
