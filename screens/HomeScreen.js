@@ -9,8 +9,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { CheckBox } from 'react-native-elements';
+import { 
+  CheckBox, 
+  Input,
+  Button
+} from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 export default class HomeScreen extends React.Component {
   render() {
@@ -26,27 +32,33 @@ export default class HomeScreen extends React.Component {
           />
         </View>
 
+        {/* View for the form inputs */}
         <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
+          <WelcomeText />
 
-          <Text style={styles.getStartedText}>Get started by opening</Text>
+          {/* Email */}
+          <Input placeholder=' Email' 
+              leftIcon={<Icon 
+                  name='email'
+                  size={20}
+                  color='black'
+                  />} />
 
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View>
+          {/* Password */}
+          <Input placeholder=' Password' secureTextEntry={true} 
+              leftIcon={<Icon 
+                  name='lock'
+                  size={20}
+                  color='black'
+                  />} />
 
-          <CheckBox title='Click Here'/>
-          <CheckBox
-          center
-          title='Click Here'
-          checkedIcon='dot-circle-o'
-          uncheckedIcon='circle-o'
+          {/* Remember */}
+          <CheckBox title='Remember me?'/>
+
+          {/* Login button */}
+          <Button
+            title='Login'
           />
-
-          <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
-          </Text>
         </View>
 
         <View style={styles.helpContainer}>
@@ -79,27 +91,12 @@ HomeScreen.navigationOptions = {
   header: null,
 };
 
-function DevelopmentModeNotice() {
-  if (__DEV__) {
-    const learnMoreButton = (
-      <Text onPress={handleLearnMorePress} style={styles.helpLinkText}>
-        Learn more
-      </Text>
-    );
-
-    return (
-      <Text style={styles.developmentModeText}>
-        Development mode is enabled: your app will be slower but you can use
-        useful development tools. {learnMoreButton}
-      </Text>
-    );
-  } else {
-    return (
-      <Text style={styles.developmentModeText}>
-        You are not in development mode: your app will run at full speed.
-      </Text>
-    );
-  }
+function WelcomeText() {
+  return (
+    <Text style={styles.welcomeTxt}>
+      Welcome to the Environmental Health Science App!
+    </Text>
+  );
 }
 
 function handleLearnMorePress() {
@@ -129,9 +126,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  developmentModeText: {
+  welcomeTxt: {
     marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
+    color: 'rgba(0,50,0,0.8)',
     fontSize: 14,
     lineHeight: 19,
     textAlign: 'center',
