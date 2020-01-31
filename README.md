@@ -49,6 +49,7 @@ React-Native libraries required for the mobile application to run
 - `react-navigation/tabs`
 - `react-native-form-builder`
 - `react-native-elements`
+- `react-native-vector-icons`
 
 ## Authors
 
