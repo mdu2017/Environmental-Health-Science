@@ -54,7 +54,6 @@ React-Native libraries required for the mobile application to run
 ## Authors
 
 - **Schaeffer Duncan** - *Initial work* - [GitHub](https://github.com/SchaefferDuncan)
-- **Andrew Walker** - *Initial work* - [GitHub](https://github.com/walker76)
 - **Matt Giles** - *Initial work* - [GitHub](https://github.com/DarthIguanadon)
 - **Mark Du** - *Initial work* - [GitHub](https://github.com/mdu2017)
 
@@ -64,3 +63,4 @@ React-Native libraries required for the mobile application to run
 - [Dr. Benjamin Ryan](https://www.baylor.edu/environmentalscience/index.php?id=964879)
 - Kemper Beard
 - [Baylor Missions](https://www.baylor.edu/missions/)
+- [Andrew Walker](https://github.com/walker76)
