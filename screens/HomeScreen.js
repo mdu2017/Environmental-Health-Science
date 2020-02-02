@@ -37,20 +37,35 @@ export default class HomeScreen extends React.Component {
           <WelcomeText />
 
           {/* Email */}
-          <Input placeholder=' Email' 
-              leftIcon={<Icon 
+          <Input 
+            placeholder=' Email' 
+              leftIcon={
+                <Icon 
                   name='email'
                   size={20}
                   color='black'
-                  />} />
+                />
+              }
+              autoCompleteType='email'
+              textContentType='emailAddress'
+              returnKeyType='next'
+          />
 
           {/* Password */}
-          <Input placeholder=' Password' secureTextEntry={true} 
-              leftIcon={<Icon 
-                  name='lock'
-                  size={20}
-                  color='black'
-                  />} />
+          <Input 
+            placeholder=' Password'
+            secureTextEntry={true} 
+            leftIcon={
+              <Icon 
+                name='lock'
+                size={20}
+                color='black'
+              />
+            }
+            autoCompleteType='password'
+            textContentType='password'
+            returnKeyType='done'
+          />
 
           {/* Remember */}
           <CheckBox title='Remember me?'/>

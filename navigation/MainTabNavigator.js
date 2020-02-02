@@ -7,6 +7,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import SurveyScreen from '../screens/SurveyScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -33,6 +34,24 @@ HomeStack.navigationOptions = {
 };
 
 HomeStack.path = '';
+
+//Survey stack navigator
+const SurveyStack = createStackNavigator(
+  {
+    Survey: SurveyScreen,
+  },
+  config
+);
+
+//Link stack navigation options
+SurveyStack.navigationOptions = {
+  tabBarLabel: 'Survey',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-clipboard' : 'md-clipboard'} />
+  ),
+};
+
+SurveyStack.path = '';
 
 //Link stack navigator
 const LinksStack = createStackNavigator(
@@ -73,6 +92,7 @@ SettingsStack.path = '';
 //Navigation tabs on the bottom of the screen
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
+  SurveyStack,
   LinksStack,
   SettingsStack,
 });
