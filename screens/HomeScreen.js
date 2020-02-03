@@ -12,11 +12,11 @@ import {
 import { 
   CheckBox, 
   Input,
-  Button
+  Button,
+  ThemeProvider
 } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
 
 export default class HomeScreen extends React.Component {
   render() {
@@ -56,16 +56,13 @@ export default class HomeScreen extends React.Component {
           <CheckBox title='Remember me?'/>
 
           {/* Login button */}
-          <Button
-            title='Login'
-          />
+          
+            <Button title='Login'/>
         </View>
 
         <View style={styles.helpContainer}>
           <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
-            </Text>
+            <Button title='Help' onPress={handleHelpPress}/>
           </TouchableOpacity>
         </View>
       </ScrollView>
