@@ -29,7 +29,7 @@ export default class SurveyScreen extends React.Component {
   render() {
     return (
       <View>
-        <KeyboardAwareScrollView>
+        <KeyboardAwareScrollView enableOnAndroid={true}>
             <Text style={styles.optionsTitleText}>Environmental Health Rapid Assessment Form</Text>
             <Text style={styles.optionSubheadingText}>General Information</Text>
             <Text style={styles.optionSmallHeadingText}>Full Name</Text>

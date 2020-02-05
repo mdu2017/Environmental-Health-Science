@@ -70,6 +70,9 @@ export default class HomeScreen extends React.Component {
           {/* Remember */}
           <CheckBox title='Remember me?'/>
 
+          {/* Sign Up Link */}
+          <Text h4>New user? Sign Up here!</Text>
+
           {/* Login button */}
           
             <Button title='Login'/>
