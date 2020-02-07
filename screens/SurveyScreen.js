@@ -25,6 +25,7 @@ export default class SurveyScreen extends React.Component {
             fotypeofarea: true,
             foeventname: true,
             fonatureofimpact: true,
+            loggedin: true,
           };
   render() {
     return (

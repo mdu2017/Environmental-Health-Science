@@ -8,6 +8,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import SurveyScreen from '../screens/SurveyScreen';
+import MapScreen from '../screens/MapScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -53,6 +54,24 @@ SurveyStack.navigationOptions = {
 
 SurveyStack.path = '';
 
+//Map stack navigator
+const MapStack = createStackNavigator(
+  {
+    Map: MapScreen,
+  },
+  config
+);
+
+//Link stack navigation options
+MapStack.navigationOptions = {
+  tabBarLabel: 'Map',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-globe' : 'md-globe'} />
+  ),
+};
+
+MapStack.path = '';
+
 //Link stack navigator
 const LinksStack = createStackNavigator(
   {
@@ -92,6 +111,7 @@ SettingsStack.path = '';
 //Navigation tabs on the bottom of the screen
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
+  MapStack,
   SurveyStack,
   LinksStack,
   SettingsStack,
