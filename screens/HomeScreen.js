@@ -71,17 +71,14 @@ export default class HomeScreen extends React.Component {
           <CheckBox title='Remember me?'/>
 
           {/* Sign Up Link */}
-          <Text h4>New user? Sign Up here!</Text>
+          <View style={styles.signUpContainer}>
+            
+              <Text h4>New user? Sign Up here!</Text>
+          
+          </View>
 
           {/* Login button */}
-          
-            <Button title='Login'/>
-        </View>
-
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Button title='Help' onPress={handleHelpPress}/>
-          </TouchableOpacity>
+          <Button title='Login'/>
         </View>
       </ScrollView>
 
@@ -114,15 +111,15 @@ function WelcomeText() {
   );
 }
 
+//TODO: implement sign up screen
+function handleSignUpPress() {
+  //Link to sign up page here
+  console.log('Sign up pressed');
+}
+
 function handleLearnMorePress() {
   WebBrowser.openBrowserAsync(
     'https://docs.expo.io/versions/latest/workflow/development-mode/'
-  );
-}
-
-function handleHelpPress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/up-and-running/#cant-see-your-changes'
   );
 }
 
@@ -212,11 +209,11 @@ const styles = StyleSheet.create({
   navigationFilename: {
     marginTop: 5,
   },
-  helpContainer: {
+  signUpContainer: {
     marginTop: 15,
     alignItems: 'center',
   },
-  helpLink: {
+  signUpLink: {
     paddingVertical: 15,
   },
   helpLinkText: {
