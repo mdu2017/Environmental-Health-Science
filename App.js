@@ -7,26 +7,42 @@ import { Ionicons } from '@expo/vector-icons';
 
 import AppNavigator from './navigation/AppNavigator';
 
-export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+export default class App extends React.Component {
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
-    );
-  } else {
-    return (
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return(
       <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
+        <AppNavigator/>
       </View>
     );
   }
 }
+
+//TODO: Need to get this integrated with the function
+// function CheckLoading(){
+//   const [isLoadingComplete, setLoadingComplete] = useState(false);
+
+//   if (!isLoadingComplete && !this.props.skipLoadingScreen) {
+//     return (
+//       <AppLoading
+//         startAsync={loadResourcesAsync}
+//         onError={handleLoadingError}
+//         onFinish={() => handleFinishLoading(setLoadingComplete)}
+//       />
+//     );
+//   } else {
+//     return (
+//       <View style={styles.container}>
+//         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+//         <AppNavigator />
+//       </View>
+//     );
+//   }
+// }
 
 async function loadResourcesAsync() {
   await Promise.all([
