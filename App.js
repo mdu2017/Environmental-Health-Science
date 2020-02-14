@@ -4,62 +4,29 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import * as firebase from 'firebase';
 
 import AppNavigator from './navigation/AppNavigator';
 
-<<<<<<< HEAD
-=======
-var firebaseConfig = {
-  apiKey: "AIzaSyBl3BShVOe_77qAe_Qoz-7BJ2mC7jwELzw",
-  authDomain: "environmental-health-science.firebaseapp.com",
-  databaseURL: "https://environmental-health-science.firebaseio.com",
-  projectId: "environmental-health-science",
-  storageBucket: "environmental-health-science.appspot.com",
-  messagingSenderId: "775764495366",
-  appId: "1:775764495366:web:07da7d351375d7a166c787",
-  measurementId: "G-33D7X173GW"
-}
+export default function App(props) {
+  const [isLoadingComplete, setLoadingComplete] = useState(false);
 
-firebase.initializeApp(firebaseConfig);
-
->>>>>>> parent of 7be0107... fixing a problem
-export default class App extends React.Component {
-
-  constructor(props){
-    super(props);
-  }
-
-  render(){
-    return(
+  if (!isLoadingComplete && !props.skipLoadingScreen) {
+    return (
+      <AppLoading
+        startAsync={loadResourcesAsync}
+        onError={handleLoadingError}
+        onFinish={() => handleFinishLoading(setLoadingComplete)}
+      />
+    );
+  } else {
+    return (
       <View style={styles.container}>
-        <AppNavigator/>
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+        <AppNavigator />
       </View>
     );
   }
 }
-
-//TODO: Need to get this integrated with the function
-// function CheckLoading(){
-//   const [isLoadingComplete, setLoadingComplete] = useState(false);
-
-//   if (!isLoadingComplete && !this.props.skipLoadingScreen) {
-//     return (
-//       <AppLoading
-//         startAsync={loadResourcesAsync}
-//         onError={handleLoadingError}
-//         onFinish={() => handleFinishLoading(setLoadingComplete)}
-//       />
-//     );
-//   } else {
-//     return (
-//       <View style={styles.container}>
-//         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-//         <AppNavigator />
-//       </View>
-//     );
-//   }
-// }
 
 async function loadResourcesAsync() {
   await Promise.all([
