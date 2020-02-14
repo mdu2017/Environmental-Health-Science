@@ -36,7 +36,7 @@ HomeStack.navigationOptions = {
 
 HomeStack.path = '';
 
-//Survey stack navigator (Survey is the name)
+//Survey stack navigator
 const SurveyStack = createStackNavigator(
   {
     Survey: SurveyScreen,
@@ -54,7 +54,7 @@ SurveyStack.navigationOptions = {
 
 SurveyStack.path = '';
 
-//Map stack navigator (Map is the navigation page name)
+//Map stack navigator
 const MapStack = createStackNavigator(
   {
     Map: MapScreen,
@@ -62,7 +62,7 @@ const MapStack = createStackNavigator(
   config
 );
 
-//Map stack navigation options
+//Link stack navigation options
 MapStack.navigationOptions = {
   tabBarLabel: 'Map',
   tabBarIcon: ({ focused }) => (
@@ -72,7 +72,7 @@ MapStack.navigationOptions = {
 
 MapStack.path = '';
 
-//Link stack navigator (Links is the name)
+//Link stack navigator
 const LinksStack = createStackNavigator(
   {
     Links: LinksScreen,
@@ -90,7 +90,7 @@ LinksStack.navigationOptions = {
 
 LinksStack.path = '';
 
-//Path to settings page (Settings is the name of the navigation page)
+//Path to settings page
 const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen,

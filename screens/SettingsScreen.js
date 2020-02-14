@@ -1,78 +1,60 @@
 import Constants from 'expo-constants';
 import React from 'react';
 import { SectionList, Image, StyleSheet, Text, View } from 'react-native';
-import { ListItem } from 'react-native-elements';
-import { createStackNavigator } from 'react-navigation-stack';
-
-// List of tabs on the settings screen
-const list = [
-  {
-    title: 'Profile',
-    icon: 'account-circle'
-  },
-  {
-    title: 'Surveys Taken',
-    icon: 'bookmark'
-  },
-  {
-    title: 'Config',
-    icon: 'settings'
-  },
-  {
-    title: 'Info',
-    icon: 'info'
-  },
-  {
-    title: 'Help',
-    icon: 'help'
-  },
-]
 
 export default class SettingsScreen extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.state ={
-      tabTitle: ''
-    };
-    this.onTabPress = this.onTabPress.bind(this);
-  }
-
-  // When tab is pressed go to corresponding page
-  onTabPress(itemTitle){
-    if(itemTitle == 'Profile'){
-      this.props.navigation.navigate('Profile');
-    }
-    else if(itemTitle == 'Surveys Taken'){
-      this.props.navigation.navigate('TakenSurveys');
-    }
-    else if(itemTitle == 'Config'){
-      this.props.navigation.navigate('Config');
-    }
-    else if(itemTitle == 'Info'){
-      this.props.navigation.navigate('Info');
-    }
-    else if(itemTitle == 'Help'){
-      this.props.navigation.navigate('Help');
-    }
-  }
-  
   render() {
-    return (
-      <View>
+    const { manifest = {} } = Constants;
+    const sections = [
+      { data: [{ value: manifest.sdkVersion }], title: 'sdkVersion' },
+      { data: [{ value: manifest.privacy }], title: 'privacy' },
+      { data: [{ value: manifest.version }], title: 'version' },
+      { data: [{ value: manifest.orientation }], title: 'orientation' },
       {
-        list.map((item, i) => (
-          <ListItem
-            key={i}
-            title={item.title}
-            leftIcon={{ name: item.icon }}
-            onPress={() => this.onTabPress(item.title)} //need this. OR else it won't work
-            bottomDivider
-            chevron
-          />
-        ))
-      }
-      </View>
+        data: [{ value: manifest.primaryColor, type: 'color' }],
+        title: 'primaryColor',
+      },
+      {
+        data: [{ value: manifest.splash && manifest.splash.image }],
+        title: 'splash.image',
+      },
+      {
+        data: [
+          {
+            value: manifest.splash && manifest.splash.backgroundColor,
+            type: 'color',
+          },
+        ],
+        title: 'splash.backgroundColor',
+      },
+      {
+        data: [
+          {
+            value: manifest.splash && manifest.splash.resizeMode,
+          },
+        ],
+        title: 'splash.resizeMode',
+      },
+      {
+        data: [
+          {
+            value: manifest.ios && manifest.ios.supportsTablet ? 'true' : 'false',
+          },
+        ],
+        title: 'ios.supportsTablet',
+      },
+    ];
+
+    return (
+      <SectionList
+        style={styles.container}
+        renderItem={this._renderItem}
+        renderSectionHeader={this._renderSectionHeader}
+        stickySectionHeadersEnabled={true}
+        keyExtractor={(item, index) => index}
+        ListHeaderComponent={ListHeader}
+        sections={sections}
+      />
     );
   }
 
