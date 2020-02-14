@@ -19,7 +19,8 @@ import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class HomeScreen extends React.Component {
-  render() {
+
+  render(){
     return (
       <View style={styles.container}>
       <ScrollView
@@ -31,6 +32,10 @@ export default class HomeScreen extends React.Component {
             style={styles.welcomeImage}
           />
         </View>
+
+        {/* Authentication page??? */}
+      
+      
 
         {/* View for the form inputs */}
         <View style={styles.getStartedContainer}>
