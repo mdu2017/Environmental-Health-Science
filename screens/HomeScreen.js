@@ -28,41 +28,28 @@ export default class HomeScreen extends React.Component {
     }
   }
 
-  //Update email input box when typing
-  updateEmail = (e) => {
-    this.setState({
-      email: e
-    })
-    console.log("Email: " + e);
-  }
-
-  updatePassword = (pass) => {
-    this.setState({
-      password: pass
-    })
-    console.log('Password: ' + pass);
-  }
-
   render(){
     return (
       <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-        <WelcomeText />
-          <Image
-            source={require('../assets/images/home_screen_logo.png')}
-            style={styles.welcomeImage}
-          />
-        </View>
-      
-        <InstructionsText/>
-      </ScrollView>
 
-      {/* Login button?? may move it */}
-      <Button title={"Login"} onPress={() => this.props.navigation.navigate('Login')}/>
+        {/* Login button on the homepage */}
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
+          <Text style={styles.homeLogin}>Login</Text>
+        </TouchableOpacity>
 
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}>
+          <View style={styles.welcomeContainer}>
+          <WelcomeText />
+            <Image
+              source={require('../assets/images/home_screen_logo.png')}
+              style={styles.welcomeImage}
+            />
+          </View>
+        
+          <InstructionsText/>
+          </ScrollView>
     </View>
     );
   }
@@ -113,8 +100,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  homeLogin: {
+    fontSize: 25,
+    textAlign: 'right',
+    color: 'rgba(0,120,120,0.8)',
+    marginTop: 20,
+    width: '99%',
+  },
   welcomeTxt: {
-    margin: 25,
+    marginTop: 10,
+    marginBottom: 25,
+    marginHorizontal: 25,
     color: 'rgba(0,50,0,0.8)',
     fontSize: 20,
     lineHeight: 22,

@@ -9,6 +9,7 @@ import ConfigScreen from '../screens/ConfigScreen';
 import InfoScreen from '../screens/InfoScreen';
 import HelpScreen from '../screens/HelpScreen';
 import LoginScreen from '../screens/LoginScreen';
+import SignupScreen from '../screens/SignupScreen';
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -22,5 +23,6 @@ export default createAppContainer(
     Config: ConfigScreen,
     Info: InfoScreen,
     Help: HelpScreen,
+    Signup: SignupScreen,
   })
 );

@@ -3,6 +3,8 @@ import React from 'react';
 import { SectionList, Image, StyleSheet, Text, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation-stack';
+import {Touchable} from 'react-native';
+import { TouchableHighlight } from 'react-native-gesture-handler';
 
 // List of tabs on the settings screen
 const list = [
@@ -61,15 +63,15 @@ export default class SettingsScreen extends React.Component {
     return (
       <View>
       {
-        list.map((item, i) => (
-          <ListItem
-            key={i}
-            title={item.title}
-            leftIcon={{ name: item.icon }}
-            onPress={() => this.onTabPress(item.title)} //need this. OR else it won't work
-            bottomDivider
-            chevron
-          />
+        list.map((item, i) => (    
+            <ListItem
+              key={i}              
+              title={item.title}
+              leftIcon={{ name: item.icon }}
+              onPress={() => this.onTabPress(item.title)} //need this. OR else it won't work
+              bottomDivider
+              chevron
+            />         
         ))
       }
       </View>

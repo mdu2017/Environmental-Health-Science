@@ -13,10 +13,12 @@ import {
   CheckBox, 
   Input,
   Button,
-  ThemeProvider
+  ThemeProvider,
+  Tooltip
 } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Toast from 'react-native-simple-toast';
 
 export default class LoginScreen extends React.Component {
 
@@ -25,10 +27,8 @@ export default class LoginScreen extends React.Component {
     this.state = {
       email: '',
       password: '',
-      rememberChecked: false
+      confirmPassword: '',
     }
-
-    this.checkRemember = this.checkRemember.bind(this);
   }
 
   //Update email input box when typing
@@ -45,16 +45,23 @@ export default class LoginScreen extends React.Component {
     })
   }
 
-  //Navigates to signup page when link pressed
-  goToSignupPage = () => {
-    this.props.navigation.navigate('Signup');
+  //Update confirm password when typing
+  updateConfirmPassword = (pass) => {
+    this.setState({
+        confirmPassword: pass
+    })
   }
 
-  //Toggles the remember me button
-  checkRemember = () => {
-    this.setState({
-      rememberChecked: !this.state.rememberChecked
-    })
+  //Check that passwords match
+  createAccount = () => {
+      if(this.state.password == this.state.confirmPassword){
+          this.props.navigation.navigate('Home');
+      }
+      else{
+          Toast.show("Passwords do not match!");
+          console.log('Pass: ' + this.state.password);
+          console.log('Confirm pass: ' + this.state.confirmPassword);
+      }
   }
 
   render(){
@@ -109,25 +116,28 @@ export default class LoginScreen extends React.Component {
             returnKeyType='done'
           />
 
-          {/* Remember */}
-          <CheckBox
-            title='Remember me?'
-            onPress={() => this.checkRemember()}
-            checked={this.state.rememberChecked}
+          {/* Confirm password */}
+          <Input 
+            placeholder=' Confirm Password'
+            secureTextEntry={true} 
+            leftIcon={
+              <Icon 
+                name='lock'
+                size={20}
+                color='black'
+              />
+            }
+            onChangeText={pass => this.updateConfirmPassword(pass)}
+            autoCompleteType='password'
+            textContentType='password'
+            returnKeyType='done'
           />
-
-          {/* Sign Up Link */}
-          <View style={styles.signUpContainer}>
-            <TouchableOpacity onPress={() => this.goToSignupPage()}>
-              <Text style={styles.signUpLink}>New user? Sign Up here!</Text>
-            </TouchableOpacity>
-          </View>
 
         </View>
 
         {/* Login button (TODO: AUTHENTICATION NEEDS TO BE IMPLEMENTED)*/}
-        <View style={styles.loginButton}>
-          <Button title='Login' style={styles.loginButton} onPress={() => this.props.navigation.navigate('Home')}/>
+        <View style={styles.createAcct}>
+          <Button title='Create Account' onPress={() => this.createAccount()}/>
         </View>
 
       </ScrollView>
@@ -144,7 +154,7 @@ LoginScreen.navigationOptions = {
 function WelcomeText() {
   return (
     <Text style={styles.welcomeTxt}>
-      Welcome! Please login!
+      Welcome! Please create a new account
     </Text>
   );
 }
@@ -155,7 +165,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
-  loginButton: {
+  createAcct: {
+    marginTop: '5%',
     marginHorizontal: '25%',
     width: '50%',
   },
