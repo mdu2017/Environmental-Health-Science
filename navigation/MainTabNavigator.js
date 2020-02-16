@@ -40,6 +40,7 @@ HomeStack.path = '';
 const SurveyStack = createStackNavigator(
   {
     Survey: SurveyScreen,
+    Map: MapScreen,
   },
   config
 );

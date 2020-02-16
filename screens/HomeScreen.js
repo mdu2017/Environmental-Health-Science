@@ -20,6 +20,19 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class HomeScreen extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+
+  updateText = (text) => {
+    //update state here
+    console.log(text);
+  }
+
   render(){
     return (
       <View style={styles.container}>
@@ -51,6 +64,7 @@ export default class HomeScreen extends React.Component {
                   color='black'
                 />
               }
+              onChangeText={text => this.updateText(text)}
               autoCompleteType='email'
               textContentType='emailAddress'
               returnKeyType='next'
