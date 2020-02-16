@@ -119,7 +119,7 @@ export default class LoginScreen extends React.Component {
           {/* Sign Up Link */}
           <View style={styles.signUpContainer}>
             <TouchableOpacity onPress={() => this.goToSignupPage()}>
-              <Text style={styles.signUpLink}>New user? Sign Up here!</Text>
+              <Text style={styles.signUpLink}>New User? Sign Up Here!</Text>
             </TouchableOpacity>
           </View>
 
@@ -144,7 +144,7 @@ LoginScreen.navigationOptions = {
 function WelcomeText() {
   return (
     <Text style={styles.welcomeTxt}>
-      Welcome! Please login!
+      Welcome to Environmental Heath Science!
     </Text>
   );
 }

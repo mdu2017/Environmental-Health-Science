@@ -72,9 +72,9 @@ function WelcomeText() {
 function InstructionsText(){
   return (
     <Text style={styles.InstructionsText}>
-      Click on the Survey tab below to fill out an environmental assessment form. {"\n\n"}
+      Click on the 'Survey' tab below to fill out an Environmental Assessment Form. {"\n\n"}
       <Text style={styles.orText}>OR</Text> {"\n\n"}
-      Click on the Maps tab to find a relevant survey for your location.
+      Click on the 'Map' tab to find a survey applicable for your location.
     </Text>
   )
 }

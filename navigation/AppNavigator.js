@@ -32,7 +32,7 @@ export default createAppContainer(
     Signup: SignupScreen,
   },
   {
-    initialRouteName: 'Main'
+    initialRouteName: 'Login'
   }
   )
 );
