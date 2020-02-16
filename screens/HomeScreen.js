@@ -19,7 +19,21 @@ import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 export default class HomeScreen extends React.Component {
-  render() {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+
+  updateText = (text) => {
+    //update state here
+    console.log(text);
+  }
+
+  render(){
     return (
       <View style={styles.container}>
       <ScrollView
@@ -31,6 +45,10 @@ export default class HomeScreen extends React.Component {
             style={styles.welcomeImage}
           />
         </View>
+
+        {/* Authentication page??? */}
+      
+      
 
         {/* View for the form inputs */}
         <View style={styles.getStartedContainer}>
@@ -46,6 +64,7 @@ export default class HomeScreen extends React.Component {
                   color='black'
                 />
               }
+              onChangeText={text => this.updateText(text)}
               autoCompleteType='email'
               textContentType='emailAddress'
               returnKeyType='next'
@@ -82,18 +101,6 @@ export default class HomeScreen extends React.Component {
         </View>
       </ScrollView>
 
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View>
-      </View>
     </View>
     );
   }
