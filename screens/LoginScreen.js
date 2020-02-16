@@ -18,7 +18,7 @@ import {
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-export default class HomeScreen extends React.Component {
+export default class LoginScreen extends React.Component {
 
   constructor(props){
     super(props);
@@ -46,84 +46,100 @@ export default class HomeScreen extends React.Component {
   render(){
     return (
       <View style={styles.container}>
+
       <ScrollView
         style={styles.container}
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
-        <WelcomeText />
+        <WelcomeText /> 
           <Image
             source={require('../assets/images/home_screen_logo.png')}
             style={styles.welcomeImage}
           />
         </View>
       
-        <InstructionsText/>
-      </ScrollView>
 
-      {/* Login button?? may move it */}
-      <Button title={"Login"} onPress={() => this.props.navigation.navigate('Login')}/>
+        {/* View for the form inputs */}
+        <View style={styles.getStartedContainer}>
+
+          {/* Email */}
+          <Input 
+            placeholder=' Email' 
+              leftIcon={
+                <Icon 
+                  name='email'
+                  size={20}
+                  color='black'
+                />
+              }
+              onChangeText={e => this.updateEmail(e)}
+              autoCompleteType='email'
+              textContentType='emailAddress'
+              returnKeyType='next'
+          />
+
+          {/* Password */}
+          <Input 
+            placeholder=' Password'
+            secureTextEntry={true} 
+            leftIcon={
+              <Icon 
+                name='lock'
+                size={20}
+                color='black'
+              />
+            }
+            onChangeText={pass => this.updatePassword(pass)}
+            autoCompleteType='password'
+            textContentType='password'
+            returnKeyType='done'
+          />
+
+          {/* Remember */}
+          <CheckBox title='Remember me?'/>
+
+          {/* Sign Up Link */}
+          <View style={styles.signUpContainer}>
+            
+              <Text h4>New user? Sign Up here!</Text>
+          
+          </View>
+
+          {/* Login button (TODO: AUTHENTICATION NEEDS TO BE IMPLEMENTED)*/}
+          <Button title='Login'
+            onPress={() => this.props.navigation.navigate('Home')}/>
+
+        </View>
+      </ScrollView>
 
     </View>
     );
   }
 }
 
-HomeScreen.navigationOptions = {
+LoginScreen.navigationOptions = {
   header: null,
 };
 
-//Welcome text above image icon
+//Displays welcome text
 function WelcomeText() {
   return (
     <Text style={styles.welcomeTxt}>
-      Welcome to the Environmental Health Science App Homepage!
+      Welcome! Please login!
     </Text>
   );
 }
 
-//Instruction text for homepage
-function InstructionsText(){
-  return (
-    <Text style={styles.InstructionsText}>
-      Click on the Survey tab below to fill out an environmental assessment form. {"\n\n"}
-      <Text style={styles.orText}>OR</Text> {"\n\n"}
-      Click on the Maps tab to find a relevant survey for your location.
-    </Text>
-  )
-}
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/development-mode/'
-  );
-}
-
-_handlePressDocs = () => {
-  WebBrowser.openBrowserAsync('http://docs.expo.io');
-};
-
-_handlePressForums = () => {
-  WebBrowser.openBrowserAsync('http://forums.expo.io');
-};
-      
-
-
+// CSS Styling for login screen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
   },
   welcomeTxt: {
-    margin: 25,
+    marginTop: 50,
     color: 'rgba(0,50,0,0.8)',
-    fontSize: 20,
-    lineHeight: 22,
-    textAlign: 'center',
-  },
-  InstructionsText: {
-    margin: 40,
-    color: 'rgba(0,50,0,0.8)',
-    fontSize: 20,
+    fontSize: 22,
     lineHeight: 22,
     textAlign: 'center',
   },
@@ -139,15 +155,8 @@ const styles = StyleSheet.create({
     width: 100,
     height: 80,
     resizeMode: 'contain',
-    marginTop: 50,
+    marginTop: 75,
     marginLeft: -10,
-  },
-  orText: {
-    margin: 40,
-    color: 'rgba(0,50,0,0.8)',
-    fontSize: 20,
-    lineHeight: 22,
-    textAlign: 'center',
   },
   getStartedContainer: {
     alignItems: 'center',

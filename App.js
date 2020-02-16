@@ -4,22 +4,8 @@ import * as Font from 'expo-font';
 import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import * as firebase from 'firebase';
 
 import AppNavigator from './navigation/AppNavigator';
-
-var firebaseConfig = {
-  apiKey: "AIzaSyBl3BShVOe_77qAe_Qoz-7BJ2mC7jwELzw",
-  authDomain: "environmental-health-science.firebaseapp.com",
-  databaseURL: "https://environmental-health-science.firebaseio.com",
-  projectId: "environmental-health-science",
-  storageBucket: "environmental-health-science.appspot.com",
-  messagingSenderId: "775764495366",
-  appId: "1:775764495366:web:07da7d351375d7a166c787",
-  measurementId: "G-33D7X173GW"
-}
-
-firebase.initializeApp(firebaseConfig);
 
 export default class App extends React.Component {
 

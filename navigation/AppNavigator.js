@@ -8,12 +8,14 @@ import TakenSurveyScreen from '../screens/TakenSurveyScreen';
 import ConfigScreen from '../screens/ConfigScreen';
 import InfoScreen from '../screens/InfoScreen';
 import HelpScreen from '../screens/HelpScreen';
+import LoginScreen from '../screens/LoginScreen';
 
 export default createAppContainer(
   createSwitchNavigator({
     // Add more routes here for different pages (the ordering affects which page is loaded first (first one is main, etc..))
 
     //Main tab contains the bottonNavigatorTab
+    Login: LoginScreen,
     Main: MainTabNavigator,
     Profile: ProfileScreen,
     TakenSurveys: TakenSurveyScreen,
