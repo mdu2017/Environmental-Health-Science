@@ -10,6 +10,9 @@ import InfoScreen from '../screens/InfoScreen';
 import HelpScreen from '../screens/HelpScreen';
 import LoginScreen from '../screens/LoginScreen';
 import SignupScreen from '../screens/SignupScreen';
+import RelevantSurveyScreen from '../screens/RelevantSurveysScreen';
+import MapScreen from '../screens/MapScreen';
+import SurveyScreen from '../screens/SurveyScreen';
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -19,10 +22,17 @@ export default createAppContainer(
     Login: LoginScreen,
     Main: MainTabNavigator,
     Profile: ProfileScreen,
+    Maps: MapScreen,
+    RelevantSurveys: RelevantSurveyScreen,
     TakenSurveys: TakenSurveyScreen,
+    GeneralSurvey: SurveyScreen,
     Config: ConfigScreen,
     Info: InfoScreen,
     Help: HelpScreen,
     Signup: SignupScreen,
-  })
+  },
+  {
+    initialRouteName: 'Main'
+  }
+  )
 );
