@@ -104,7 +104,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: 'right',
     color: 'rgba(0,120,120,0.8)',
-    marginTop: 20,
+    marginTop: '15%',
+    paddingRight: '5%',
     width: '99%',
   },
   welcomeTxt: {

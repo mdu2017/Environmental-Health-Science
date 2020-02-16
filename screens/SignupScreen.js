@@ -18,7 +18,7 @@ import {
 } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Toast from 'react-native-simple-toast';
+// import Toast from 'react-native-simple-toast';
 
 export default class LoginScreen extends React.Component {
 
@@ -58,7 +58,7 @@ export default class LoginScreen extends React.Component {
           this.props.navigation.navigate('Home');
       }
       else{
-          Toast.show("Passwords do not match!");
+          // Toast.show("Passwords do not match!");
           console.log('Pass: ' + this.state.password);
           console.log('Confirm pass: ' + this.state.confirmPassword);
       }
