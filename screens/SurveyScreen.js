@@ -8,6 +8,9 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export default class SurveyScreen extends React.Component {
+  constructor(props) {
+    super(props);
+  }
   state = {
             suburban: false,
             rural: false,
@@ -220,12 +223,12 @@ export default class SurveyScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
+    paddingTop: 50,
   },
   optionsTitleText: {
     textAlign: 'center',
     fontSize: 32,
-    marginTop: 12,
+    paddingTop: 60,
     marginBottom: 12,
     fontWeight: 'bold',
     textDecorationLine: 'underline',
