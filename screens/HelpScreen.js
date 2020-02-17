@@ -5,9 +5,9 @@ export default class HelpScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>How to use the app: gotta google it >:D</Text>
+        <Text>How to use the app: gotta Google it >:D</Text>
         <Button
-          title="Go Back to settings"
+          title="Go Back to Settings"
           onPress={() =>
             this.props.navigation.navigate('Settings')
           }
