@@ -24,7 +24,11 @@ firebase.initializeApp(firebaseConfig);
 export default class App extends React.Component {
 
   constructor(props){
-    super(props);
+    super(props)
+
+    this.state = {
+      loginCred: ''
+    }
   }
 
   render(){

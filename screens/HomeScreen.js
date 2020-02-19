@@ -17,8 +17,41 @@ import {
 } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as firebase from 'firebase';
 
 export default class HomeScreen extends React.Component {
+
+  constructor(props){
+    super(props)
+
+    this.state = {
+      username: '',
+      password: ''
+    }
+  }
+
+  updateUser = (text) => {
+    this.username = text;
+  }
+
+  updatePass = (pass) => {
+    this.password = pass.nativeEvent.text;
+  }
+
+  onPressLogin = () => {
+    var current = firebase.auth().currentUser;
+    if(!current) {
+      console.log(this.username);
+      firebase.auth().signInWithEmailAndPassword(this.username,this.password).catch(function(error) {
+        var errorCode = error.code;
+        var errorMessage = error.message;
+        console.log(errorMessage);
+      });
+    } else {
+      console.log("Already logged in!");
+    }
+  }
+
   render() {
     return (
       <View style={styles.container}>
@@ -37,7 +70,7 @@ export default class HomeScreen extends React.Component {
           <WelcomeText />
 
           {/* Email */}
-          <Input 
+          <Input id="Email"
             placeholder=' Email' 
               leftIcon={
                 <Icon 
@@ -46,15 +79,17 @@ export default class HomeScreen extends React.Component {
                   color='black'
                 />
               }
+              onChangeText={text => this.updateUser(text)}
               autoCompleteType='email'
               textContentType='emailAddress'
               returnKeyType='next'
           />
 
           {/* Password */}
-          <Input 
+          <Input id="Password"
             placeholder=' Password'
             secureTextEntry={true} 
+            password={true}
             leftIcon={
               <Icon 
                 name='lock'
@@ -62,6 +97,7 @@ export default class HomeScreen extends React.Component {
                 color='black'
               />
             }
+            onChange={e => this.updatePass(e)}
             autoCompleteType='password'
             textContentType='password'
             returnKeyType='done'
@@ -78,7 +114,8 @@ export default class HomeScreen extends React.Component {
           </View>
 
           {/* Login button */}
-          <Button title='Login'/>
+          <Button title='Login' 
+          onPress={()=>this.onPressLogin()}/>
         </View>
       </ScrollView>
 
