@@ -10,6 +10,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default class SurveyScreen extends React.Component {
   constructor(props) {
     super(props);
+
+    this.savePressed = this.savePressed.bind(this);
   }
   state = {
             suburban: false,
@@ -29,7 +31,53 @@ export default class SurveyScreen extends React.Component {
             foeventname: true,
             fonatureofimpact: true,
             loggedin: true,
-          };
+            fullName: '',
+  };
+
+  async storeItem(key, item) {
+    try {
+        //we want to wait for the Promise returned by AsyncStorage.setItem()
+        //to be resolved to the actual value before returning the value
+        let jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
+
+        //test print
+        console.log(jsonOfItem);
+        console.log(JSON.stringify(item));
+
+        return jsonOfItem;
+    } catch (error) {
+      console.log(error.message);
+    }
+
+    // this.retrieveItem(goalCategory).then((goals) => {
+  //   //this callback is executed when your Promise is resolved
+  //   }).catch((error) => {
+  //   //this callback is executed when your Promise is rejected
+  //   console.log('Promise is rejected with error: ' + error);
+  //   }); 
+
+  }
+
+  //the functionality of the retrieveItem is shown below
+  async retrieveItem(key) {
+    try {
+      const retrievedItem =  await AsyncStorage.getItem(key);
+      const item = JSON.parse(retrievedItem);
+    return item;
+    } 
+    catch (error) {
+      console.log(error.message);
+    }
+      return
+  }
+
+  //Test save function
+  savePressed = () => {
+    let test = JSON.stringify(this.state);
+    console.log(test);
+    console.log('Save pressed');
+  }
+
   render() {
     return (
       <View>
@@ -180,26 +228,30 @@ export default class SurveyScreen extends React.Component {
                     title="Submit Survey   "
                     />
                 }
+
+
+                <Button title="Save" onPress={() => this.savePressed()}/>
+
                 {!this.state.foname || !this.state.focity || 
                 !this.state.focountry || !this.state.fotypeofarea ||
                 !this.state.foeventname || !this.state.fonatureofimpact &&
-                  <Button
-                    type="outline"
-                    icon={
-                      <Icon
-                      name="arrow-right"
-                      size={15}
-                      color="red"
-                      />
-                    }
-                    iconRight
-                    title="Submit Survey"
-                    />
+                <Button
+                type="outline"
+                icon={
+                  <Icon
+                  name="arrow-right"
+                  size={15}
+                  color="red"
+                  />
                 }
-                {this.state.submitted && 
-                  <Text style={styles.messageText}>Successfully Submitted!</Text>
-                }
-            </View>
+                iconRight
+                title="Submit Survey"
+                />
+            }
+            {this.state.submitted && 
+              <Text style={styles.messageText}>Successfully Submitted!</Text>
+            }      
+                </View>
           </KeyboardAwareScrollView>
       </View>
     );
