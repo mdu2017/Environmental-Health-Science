@@ -10,212 +10,254 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 export default class SurveyScreen extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      suburban: false,
+      rural: false,
+      industrial: false,
+      city: false,
+      wind: false,
+      flood: false,
+      stormsurge: false,
+      other: false,
+      readytosubmit: false,
+      submitted: false,
+      foname: true,
+      focity: true,
+      focountry: true,
+      fotypeofarea: true,
+      foeventname: true,
+      fonatureofimpact: true,
+      loggedin: true,
+    };
   }
-  state = {
-            suburban: false,
-            rural: false,
-            industrial: false,
-            city: false,
-            wind: false,
-            flood: false,
-            stormsurge: false,
-            other: false,
-            readytosubmit: false,
-            submitted: false,
-            foname: true,
-            focity: true,
-            focountry: true,
-            fotypeofarea: true,
-            foeventname: true,
-            fonatureofimpact: true,
-            loggedin: true,
-          };
+
   render() {
     return (
       <View>
         <KeyboardAwareScrollView enableOnAndroid={true}>
             <Text style={styles.optionsTitleText}>Environmental Health Rapid Assessment Form</Text>
             <Text style={styles.optionSubheadingText}>General Information</Text>
-            <Text style={styles.optionSmallHeadingText}>Full Name</Text>
-            <Input
-              labelStyle={styles.optionText}
-              placeholder='Joe Smith'
-              containerStyle={styles.containerInput}
-            />
-            <Text style={styles.optionSmallHeadingText}>Location</Text>
-            {/* <View style={styles.optionMultipleInputs}> */}
-              <Input
-                placeholder='City'
-                textStyle={styles.optionText}
-                containerStyle={styles.containerInput}
-                textContentType='addressCity'
-              />
-              <Input
-                placeholder='Country'
-                textStyle={styles.optionText}
-                containerStyle={styles.containerInput}
-                textContentType='countryName'
-              />
-            {/* </View> */}
-            <Text style={styles.optionSmallHeadingText}>Type of Area</Text>
+            <LabelForInput customLabel='Full Name' />
+            <InputTextWPlaceholder plchldrTxt='Joseph Smith' />
+            <LabelForInput customLabel='Location' />
+            <InputTextWPaTCT plchldrTxt='City' txtCT='addressCity' />
+            <InputTextWPaTCT plchldrTxt='Country' txtCT='countryName' />
+            <LabelForInput customLabel='Type of Area' />
             <View style={styles.optionMultipleButtons}>
-              <CheckBox
-                center
-                textStyle={styles.optionButton}
-                title='Suburban'
-                checked={this.state.suburban}
-                onPress={() => this.setState({
-                  suburban: !this.state.suburban,
-                  rural: false,
-                  industrial: false,
-                  city: false,
-                })}
+              <CheckboxWTaCaOP
+                name='Suburban'
+                ischecked={this.state.suburban}
+                uponpress={() => this.setState({
+                    suburban: !this.state.suburban,
+                    rural: false,
+                    industrial: false,
+                    city: false,
+                  })
+                }
               />
-              <CheckBox
-                center
-                textStyle={styles.optionButton}
-                title='Rural'
-                checked={this.state.rural}
-                onPress={() => this.setState({
-                  suburban: false,
-                  rural: !this.state.rural,
-                  industrial: false,
-                  city: false,
-                })}
+              <CheckboxWTaCaOP
+                name='Rural'
+                ischecked={this.state.rural}
+                uponpress={() => this.setState({
+                    suburban: false,
+                    rural: !this.state.rural,
+                    industrial: false,
+                    city: false,
+                  })
+                }
               />
-              <CheckBox
-                center
-                textStyle={styles.optionButton}
-                title='Industrial'
-                checked={this.state.industrial}
-                onPress={() => this.setState({
-                  suburban: false,
-                  rural: false,
-                  industrial: !this.state.industrial,
-                  city: false,
-                })}
+              <CheckboxWTaCaOP
+                name='Industrial'
+                ischecked={this.state.industrial}
+                uponpress={() => this.setState({
+                    suburban: false,
+                    rural: false,
+                    industrial: !this.state.industrial,
+                    city: false,
+                  })
+                }
               />
-              <CheckBox
-                center
-                textStyle={styles.optionButton}
-                title='City'
-                checked={this.state.city}
-                onPress={() => this.setState({
-                  suburban: false,
-                  rural: false,
-                  industrial: false,
-                  city: !this.state.city,
-                })}
+              <CheckboxWTaCaOP
+                name='City'
+                ischecked={this.state.city}
+                uponpress={() => this.setState({
+                    suburban: false,
+                    rural: false,
+                    industrial: false,
+                    city: !this.state.city,
+                  })
+                }
               />
             </View>
             <Text style={styles.optionSubheadingText}>Event Information</Text>
-            <Text style={styles.optionSmallHeadingText}>Name of Event</Text>
-            <Input
-              labelStyle={styles.optionText}
-              placeholder='Superstorm Sandy'
-              containerStyle={styles.containerInput}
-            />
-            <Text style={styles.optionSmallHeadingText}>Nature of Impact</Text>
+            <LabelForInput customLabel='Name of Event' />
+            <InputTextWPlaceholder plchldrTxt='Superstorm Sandy' />
+            <LabelForInput customLabel='Nature of Impact' />
             <View style={styles.optionMultipleButtons}>
-              <CheckBox
-                center
-                textStyle={styles.optionButton}
-                title='Wind'
-                checked={this.state.wind}
-                onPress={() => this.setState({
-                  wind: !this.state.wind,
-                })}
+              <CheckboxWTaCaOP
+                name='Wind'
+                ischecked={this.state.wind}
+                uponpress={() => this.setState({
+                    wind: !this.state.wind,
+                  })
+                }
               />
-              <CheckBox
-                center
-                textStyle={styles.optionButton}
-                title='Flood'
-                checked={this.state.flood}
-                onPress={() => this.setState({
-                  flood: !this.state.flood,
-                })}
+              <CheckboxWTaCaOP
+                name='Flood'
+                ischecked={this.state.flood}
+                uponpress={() => this.setState({
+                    flood: !this.state.flood,
+                  })
+                }
               />
-              <CheckBox
-                center
-                textStyle={styles.optionButton}
-                title='Storm Surge'
-                checked={this.state.stormsurge}
-                onPress={() => this.setState({
-                  stormsurge: !this.state.stormsurge,
-                })}
+              <CheckboxWTaCaOP
+                name='Storm Surge'
+                ischecked={this.state.stormsurge}
+                uponpress={() => this.setState({
+                    stormsurge: !this.state.stormsurge,
+                  })
+                }
               />
-              <CheckBox
-                center
-                textStyle={styles.optionButton}
-                title='Other'
-                checked={this.state.other}
-                onPress={() => this.setState({
-                  other: !this.state.other,
-                })}
+              <CheckboxWTaCaOP
+                name='Other'
+                ischecked={this.state.other}
+                uponpress={() => this.setState({
+                    other: !this.state.other,
+                  })
+                }
               />
             </View>
             <View>
                 {this.state.other && 
-                <Input
-                  labelStyle={styles.optionText}
-                  placeholder='Nature of Impact'
-                  containerStyle={styles.containerInput}
-                />}
+                  <InputTextWPlaceholder plchldrTxt='Nature of Impact' />
+                }
             </View>
-            <View style={styles.optionButton}>
-                {this.state.foname && this.state.focity && 
-                this.state.focountry && this.state.fotypeofarea &&
-                this.state.foeventname && this.state.fonatureofimpact &&
-                  <Button
-                    type="outline"
-                    icon={
-                      <Icon
-                      name="arrow-right"
-                      size={15}
-                      color="green"
-                      />
-                    }
-                    onPress={() => this.props.navigation.navigate('Map')}
-                    iconRight
-                    title="Submit Survey   "
-                    />
-                }
-                {!this.state.foname || !this.state.focity || 
-                !this.state.focountry || !this.state.fotypeofarea ||
-                !this.state.foeventname || !this.state.fonatureofimpact &&
-                  <Button
-                    type="outline"
-                    icon={
-                      <Icon
-                      name="arrow-right"
-                      size={15}
-                      color="red"
-                      />
-                    }
-                    iconRight
-                    title="Submit Survey"
-                    />
-                }
+            <View style={styles.containerStacked}>
+                <SubmitOrSaveButton state={this.state} />
                 {this.state.submitted && 
                   <Text style={styles.messageText}>Successfully Submitted!</Text>
                 }
+            </View>
+            <View style={styles.containerStacked}>
+              <Button
+                type="outline"
+                icon={
+                  <Icon
+                  name='arrow-left'
+                  size={15}
+                  color='blue'
+                  />
+                }
+                onPress={() => this.props.navigation.navigate('Map')}
+                iconLeft
+                title='   Back To Map'
+              />
             </View>
           </KeyboardAwareScrollView>
       </View>
     );
   }
+}
 
-  _handlePressDocs = () => {
-    WebBrowser.openBrowserAsync('http://docs.expo.io');
-  };
+function LabelForInput({customLabel}){
+  return (
+    <Text style={styles.optionSmallHeadingText}>
+      {customLabel}
+    </Text>)
+    ;
+}
 
-  _handlePressForums = () => {
-    WebBrowser.openBrowserAsync('http://forums.expo.io');
-  };
+function InputTextWPlaceholder({plchldrTxt}) {
+  return (
+    <Input
+      labelStyle={styles.optionText}
+      placeholder={plchldrTxt}
+      containerStyle={styles.containerInput}
+    />
+  );
+}
 
-  _handlePressCheckBox1 = () => {
-    WebBrowser.openBrowserAsync('http://forums.expo.io');
-  };
+function InputTextWPaTCT({plchldrTxt, txtCT}) {
+  return (
+    <Input
+      labelStyle={styles.optionText}
+      placeholder={plchldrTxt}
+      containerStyle={styles.containerInput}
+      textContentType={txtCT}
+    />
+  );
+}
+
+function InputTextWTCT({txtCT}) {
+  return (
+    <Input
+      labelStyle={styles.optionText}
+      containerStyle={styles.containerInput}
+      textContentType={txtCT}
+    />
+  );
+}
+
+function CheckboxWTaCaOP({name,ischecked,uponpress}) {
+  return (
+    <CheckBox
+      center
+      textStyle={styles.optionButton}
+      title={name}
+      checked={ischecked}
+      onPress={uponpress}
+    />
+  );
+}
+
+function ButtonWTitleAnIconAColor({name,iname,clr,uponpress}) {
+  return (
+    <Button
+      type="outline"
+      icon={
+        <Icon
+        name={iname}
+        size={15}
+        color={clr}
+        />
+      }
+      onPress={uponpress}
+      iconRight
+      title={name}
+    />
+  );
+}
+
+function readyToSubmit(state){
+  // if(state.foname && state.focity && 
+  //   state.focountry && state.fotypeofarea &&
+  //   state.foeventname && state.fonatureofimpact){
+      return true;
+    // } else {
+    //   return false;
+    // }
+}
+
+function SubmitOrSaveButton(state){
+  if(readyToSubmit(state) == true){
+      return (
+        <ButtonWTitleAnIconAColor
+          name='Submit Survey    '
+          iname='check'
+          clr='green'
+          uponpress={() => null}
+        />
+      );
+    } else {
+      return (
+        <ButtonWTitleAnIconAColor
+          name='Save Progress    '
+          iname='save'
+          clr='red'
+          uponpress={() => null}
+        />
+      );
+    }
 }
 
 const styles = StyleSheet.create({
@@ -292,5 +334,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 15,
     marginBottom: 15,
+  },
+  containerStacked: {
+    flex: 1,
+    paddingTop: 20,
   },
 });
