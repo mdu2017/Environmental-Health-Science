@@ -229,13 +229,13 @@ function ButtonWTitleAnIconAColor({name,iname,clr,uponpress}) {
 }
 
 function readyToSubmit(state){
-  // if(state.foname && state.focity && 
-  //   state.focountry && state.fotypeofarea &&
-  //   state.foeventname && state.fonatureofimpact){
+  if(state.foname && state.focity && 
+    state.focountry && state.fotypeofarea &&
+    state.foeventname && state.fonatureofimpact){
       return true;
-    // } else {
-    //   return false;
-    // }
+    } else {
+      return false;
+    }
 }
 
 function SubmitOrSaveButton(state){
