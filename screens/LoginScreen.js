@@ -61,7 +61,7 @@ export default class LoginScreen extends React.Component {
     return (
       <View style={styles.container}>
 
-      <ScrollView
+      <View
         style={styles.container}
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
@@ -129,8 +129,7 @@ export default class LoginScreen extends React.Component {
         <View style={styles.loginButton}>
           <Button title='Login' style={styles.loginButton} onPress={() => this.props.navigation.navigate('Home')}/>
         </View>
-
-      </ScrollView>
+      </View>
     </View>
     );
   }
@@ -154,6 +153,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingTop: 20
   },
   loginButton: {
     marginHorizontal: '25%',
