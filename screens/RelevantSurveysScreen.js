@@ -13,21 +13,24 @@ export default class RelevantSurveyScreen extends React.Component {
                 <View style={styles.optionIconContainer}>
                     <LabelAndRedir 
                         labeltext='General Information Survey' 
-                        uponpress={() => this.props.navigation.navigate('GeneralSurvey')}
+                        uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
+                        uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
                     />
                 </View>
                 
                 <View style={styles.optionIconContainer}>
                     <LabelAndRedir 
                         labeltext='Drinking Water Survey' 
-                        uponpress={() => this.props.navigation.navigate('GeneralSurvey')}
+                        uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
+                        uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
                     />
                 </View>
 
                 <View style={styles.optionIconContainer}>
                     <LabelAndRedir 
                         labeltext='Drinking Water Survey' 
-                        uponpress={() => this.props.navigation.navigate('GeneralSurvey')}
+                        uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
+                        uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
                     />
                 </View>
             </View>
@@ -52,11 +55,12 @@ export default class RelevantSurveyScreen extends React.Component {
   }
 }
 
-function LabelAndRedir({labeltext,uponpress}) {
+function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
     return (
         <View>
             <View style={styles.optionMultipleButtons}>
-                <Text style={styles.optionsTitleText}>{labeltext}</Text>
+                {/* <View> */}
+                    <Text style={styles.optionsTitleText}>{labeltext}</Text>
                     <Button
                         type="outline"
                         icon={
@@ -66,7 +70,7 @@ function LabelAndRedir({labeltext,uponpress}) {
                             color='black'
                             />
                         }
-                        onPress={uponpress}
+                        onPress={uponpress1}
                         iconLeft
                         title=' '
                         />
@@ -79,10 +83,11 @@ function LabelAndRedir({labeltext,uponpress}) {
                             color='green'
                             />
                         }
-                        onPress={uponpress}
+                        onPress={uponpress2}
                         iconRight
                         title=' '
-                    />
+                        />
+                {/* </View> */}
             </View>
         </View>
     );
