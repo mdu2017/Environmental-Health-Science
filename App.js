@@ -17,50 +17,32 @@ var firebaseConfig = {
   messagingSenderId: "775764495366",
   appId: "1:775764495366:web:07da7d351375d7a166c787",
   measurementId: "G-33D7X173GW"
-}
+};
 
-firebase.initializeApp(firebaseConfig);
+export default function App(props) {
+  const [isLoadingComplete, setLoadingComplete] = useState(false);
 
-export default class App extends React.Component {
-
-  constructor(props){
-    super(props)
-
-    this.state = {
-      loginCred: ''
-    }
+  if(!firebase.apps.length) {
+    this.app = firebase.initializeApp(firebaseConfig);
   }
 
-  render(){
-    return(
+  if (!isLoadingComplete && !props.skipLoadingScreen) {
+    return (
+      <AppLoading
+        startAsync={loadResourcesAsync}
+        onError={handleLoadingError}
+        onFinish={() => handleFinishLoading(setLoadingComplete)}
+      />
+    );
+  } else {
+    return (
       <View style={styles.container}>
-        <AppNavigator/>
+        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+        <AppNavigator />
       </View>
     );
   }
 }
-
-//TODO: Need to get this integrated with the function
-// function CheckLoading(){
-//   const [isLoadingComplete, setLoadingComplete] = useState(false);
-
-//   if (!isLoadingComplete && !this.props.skipLoadingScreen) {
-//     return (
-//       <AppLoading
-//         startAsync={loadResourcesAsync}
-//         onError={handleLoadingError}
-//         onFinish={() => handleFinishLoading(setLoadingComplete)}
-//       />
-//     );
-//   } else {
-//     return (
-//       <View style={styles.container}>
-//         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-//         <AppNavigator />
-//       </View>
-//     );
-//   }
-// }
 
 async function loadResourcesAsync() {
   await Promise.all([

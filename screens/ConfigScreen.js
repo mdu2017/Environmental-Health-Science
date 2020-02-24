@@ -7,7 +7,7 @@ export default class ConfigScreen extends React.Component {
       <View style={styles.container}>
         <Text>Configuration screen here: adjust settings, etc</Text>
         <Button
-          title="Go Back to settings"
+          title="Go Back to Settings"
           onPress={() =>
             this.props.navigation.navigate('Settings')
           }

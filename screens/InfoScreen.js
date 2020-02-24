@@ -7,7 +7,7 @@ export default class InfoScreen extends React.Component {
       <View style={styles.container}>
         <Text>Info: This App was made by Baylor students - blah blah blah Lorem Ipsum is simply dummy text of the printing and typesetting industry.</Text>
         <Button
-          title="Go Back to settings"
+          title="Go Back to Settings"
           onPress={() =>
             this.props.navigation.navigate('Settings')
           }

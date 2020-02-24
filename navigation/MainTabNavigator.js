@@ -40,6 +40,7 @@ HomeStack.path = '';
 const SurveyStack = createStackNavigator(
   {
     Survey: SurveyScreen,
+    Map: MapScreen,
   },
   config
 );
@@ -112,8 +113,8 @@ SettingsStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   MapStack,
-  SurveyStack,
-  LinksStack,
+  // SurveyStack,
+  // LinksStack,
   SettingsStack,
 });
 

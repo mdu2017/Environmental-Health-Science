@@ -7,7 +7,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-export default class SurveyScreen extends React.Component {
+export default class DefaultSurvey1 extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -34,7 +34,7 @@ export default class SurveyScreen extends React.Component {
     return (
       <View>
         <KeyboardAwareScrollView enableOnAndroid={true}>
-            <Text style={styles.optionsTitleText}>Environmental Health Rapid Assessment Form</Text>
+            <Text style={styles.optionsTitleText}>General Information Form</Text>
             <Text style={styles.optionSubheadingText}>General Information</Text>
             <Text style={styles.optionSmallHeadingText}>Full Name</Text>
             <Input

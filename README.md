@@ -50,6 +50,7 @@ React-Native libraries required for the mobile application to run
 - `react-native-form-builder`
 - `react-native-elements`
 - `react-native-vector-icons`
+- `react-native-simple-toast`
 
 ## Authors
 

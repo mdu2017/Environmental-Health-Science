@@ -17,108 +17,44 @@ import {
 } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 import * as firebase from 'firebase';
 
 export default class HomeScreen extends React.Component {
 
   constructor(props){
-    super(props)
-
+    super(props);
     this.state = {
-      username: '',
+      email: '',
       password: ''
     }
   }
 
-  updateUser = (text) => {
-    this.username = text;
-  }
-
-  updatePass = (pass) => {
-    this.password = pass.nativeEvent.text;
-  }
-
-  onPressLogin = () => {
-    var current = firebase.auth().currentUser;
-    if(!current) {
-      console.log(this.username);
-      firebase.auth().signInWithEmailAndPassword(this.username,this.password).catch(function(error) {
-        var errorCode = error.code;
-        var errorMessage = error.message;
-        console.log(errorMessage);
-      });
-    } else {
-      console.log("Already logged in!");
-    }
-  }
-
-  render() {
+  render(){
     return (
       <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={require('../assets/images/home_screen_logo.png')}
-            style={styles.welcomeImage}
-          />
-        </View>
 
-        {/* View for the form inputs */}
-        <View style={styles.getStartedContainer}>
+        {/* Login button on the homepage */}
+        <TouchableOpacity onPress={() => {
+            onPressSignOut()
+            this.props.navigation.navigate('Login')
+          }}>
+          <Text style={styles.homeLogin}>Sign out</Text>
+        </TouchableOpacity>
+
+        <ScrollView
+          style={styles.container}
+          contentContainerStyle={styles.contentContainer}>
+          <View style={styles.welcomeContainer}>
           <WelcomeText />
-
-          {/* Email */}
-          <Input id="Email"
-            placeholder=' Email' 
-              leftIcon={
-                <Icon 
-                  name='email'
-                  size={20}
-                  color='black'
-                />
-              }
-              onChangeText={text => this.updateUser(text)}
-              autoCompleteType='email'
-              textContentType='emailAddress'
-              returnKeyType='next'
-          />
-
-          {/* Password */}
-          <Input id="Password"
-            placeholder=' Password'
-            secureTextEntry={true} 
-            password={true}
-            leftIcon={
-              <Icon 
-                name='lock'
-                size={20}
-                color='black'
-              />
-            }
-            onChange={e => this.updatePass(e)}
-            autoCompleteType='password'
-            textContentType='password'
-            returnKeyType='done'
-          />
-
-          {/* Remember */}
-          <CheckBox title='Remember me?'/>
-
-          {/* Sign Up Link */}
-          <View style={styles.signUpContainer}>
-            
-              <Text h4>New user? Sign Up here!</Text>
-          
+            <Image
+              source={require('../assets/images/home_screen_logo.png')}
+              style={styles.welcomeImage}
+            />
           </View>
-
-          {/* Login button */}
-          <Button title='Login' 
-          onPress={()=>this.onPressLogin()}/>
-        </View>
-      </ScrollView>
-
+        
+          <InstructionsText/>
+          </ScrollView>
     </View>
     );
   }
@@ -128,18 +64,28 @@ HomeScreen.navigationOptions = {
   header: null,
 };
 
+function onPressSignOut() {
+  firebase.auth().signOut()
+}
+
+//Welcome text above image icon
 function WelcomeText() {
   return (
     <Text style={styles.welcomeTxt}>
-      Welcome to the Environmental Health Science App!
+      Welcome to the Environmental Health Science App Homepage!
     </Text>
   );
 }
 
-//TODO: implement sign up screen
-function handleSignUpPress() {
-  //Link to sign up page here
-  console.log('Sign up pressed');
+//Instruction text for homepage
+function InstructionsText(){
+  return (
+    <Text style={styles.InstructionsText}>
+      Click on the 'Survey' tab below to fill out an Environmental Assessment Form. {"\n\n"}
+      <Text style={styles.orText}>OR</Text> {"\n\n"}
+      Click on the 'Map' tab to find a survey applicable for your location.
+    </Text>
+  )
 }
 
 function handleLearnMorePress() {
@@ -163,11 +109,28 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  homeLogin: {
+    fontSize: 25,
+    textAlign: 'right',
+    color: 'rgba(0,120,120,0.8)',
+    marginTop: '15%',
+    paddingRight: '5%',
+    width: '99%',
+  },
   welcomeTxt: {
-    marginBottom: 20,
+    marginTop: 10,
+    marginBottom: 25,
+    marginHorizontal: 25,
     color: 'rgba(0,50,0,0.8)',
-    fontSize: 14,
-    lineHeight: 19,
+    fontSize: 20,
+    lineHeight: 22,
+    textAlign: 'center',
+  },
+  InstructionsText: {
+    margin: 40,
+    color: 'rgba(0,50,0,0.8)',
+    fontSize: 20,
+    lineHeight: 22,
     textAlign: 'center',
   },
   contentContainer: {
@@ -182,8 +145,15 @@ const styles = StyleSheet.create({
     width: 100,
     height: 80,
     resizeMode: 'contain',
-    marginTop: 150,
+    marginTop: 50,
     marginLeft: -10,
+  },
+  orText: {
+    margin: 40,
+    color: 'rgba(0,50,0,0.8)',
+    fontSize: 20,
+    lineHeight: 22,
+    textAlign: 'center',
   },
   getStartedContainer: {
     alignItems: 'center',
