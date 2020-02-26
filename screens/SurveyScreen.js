@@ -51,7 +51,12 @@ export default class SurveyScreen extends React.Component {
     let userId = '';
     try {
       userId = await AsyncStorage.getItem('surveyData') || 'none';
-      console.log('Suburban was saved when ' + userId);
+      // console.log('Suburban was saved when ' + userId);
+
+      // Parse the saved JSON and update the survey fields
+      let loadedState = JSON.parse(userId);
+      this.setState(loadedState);
+    
     } catch (error) {
       // Error retrieving data
       console.log(error.message);
@@ -59,16 +64,17 @@ export default class SurveyScreen extends React.Component {
     return userId;
   }
 
-  //Test save function
+  //Save button pressed
   savePressed = () => {
     let data = JSON.stringify(this.state);
     this.saveSurveyData(data);
     console.log('Saved data');
   }
 
-  //Test load function
+  //Load button pressed
   loadPressed = () => {
     this.getSurveyData();
+    console.log('Loaded data');
   }
 
   render() {
