@@ -7,7 +7,7 @@ export default class ProfileScreen extends React.Component {
       <View style={styles.container}>
         <Text>Your Profile:</Text>
         <Button
-          title="Go Back to Settings"
+          title="Go Back To Settings"
           onPress={() =>
             this.props.navigation.navigate('Settings')
           }

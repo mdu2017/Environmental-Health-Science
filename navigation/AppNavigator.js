@@ -13,6 +13,7 @@ import SignupScreen from '../screens/SignupScreen';
 import RelevantSurveyScreen from '../screens/RelevantSurveysScreen';
 import MapScreen from '../screens/MapScreen';
 import SurveyScreen from '../screens/SurveyScreen';
+import ViewSurveyScreen from '../screens/ViewSurveyScreen';
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -30,6 +31,7 @@ export default createAppContainer(
     Info: InfoScreen,
     Help: HelpScreen,
     Signup: SignupScreen,
+    ViewSurvey: ViewSurveyScreen,
   },
   {
     initialRouteName: 'Login'
