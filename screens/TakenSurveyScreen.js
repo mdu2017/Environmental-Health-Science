@@ -1,24 +1,40 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button } from 'react-native';
+import ListItem from 'react-native-elements';
+import SurveyList from '../components/SurveyList';
+
+const list = [
+  {
+    title: 'Survey 1',
+  },
+  {
+    title: 'Surveys B',
+  },
+]
 
 export default class TakenSurveyScreen extends React.Component {
+
+  constructor(props){
+    super(props);
+    this.state = {
+      fill: ''
+    }
+  }
+
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Here is a list of surveys you have filled out.</Text>
-        <Text>Survey1</Text>
-        <Text>Survey2</Text>
-        <Text>Survey3</Text>
-        <Button
-          title="Go Back to settings"
-          onPress={() =>
-            this.props.navigation.navigate('Settings')
-          }
-        />
-      </View>
+        <View>
+          <Button
+            title="Go Back to settings"
+            onPress={() =>
+              this.props.navigation.navigate('Settings')
+            }
+          />
+          <SurveyList/>
+        </View>
     );
   }
-}
+};
 
 const styles = StyleSheet.create({
   container: {

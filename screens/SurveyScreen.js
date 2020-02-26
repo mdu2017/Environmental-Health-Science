@@ -6,12 +6,14 @@ import { CheckBox, Input, Button } from 'react-native-elements';
 import { ScrollView, KeyboardAvoidingView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import {AsyncStorage} from 'react-native';
 
 export default class SurveyScreen extends React.Component {
   constructor(props) {
     super(props);
 
     this.savePressed = this.savePressed.bind(this);
+    this.loadPressed = this.loadPressed.bind(this);
   }
   state = {
             suburban: false,
@@ -34,48 +36,39 @@ export default class SurveyScreen extends React.Component {
             fullName: '',
   };
 
-  async storeItem(key, item) {
+  //Async save (saves the JSON of the state)
+  saveSurveyData = async surveyData => {
     try {
-        //we want to wait for the Promise returned by AsyncStorage.setItem()
-        //to be resolved to the actual value before returning the value
-        let jsonOfItem = await AsyncStorage.setItem(key, JSON.stringify(item));
-
-        //test print
-        console.log(jsonOfItem);
-        console.log(JSON.stringify(item));
-
-        return jsonOfItem;
+      await AsyncStorage.setItem('surveyData', surveyData);
     } catch (error) {
+      // Error retrieving data
       console.log(error.message);
     }
+  };
 
-    // this.retrieveItem(goalCategory).then((goals) => {
-  //   //this callback is executed when your Promise is resolved
-  //   }).catch((error) => {
-  //   //this callback is executed when your Promise is rejected
-  //   console.log('Promise is rejected with error: ' + error);
-  //   }); 
-
-  }
-
-  //the functionality of the retrieveItem is shown below
-  async retrieveItem(key) {
+  //Get saved data
+  getSurveyData = async () => {
+    let userId = '';
     try {
-      const retrievedItem =  await AsyncStorage.getItem(key);
-      const item = JSON.parse(retrievedItem);
-    return item;
-    } 
-    catch (error) {
+      userId = await AsyncStorage.getItem('surveyData') || 'none';
+      console.log('Suburban was saved when ' + userId);
+    } catch (error) {
+      // Error retrieving data
       console.log(error.message);
     }
-      return
+    return userId;
   }
 
   //Test save function
   savePressed = () => {
-    let test = JSON.stringify(this.state);
-    console.log(test);
-    console.log('Save pressed');
+    let data = JSON.stringify(this.state);
+    this.saveSurveyData(data);
+    console.log('Saved data');
+  }
+
+  //Test load function
+  loadPressed = () => {
+    this.getSurveyData();
   }
 
   render() {
@@ -83,6 +76,10 @@ export default class SurveyScreen extends React.Component {
       <View>
         <KeyboardAwareScrollView enableOnAndroid={true}>
             <Text style={styles.optionsTitleText}>Environmental Health Rapid Assessment Form</Text>
+
+            <Button title="Save" onPress={() => this.savePressed()}/>
+            <Button title="Load" onPress={() => this.loadPressed()}/>
+
             <Text style={styles.optionSubheadingText}>General Information</Text>
             <Text style={styles.optionSmallHeadingText}>Full Name</Text>
             <Input
@@ -228,9 +225,6 @@ export default class SurveyScreen extends React.Component {
                     title="Submit Survey   "
                     />
                 }
-
-
-                <Button title="Save" onPress={() => this.savePressed()}/>
 
                 {!this.state.foname || !this.state.focity || 
                 !this.state.focountry || !this.state.fotypeofarea ||
