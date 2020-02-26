@@ -59,6 +59,7 @@ export default class LoginScreen extends React.Component {
   createAccount = () => {
       if(this.state.password == this.state.confirmPassword){
         firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
+        .catch(console.log("Hey"))
         Object.assign(this.state, { isAuthenticated: true })
         if(this.state.isAuthenticated) {
           this.props.navigation.navigate('Home');
