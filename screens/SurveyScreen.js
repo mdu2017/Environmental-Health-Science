@@ -47,7 +47,7 @@ export default class SurveyScreen extends React.Component {
     try {
       let key = Math.floor(Math.random() * Math.floor(Number.MAX_SAFE_INTEGER));
 
-      //If key hasn't been set, add key to survey
+      //If key hasn't been set, add key to survey (need to implement functionality)
       if(this.state.surveyKey == ''){
         this.state.surveyKey = key;
         console.log('Your key has been saved: ' + this.state.surveyKey);

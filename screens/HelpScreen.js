@@ -5,7 +5,7 @@ export default class HelpScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>How to use the app: gotta Google it >:D</Text>
+        <Text>How to use the app:</Text>
         <Button
           title="Go Back to Settings"
           onPress={() =>
