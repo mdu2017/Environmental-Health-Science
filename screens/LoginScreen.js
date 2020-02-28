@@ -18,14 +18,18 @@ import {
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import * as firebase from 'firebase';
+
 export default class LoginScreen extends React.Component {
 
   constructor(props){
     super(props);
+    this.unsubscriber = null;
     this.state = {
       email: '',
       password: '',
-      rememberChecked: false
+      rememberChecked: false,
+      user: null
     }
 
     this.checkRemember = this.checkRemember.bind(this);
@@ -55,6 +59,18 @@ export default class LoginScreen extends React.Component {
     this.setState({
       rememberChecked: !this.state.rememberChecked
     })
+  }
+
+  onPressLogin = () => {
+    console.log(this.state.email);
+    firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.password).catch(function(error) {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log(errorCode);
+      console.log(errorMessage);
+    })
+    Object.assign(this.state, { isAuthenticated: true })
+    console.log(this.state.isAuthenticated)
   }
 
   render(){
@@ -127,7 +143,15 @@ export default class LoginScreen extends React.Component {
 
         {/* Login button (TODO: AUTHENTICATION NEEDS TO BE IMPLEMENTED)*/}
         <View style={styles.loginButton}>
-          <Button title='Login' style={styles.loginButton} onPress={() => this.props.navigation.navigate('Home')}/>
+          <Button title='Login' style={styles.loginButton} onPress={() => {
+            this.onPressLogin();
+            if(this.state.isAuthenticated) {
+              this.props.navigation.navigate('Home');
+            } else {
+              console.log("Failed to login");
+              // SHOW ERROR MESSAGE SAYING LOGIN FAILED
+            }
+          }}/>
         </View>
       </View>
     </View>

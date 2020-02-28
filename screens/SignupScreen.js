@@ -20,6 +20,8 @@ import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 // import Toast from 'react-native-simple-toast';
 
+import * as firebase from 'firebase';
+
 export default class LoginScreen extends React.Component {
 
   constructor(props){
@@ -28,6 +30,7 @@ export default class LoginScreen extends React.Component {
       email: '',
       password: '',
       confirmPassword: '',
+      isAuthenticated: false,
     }
   }
 
@@ -55,7 +58,15 @@ export default class LoginScreen extends React.Component {
   //Check that passwords match
   createAccount = () => {
       if(this.state.password == this.state.confirmPassword){
+        firebase.auth().createUserWithEmailAndPassword(this.state.email,this.state.password)
+        .catch(console.log("Hey"))
+        Object.assign(this.state, { isAuthenticated: true })
+        if(this.state.isAuthenticated) {
           this.props.navigation.navigate('Home');
+        } else {
+          console.log("Failed to sign up")
+          // SHOW ERROR
+        }
       }
       else{
           // Toast.show("Passwords do not match!");
