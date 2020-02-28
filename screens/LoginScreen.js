@@ -153,7 +153,6 @@ export default class LoginScreen extends React.Component {
             }
           }}/>
         </View>
-
       </View>
     </View>
     );
@@ -178,6 +177,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+    paddingTop: 20
   },
   loginButton: {
     marginHorizontal: '25%',
