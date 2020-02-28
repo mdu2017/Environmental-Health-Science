@@ -1,32 +1,51 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, SectionList } from 'react-native';
 import ListItem from 'react-native-elements';
 import SurveyList from '../components/SurveyList';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const list = [
-  {
-    title: 'Survey 1',
-  },
-  {
-    title: 'Surveys B',
-  },
-]
 
 export default class TakenSurveyScreen extends React.Component {
 
   constructor(props){
     super(props);
     this.state = {
-      fill: ''
-    }
+      surveySection: [
+        {title: 'In Progress', data: ['General Information Survey']},
+        {title: 'Completed', data: ['Drinking Water Survey', 'Environmental Conditions Survey']}
+      ]
+    };
+  }
+
+  //Can add surveys to the in progress/completed sections
+  addInProgress = () => {
+    let newSection = this.state.surveySection.slice();
+    newSection[0].data.push('New Survey');
+
+    this.setState({
+      surveySection: newSection
+    });
   }
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Here is a list of surveys you have filled out.</Text>
+        <Text style={styles.titleText}>Here is a list of surveys you have filled out.</Text>
+
+        <SectionList style={styles.sectionContainer}
+          sections={this.state.surveySection}
+          renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
+          renderItem={({item}) => 
+          <TouchableOpacity>
+            <Text style={styles.item} onPress={() => this.props.navigation.navigate('GeneralSurvey')}>{item}</Text>
+          </TouchableOpacity>
+        }
+          keyExtractor={(item, index) => index}
+        />
+
+        <Button title='Add in progress survey' onPress={() => this.addInProgress()}/>
         
-        <View style={styles.optionTextContainer}>
+        {/* <View style={styles.optionTextContainer}>
           <Text style={styles.optionsTitleText}>General Information Survey</Text>
           <Button
               style={styles.optionSurveyButton}
@@ -35,8 +54,9 @@ export default class TakenSurveyScreen extends React.Component {
                   this.props.navigation.navigate('GeneralSurvey')
               }
           />
-        </View>
-        <View style={styles.optionIconContainer}>
+        </View> */}
+
+        {/* <View style={styles.optionIconContainer}>
             <View style={styles.optionTextContainer}>
                 <Text style={styles.optionsTitleText}>Drinking Water Survey</Text>
                 <Button
@@ -47,9 +67,9 @@ export default class TakenSurveyScreen extends React.Component {
                     }
                 />
             </View>
-        </View>
+        </View> */}
 
-        <View style={styles.optionIconContainer}>
+        {/* <View style={styles.optionIconContainer}>
             <View style={styles.optionTextContainer}>
                 <Text style={styles.optionsTitleText}>Sewage, Waste and Asbestos Survey</Text>
                 <Button
@@ -60,7 +80,7 @@ export default class TakenSurveyScreen extends React.Component {
                     }
                 />
             </View>
-        </View>
+        </View> */}
         <Button
           title="Go Back to settings"
           onPress={() =>
@@ -73,11 +93,20 @@ export default class TakenSurveyScreen extends React.Component {
 };
 
 const styles = StyleSheet.create({
+  titleText: {
+    paddingTop: '5%',
+    fontSize: 20,
+    alignItems: 'center',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  sectionContainer: {
+    paddingTop: '10%',
+    width: '100%',
   },
   optionsTitleText: {
     fontSize: 20,
@@ -85,5 +114,20 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginBottom: 15,
     color: 'blue',
+  },
+  sectionHeader: {
+    paddingTop: 2,
+    paddingLeft: 10,
+    paddingRight: 10,
+    paddingBottom: 2,
+    fontSize: 14,
+    fontWeight: 'bold',
+    backgroundColor: 'rgba(92,247,128,0.5)',
+  },
+  item: {
+    backgroundColor: '#fbfbfb',
+    padding: 10,
+    fontSize: 18,
+    height: 44,
   },
 });

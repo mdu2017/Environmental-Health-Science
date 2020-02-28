@@ -45,7 +45,17 @@ export default class SurveyScreen extends React.Component {
   //Async save (saves the JSON of the state)
   saveSurveyData = async surveyData => {
     try {
+      let key = Math.floor(Math.random() * Math.floor(Number.MAX_SAFE_INTEGER));
+
+      //If key hasn't been set, add key to survey
+      if(this.state.surveyKey == ''){
+        this.state.surveyKey = key;
+        console.log('Your key has been saved: ' + this.state.surveyKey);
+      }
+
+      //Saves the item as a (key, JSON string)
       await AsyncStorage.setItem('surveyData', surveyData);
+
     } catch (error) {
       // Error retrieving data
       console.log(error.message);
