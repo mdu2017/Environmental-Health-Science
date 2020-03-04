@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, SectionList } from 'react-native';
+import { StyleSheet, Text, View, Button, SectionList, AsyncStorage } from 'react-native';
 import ListItem from 'react-native-elements';
 import SurveyList from '../components/SurveyList';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -25,6 +25,46 @@ export default class TakenSurveyScreen extends React.Component {
     this.setState({
       surveySection: newSection
     });
+
+    this.saveSurveyData(this.state);
+  }
+
+  // Saves the list
+  //Async save (saves the JSON of the state)
+  saveSurveyData = async surveyList => {
+    try {
+
+      let data = JSON.stringify(surveyList);
+
+      //Saves the item as a (key, JSON string)
+      await AsyncStorage.setItem('SurveysTakenList', data);
+
+    } catch (error) {
+      // Error retrieving data
+      console.log(error.message);
+    }
+  };
+
+  //Get saved data
+  getSurveyData = async () => {
+    let userId = '';
+    try {
+      userId = await AsyncStorage.getItem('SurveysTakenList') || 'none';
+
+      // Parse the saved JSON and update the survey list
+      let loadedState = JSON.parse(userId);
+      this.setState(loadedState);
+    
+    } catch (error) {
+      // Error retrieving data
+      console.log(error.message);
+    }
+    return userId;
+  }
+
+  //Load list when page is loaded
+  componentDidMount = () => {
+    this.getSurveyData();
   }
 
   render() {
@@ -45,42 +85,6 @@ export default class TakenSurveyScreen extends React.Component {
 
         <Button title='Add in progress survey' onPress={() => this.addInProgress()}/>
         
-        {/* <View style={styles.optionTextContainer}>
-          <Text style={styles.optionsTitleText}>General Information Survey</Text>
-          <Button
-              style={styles.optionSurveyButton}
-              title="To Survey"
-              onPress={() =>
-                  this.props.navigation.navigate('GeneralSurvey')
-              }
-          />
-        </View> */}
-
-        {/* <View style={styles.optionIconContainer}>
-            <View style={styles.optionTextContainer}>
-                <Text style={styles.optionsTitleText}>Drinking Water Survey</Text>
-                <Button
-                    style={styles.optionSurveyButton}
-                    title="To Survey"
-                    onPress={() =>
-                        this.props.navigation.navigate('GeneralSurvey')
-                    }
-                />
-            </View>
-        </View> */}
-
-        {/* <View style={styles.optionIconContainer}>
-            <View style={styles.optionTextContainer}>
-                <Text style={styles.optionsTitleText}>Sewage, Waste and Asbestos Survey</Text>
-                <Button
-                    style={styles.optionSurveyButton}
-                    title="To Survey"
-                    onPress={() =>
-                        this.props.navigation.navigate('GeneralSurvey')
-                    }
-                />
-            </View>
-        </View> */}
         <Button
           title="Go Back to settings"
           onPress={() =>

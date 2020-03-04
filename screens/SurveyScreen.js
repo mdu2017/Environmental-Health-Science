@@ -7,6 +7,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import {AsyncStorage} from 'react-native';
+import TakenSurveyScreen from './TakenSurveyScreen';
 
 export default class SurveyScreen extends React.Component {
   constructor(props) {
@@ -67,7 +68,6 @@ export default class SurveyScreen extends React.Component {
     let userId = '';
     try {
       userId = await AsyncStorage.getItem('surveyData') || 'none';
-      // console.log('Suburban was saved when ' + userId);
 
       // Parse the saved JSON and update the survey fields
       let loadedState = JSON.parse(userId);
@@ -126,6 +126,7 @@ export default class SurveyScreen extends React.Component {
     return (
       <View>
         <KeyboardAwareScrollView enableOnAndroid={true}>
+            <Button style={styles.backButton} title={'Go Back'} onPress={() => this.props.navigation.navigate('TakenSurveys')}/>
             <Text style={styles.optionsTitleText}>Environmental Health Rapid Assessment Form</Text>
             <Text style={styles.optionSubheadingText}>General Information</Text>
             <LabelForInput customLabel='Full Name' />
@@ -409,6 +410,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 50,
+  },
+  backButton: {
+    paddingTop: 10,
   },
   optionsTitleText: {
     textAlign: 'center',
