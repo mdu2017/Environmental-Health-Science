@@ -3,7 +3,7 @@ import React from 'react';
 import { SectionList, Image, StyleSheet, Text, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation-stack';
-import {Touchable} from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
 // List of tabs on the settings screen
@@ -34,14 +34,14 @@ export default class ProfileScreen extends React.Component {
 
   // When tab is pressed go to corresponding page
   onTabPress(itemTitle){
-    if(itemTitle == 'Profile'){
+    if(itemTitle == 'Account'){
       this.props.navigation.navigate('Profile');
     }
-    else if(itemTitle == 'Surveys Taken'){
-      this.props.navigation.navigate('TakenSurveys');
+    else if(itemTitle == 'Pending Surveys'){
+      this.props.navigation.navigate('PendingSurveys');
     }
-    else if(itemTitle == 'Config'){
-      this.props.navigation.navigate('Config');
+    else if(itemTitle == 'Completed Surveys'){
+      this.props.navigation.navigate('TakenSurveys');
     }
     else if(itemTitle == 'Info'){
       this.props.navigation.navigate('Info');
@@ -71,6 +71,11 @@ export default class ProfileScreen extends React.Component {
                 />         
             ))
           }
+        {/* <View style={styles.tabBarInfoContainer}>
+          <TouchableOpacity onPress={() => this.props.navigation.navigate('RelevantSurveys')} style={styles.helpLink}>
+            <Text style={styles.tabBarInfoText}>Quick Survey</Text>
+          </TouchableOpacity>
+        </View> */}
         </View>
       </View>
     );

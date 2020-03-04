@@ -10,6 +10,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import SurveyScreen from '../screens/SurveyScreen';
 import MapScreen from '../screens/MapScreen';
 import ProfileScreen from '../screens/ProfileScreen';
+import TakenSurveyScreen from '../screens/TakenSurveyScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -28,10 +29,7 @@ const HomeStack = createStackNavigator(
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? `ios-information-circle${focused ? '' : '-outline'}` : 'md-information-circle'}
-    />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'} />
   ),
 };
 

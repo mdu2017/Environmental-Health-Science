@@ -14,6 +14,7 @@ import RelevantSurveyScreen from '../screens/RelevantSurveysScreen';
 import MapScreen from '../screens/MapScreen';
 import SurveyScreen from '../screens/SurveyScreen';
 import ViewSurveyScreen from '../screens/ViewSurveyScreen';
+import PendingSurveyScreen from '../screens/PendingSurveyScreen';
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -26,6 +27,7 @@ export default createAppContainer(
     Maps: MapScreen,
     RelevantSurveys: RelevantSurveyScreen,
     TakenSurveys: TakenSurveyScreen,
+    PendingSurveys: PendingSurveyScreen,
     GeneralSurvey: SurveyScreen,
     Config: ConfigScreen,
     Info: InfoScreen,

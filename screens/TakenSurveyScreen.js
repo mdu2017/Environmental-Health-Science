@@ -45,44 +45,8 @@ export default class TakenSurveyScreen extends React.Component {
 
         <Button title='Add In-Progress Survey' onPress={() => this.addInProgress()}/>
         
-        {/* <View style={styles.optionTextContainer}>
-          <Text style={styles.optionsTitleText}>General Information Survey</Text>
-          <Button
-              style={styles.optionSurveyButton}
-              title="To Survey"
-              onPress={() =>
-                  this.props.navigation.navigate('GeneralSurvey')
-              }
-          />
-        </View> */}
-
-        {/* <View style={styles.optionIconContainer}>
-            <View style={styles.optionTextContainer}>
-                <Text style={styles.optionsTitleText}>Drinking Water Survey</Text>
-                <Button
-                    style={styles.optionSurveyButton}
-                    title="To Survey"
-                    onPress={() =>
-                        this.props.navigation.navigate('GeneralSurvey')
-                    }
-                />
-            </View>
-        </View> */}
-
-        {/* <View style={styles.optionIconContainer}>
-            <View style={styles.optionTextContainer}>
-                <Text style={styles.optionsTitleText}>Sewage, Waste and Asbestos Survey</Text>
-                <Button
-                    style={styles.optionSurveyButton}
-                    title="To Survey"
-                    onPress={() =>
-                        this.props.navigation.navigate('GeneralSurvey')
-                    }
-                />
-            </View>
-        </View> */}
         <Button
-          title="Go Back To settings"
+          title="Go Back To Settings"
           onPress={() =>
             this.props.navigation.navigate('Settings')
           }
