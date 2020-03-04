@@ -28,7 +28,7 @@ export default class RelevantSurveyScreen extends React.Component {
 
                 <View style={styles.optionIconContainer}>
                     <LabelAndRedir 
-                        labeltext='Drinking Water Survey' 
+                        labeltext='Asbestos Survey' 
                         uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
                         uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
                     />

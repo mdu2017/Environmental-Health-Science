@@ -9,20 +9,16 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 // List of tabs on the settings screen
 const list = [
   {
-    title: 'Profile',
-    icon: 'account-circle'
+    title: 'General',
+    icon: 'list'
   },
   {
-    title: 'Surveys Taken',
-    icon: 'bookmark'
+    title: 'Privacy + Location',
+    icon: 'lock'
   },
   {
-    title: 'Config',
-    icon: 'settings'
-  },
-  {
-    title: 'Info',
-    icon: 'info'
+    title: 'Notifications',
+    icon: 'notifications'
   },
   {
     title: 'Help',
@@ -62,18 +58,21 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <View>
-      {
-        list.map((item, i) => (    
-            <ListItem
-              key={i}              
-              title={item.title}
-              leftIcon={{ name: item.icon }}
-              onPress={() => this.onTabPress(item.title)} //need this. OR else it won't work
-              bottomDivider
-              chevron
-            />         
-        ))
-      }
+        {
+          list.map((item, i) => (    
+              <ListItem
+                key={i}              
+                title={item.title}
+                leftIcon={{ name: item.icon }}
+                onPress={() => this.onTabPress(item.title)} //need this. OR else it won't work
+                bottomDivider
+                chevron
+              />         
+          ))
+        }
+        <View>
+          <Text style={styles.descriptionText}>Version 1.0 Build 1.0</Text>
+        </View>
       </View>
     );
   }
@@ -200,8 +199,9 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     fontSize: 14,
-    marginTop: 6,
+    marginTop: 10,
     color: '#4d4d4d',
+    textAlign: 'center',
   },
   colorContainer: {
     flexDirection: 'row',
