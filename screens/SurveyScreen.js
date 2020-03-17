@@ -6,7 +6,7 @@ import { CheckBox, Input, Button } from 'react-native-elements';
 import { ScrollView, KeyboardAvoidingView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import {AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 
 export default class SurveyScreen extends React.Component {
   constructor(props) {
@@ -250,19 +250,19 @@ export default class SurveyScreen extends React.Component {
               }
               onPress={() => this.savePressed()}
               iconRight
-              title={'Save Progress '}
+              title={'Save Progress     '}
             />
             <Button type="outline"
               icon={
                 <Icon
-                name={'check'}
+                name={'upload'}
                 size={15}
                 color={'green'}
                 />
               }
               onPress={() => this.loadPressed()}
               iconRight
-              title={'Load Survey '}
+              title={'Load Survey     '}
             />
                 
                 {this.state.submitted && 
@@ -280,9 +280,9 @@ export default class SurveyScreen extends React.Component {
                   color='blue'
                   />
                 }
-                onPress={() => this.props.navigation.navigate('Map')}
+                onPress={() => this.props.navigation.navigate('RelevantSurveys')}
                 iconLeft
-                title='   Back To Map'
+                title='   Back To Surveys'
               />
             </View>
           </KeyboardAwareScrollView>

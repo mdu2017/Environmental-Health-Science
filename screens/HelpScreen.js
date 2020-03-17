@@ -7,7 +7,7 @@ export default class HelpScreen extends React.Component {
       <View style={styles.container}>
         <Text>How to use the app:</Text>
         <Button
-          title="Go Back to Settings"
+          title="Go Back To Settings"
           onPress={() =>
             this.props.navigation.navigate('Settings')
           }
