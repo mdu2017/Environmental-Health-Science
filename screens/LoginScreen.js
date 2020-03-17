@@ -29,7 +29,8 @@ export default class LoginScreen extends React.Component {
       email: '',
       password: '',
       rememberChecked: false,
-      user: null
+      user: null,
+      isAuthenticated: false,
     }
 
     this.checkRemember = this.checkRemember.bind(this);
@@ -70,7 +71,12 @@ export default class LoginScreen extends React.Component {
       console.log(errorMessage);
     })
     Object.assign(this.state, { isAuthenticated: true })
-    console.log(this.state.isAuthenticated)
+    if(this.state.isAuthenticated){
+      console.log('Welcome authenticated user');
+    }
+    else{
+      console.log('go away bad user');
+    }
   }
 
   render(){
