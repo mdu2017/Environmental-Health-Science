@@ -18,6 +18,8 @@ import {
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
+import * as firebase from 'firebase';
+
 export default class HomeScreen extends React.Component {
 
   constructor(props){
@@ -33,8 +35,11 @@ export default class HomeScreen extends React.Component {
       <View style={styles.container}>
 
         {/* Login button on the homepage */}
-        <TouchableOpacity onPress={() => this.props.navigation.navigate('Login')}>
-          <Text style={styles.homeLogin}>Login</Text>
+        <TouchableOpacity onPress={() => {
+            onPressSignOut()
+            this.props.navigation.navigate('Login')
+          }}>
+          <Text style={styles.homeLogin}>Sign out</Text>
         </TouchableOpacity>
 
         <ScrollView
@@ -63,6 +68,10 @@ export default class HomeScreen extends React.Component {
 HomeScreen.navigationOptions = {
   header: null,
 };
+
+function onPressSignOut() {
+  firebase.auth().signOut()
+}
 
 //Welcome text above image icon
 function WelcomeText() {
