@@ -83,10 +83,10 @@ export default class TakenSurveyScreen extends React.Component {
           keyExtractor={(item, index) => index}
         />
 
-        <Button title='Add in progress survey' onPress={() => this.addInProgress()}/>
+        <Button title='Add In-Progress Survey' onPress={() => this.addInProgress()}/>
         
         <Button
-          title="Go Back to settings"
+          title="Go Back To Settings"
           onPress={() =>
             this.props.navigation.navigate('Settings')
           }
@@ -104,6 +104,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    padding: '8%',
+    paddingTop: '15%',
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',

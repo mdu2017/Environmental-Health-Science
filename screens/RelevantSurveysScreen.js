@@ -28,7 +28,7 @@ export default class RelevantSurveyScreen extends React.Component {
 
                 <View style={styles.optionIconContainer}>
                     <LabelAndRedir 
-                        labeltext='Drinking Water Survey' 
+                        labeltext='Asbestos Survey' 
                         uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
                         uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
                     />
@@ -72,7 +72,7 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
                         }
                         onPress={uponpress1}
                         iconLeft
-                        title=' '
+                        title=''
                         />
                     <Button
                         type="outline"
@@ -80,12 +80,12 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
                             <Icon
                             name='pencil'
                             size={15}
-                            color='green'
+                            color='black'
                             />
                         }
                         onPress={uponpress2}
                         iconRight
-                        title=' '
+                        title=''
                         />
                 {/* </View> */}
             </View>
