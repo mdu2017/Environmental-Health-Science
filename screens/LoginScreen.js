@@ -173,7 +173,7 @@ LoginScreen.navigationOptions = {
 function WelcomeText() {
   return (
     <Text style={styles.welcomeTxt}>
-      Welcome to Environmental Heath Science!
+      Welcome! Please login here, or click to New User to create an account.
     </Text>
   );
 }

@@ -11,6 +11,8 @@ import SurveyScreen from '../screens/SurveyScreen';
 import MapScreen from '../screens/MapScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import TakenSurveyScreen from '../screens/TakenSurveyScreen';
+import { createSwitchNavigator, createKeyboardAwareNavigator, NavigationEvents } from 'react-navigation';
+import RelevantSurveyScreen from '../screens/RelevantSurveysScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -113,7 +115,7 @@ const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen,
   },
-  config
+  config,
 );
 
 //Setting stack nav options
@@ -122,9 +124,27 @@ SettingsStack.navigationOptions = {
   tabBarIcon: ({ focused }) => (
     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-cog' : 'md-cog'} />
   ),
+  // header: ({ goBack }) => ({
+  //   left: ( <Icon name={'chevron-left'} onPress={ () => { goBack() } }  /> ),  
+  // }),
 };
-
 SettingsStack.path = '';
+
+//Relevant survey screens stack navigator (TESTING)
+const RelevantSurveyStack = createStackNavigator(
+  {
+    RelevantSurvey: RelevantSurveyScreen,
+  },
+  config,
+)
+RelevantSurveyStack.navigationOptions = {
+  tabBarLabel: 'RSS',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-cog' : 'md-cog'} />
+  ),
+};
+RelevantSurveyStack.path = '';
+
 
 //Navigation tabs on the bottom of the screen
 const tabNavigator = createBottomTabNavigator({
@@ -134,6 +154,7 @@ const tabNavigator = createBottomTabNavigator({
   // SurveyStack,
   // LinksStack,
   SettingsStack,
+  // RelevantSurveyStack,
 });
 
 tabNavigator.path = '';

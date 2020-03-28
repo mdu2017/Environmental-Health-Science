@@ -84,10 +84,10 @@ export default class LoginScreen extends React.Component {
         contentContainerStyle={styles.contentContainer}>
         <View style={styles.welcomeContainer}>
         <WelcomeText /> 
-          <Image
+          {/* <Image
             source={require('../assets/images/home_screen_logo.png')}
             style={styles.welcomeImage}
-          />
+          /> */}
         </View>
       
 
@@ -165,7 +165,7 @@ LoginScreen.navigationOptions = {
 function WelcomeText() {
   return (
     <Text style={styles.welcomeTxt}>
-      Welcome! Please create a new account
+      Please create a new account below.
     </Text>
   );
 }

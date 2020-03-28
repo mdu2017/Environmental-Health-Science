@@ -25,10 +25,21 @@ export default class HomeScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      email: '',
+      user: 'test',
       password: ''
     }
   }
+
+  //Update authenticated user
+  componentDidMount() {
+		firebase.auth().onAuthStateChanged(function(user) {
+      if (user) {
+        console.log('currently signed in as ' + user.email);
+      } else {
+        console.log('no one signed in');
+      }
+    });
+	}
 
   render(){
     return (
@@ -39,6 +50,7 @@ export default class HomeScreen extends React.Component {
             onPressSignOut()
             this.props.navigation.navigate('Login')
           }}>
+          <Text>{'You are currently logged in as ' + this.state.user}</Text>
           <Text style={styles.homeLogin}>Sign out</Text>
         </TouchableOpacity>
 
@@ -92,22 +104,6 @@ function InstructionsText(){
     </Text>
   )
 }
-
-function handleLearnMorePress() {
-  WebBrowser.openBrowserAsync(
-    'https://docs.expo.io/versions/latest/workflow/development-mode/'
-  );
-}
-
-_handlePressDocs = () => {
-  WebBrowser.openBrowserAsync('http://docs.expo.io');
-};
-
-_handlePressForums = () => {
-  WebBrowser.openBrowserAsync('http://forums.expo.io');
-};
-      
-
 
 const styles = StyleSheet.create({
   container: {
