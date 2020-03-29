@@ -35,7 +35,9 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 // ]
 
 export default class LocationScreen extends React.Component {
-
+    static navigationOptions = {
+        title: 'Location Settings',
+    };
   constructor(props) {
     super(props);
     this.state ={

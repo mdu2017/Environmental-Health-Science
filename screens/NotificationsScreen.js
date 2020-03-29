@@ -35,7 +35,9 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 // ]
 
 export default class NotificationsScreen extends React.Component {
-
+    static navigationOptions = {
+        title: 'Notification Settings',
+    };
   constructor(props) {
     super(props);
     this.state ={

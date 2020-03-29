@@ -35,7 +35,9 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 // ]
 
 export default class SecurityScreen extends React.Component {
-
+  static navigationOptions = {
+        title: 'Security Settings',
+    };
   constructor(props) {
     super(props);
     this.state ={

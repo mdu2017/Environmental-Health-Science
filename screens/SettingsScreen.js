@@ -31,6 +31,9 @@ const list = [
 ]
 
 export default class SettingsScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Settings',
+  };
 
   constructor(props) {
     super(props);

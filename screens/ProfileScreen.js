@@ -23,7 +23,9 @@ const list = [
 ]
 
 export default class ProfileScreen extends React.Component {
-
+  static navigationOptions = {
+    title: 'Profile',
+};
   constructor(props) {
     super(props);
     this.state ={

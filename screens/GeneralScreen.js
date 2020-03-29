@@ -35,7 +35,9 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 // ]
 
 export default class GeneralScreen extends React.Component {
-
+    static navigationOptions = {
+        title: 'General Settings',
+    };
   constructor(props) {
     super(props);
     this.state ={
