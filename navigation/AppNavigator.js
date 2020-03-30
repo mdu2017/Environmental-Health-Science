@@ -15,6 +15,10 @@ import MapScreen from '../screens/MapScreen';
 import SurveyScreen from '../screens/SurveyScreen';
 import ViewSurveyScreen from '../screens/ViewSurveyScreen';
 import PendingSurveyScreen from '../screens/PendingSurveyScreen';
+import GeneralScreen from '../screens/GeneralScreen';
+import SecurityScreen from '../screens/SecurityScreen';
+import LocationScreen from '../screens/LocationScreen';
+import NotificationsScreen from '../screens/NotificationsScreen';
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -26,14 +30,18 @@ export default createAppContainer(
     Profile: ProfileScreen,
     Maps: MapScreen,
     RelevantSurveys: RelevantSurveyScreen,
-    TakenSurveys: TakenSurveyScreen,
+    CompletedSurveys: TakenSurveyScreen,
     PendingSurveys: PendingSurveyScreen,
     GeneralSurvey: SurveyScreen,
     Config: ConfigScreen,
     Info: InfoScreen,
-    Help: HelpScreen,
     Signup: SignupScreen,
     ViewSurvey: ViewSurveyScreen,
+    General: GeneralScreen,
+    Security: SecurityScreen,
+    Location: LocationScreen,
+    Notifications: NotificationsScreen,
+    Help: HelpScreen,
   },
   {
     initialRouteName: 'Login'

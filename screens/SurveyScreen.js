@@ -9,6 +9,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { AsyncStorage } from 'react-native';
 
 export default class SurveyScreen extends React.Component {
+  static navigationOptions = {
+    title: 'Edit Survey',
+  };
   constructor(props) {
     super(props);
 
@@ -17,29 +20,28 @@ export default class SurveyScreen extends React.Component {
   }
 
   state = {
-            surveyKey: '', // Need a way to have a unique identifier for each survey
-            suburban: false,
-            rural: false,
-            industrial: false,
-            city: false,
-            wind: false,
-            flood: false,
-            stormsurge: false,
-            other: false,
-            readytosubmit: false,
-            submitted: false,
-            foname: true,
-            focity: true,
-            focountry: true,
-            fotypeofarea: true,
-            foeventname: true,
-            fonatureofimpact: true,
-            loggedin: true,
-            fullName: '',
-            locationCity: '',
-            locationCtry: '',
-            eventName: '',
-
+    surveyKey: '', // Need a way to have a unique identifier for each survey
+    suburban: false,
+    rural: false,
+    industrial: false,
+    city: false,
+    wind: false,
+    flood: false,
+    stormsurge: false,
+    other: false,
+    readytosubmit: false,
+    submitted: false,
+    foname: true,
+    focity: true,
+    focountry: true,
+    fotypeofarea: true,
+    foeventname: true,
+    fonatureofimpact: true,
+    loggedin: true,
+    fullName: '',
+    locationCity: '',
+    locationCtry: '',
+    eventName: '',
   };
 
   //Async save (saves the JSON of the state)

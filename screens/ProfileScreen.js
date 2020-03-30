@@ -9,10 +9,6 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 // List of tabs on the settings screen
 const list = [
   {
-    title: 'Account',
-    icon: 'account-circle'
-  },
-  {
     title: 'Pending Surveys',
     icon: 'timer'
   },
@@ -23,7 +19,9 @@ const list = [
 ]
 
 export default class ProfileScreen extends React.Component {
-
+  static navigationOptions = {
+    title: 'Profile',
+  };
   constructor(props) {
     super(props);
     this.state ={
@@ -41,7 +39,7 @@ export default class ProfileScreen extends React.Component {
       this.props.navigation.navigate('PendingSurveys');
     }
     else if(itemTitle == 'Completed Surveys'){
-      this.props.navigation.navigate('TakenSurveys');
+      this.props.navigation.navigate('CompletedSurveys');
     }
     else if(itemTitle == 'Info'){
       this.props.navigation.navigate('Info');
@@ -56,7 +54,9 @@ export default class ProfileScreen extends React.Component {
       <View>
         <View>
           <Text style={styles.accountName}>Joseph R. Smith</Text>
-          <Text style={styles.accountInfo}>jsmith@gmail.com</Text>
+          <Text style={styles.accountInfo}>joesmith@gmail.com</Text>
+          <Text style={styles.accountInfo}>Member Since: 2020</Text>
+          <Text style={styles.accountInfo}>Last Survey Saved: Mar 29, 2020</Text>
         </View>
         <View>
           {

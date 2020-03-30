@@ -4,11 +4,14 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
 
 export default class RelevantSurveyScreen extends React.Component {
-  render() {
+    static navigationOptions = {
+        title: 'Relevant Surveys',
+      };
+    render() {
     return (
         <View style={styles.container}>
             <View style={styles.container}>
-                <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text>
+                {/* <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text> */}
                 
                 <View style={styles.optionIconContainer}>
                     <LabelAndRedir 
@@ -34,7 +37,7 @@ export default class RelevantSurveyScreen extends React.Component {
                     />
                 </View>
             </View>
-            <View>
+            {/* <View>
                 <Button
                     style={styles.optionButton}
                     title="Back To Map"
@@ -49,7 +52,7 @@ export default class RelevantSurveyScreen extends React.Component {
                         this.props.navigation.navigate('Profile')
                     }
                 />
-            </View>
+            </View> */}
         </View>
     );
   }
