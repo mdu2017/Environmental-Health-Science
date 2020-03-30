@@ -2,37 +2,36 @@ import React from 'react';
 import { StyleSheet, Image, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+
 
 export default class RelevantSurveyScreen extends React.Component {
   render() {
+    
     return (
         <View style={styles.container}>
             <View style={styles.container}>
                 <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text>
                 
-                <View style={styles.optionIconContainer}>
-                    <LabelAndRedir 
-                        labeltext='General Information Survey' 
-                        uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
-                        uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
-                    />
-                </View>
-                
-                <View style={styles.optionIconContainer}>
-                    <LabelAndRedir 
-                        labeltext='Drinking Water Survey' 
-                        uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
-                        uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
-                    />
-                </View>
+                <script>
+                    let db = firebase.firestore()
+                    const surveys = document.querySelector('#survey-list');
+                    // Gets all the surveys, will narrow down to name of city
+                    db.collection('surveys').get().then((snapshot) => {
+                        snapshot.docs.forEach(doc => {
+                            let li = document.createElement('li')
+                            let city = document.createElement('span');
 
-                <View style={styles.optionIconContainer}>
-                    <LabelAndRedir 
-                        labeltext='Drinking Water Survey' 
-                        uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
-                        uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
-                    />
-                </View>
+                            li.setAttribute('data-id', doc.id);
+                            city.textContent = doc.data().city;
+
+                            li.appendChild(city);
+
+                            surveys.appendChild(li);
+                        })
+                    })
+                </script>
             </View>
             <View>
                 <Button
