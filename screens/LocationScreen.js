@@ -93,7 +93,7 @@ function ExplanationText(){
         to search for pertinent surveys on the Map page.
       </Text>
     )
-  }
+}
 
 const SectionHeader = ({ title }) => {
   return (

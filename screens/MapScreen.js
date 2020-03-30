@@ -7,7 +7,7 @@ import * as WebBrowser from 'expo-web-browser';
 
 export default class MapScreen extends React.Component {
   static navigationOptions = {
-    title: 'Missions',
+    title: 'Map',
   };
   constructor(props) {
     super(props);

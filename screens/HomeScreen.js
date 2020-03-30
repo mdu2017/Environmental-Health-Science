@@ -193,9 +193,10 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
+    fontSize: 18,
+    color: 'black',
     textAlign: 'center',
+    fontWeight: 'bold'
   },
   navigationFilename: {
     marginTop: 5,

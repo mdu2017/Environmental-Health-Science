@@ -7,15 +7,15 @@ import { Touchable } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
 // List of tabs on the settings screen
-// const list = [
-//   {
-//     title: 'General',
-//     icon: 'list'
-//   },
-//   {
-//     title: 'Security',
-//     icon: 'lock'
-//   },
+const list = [
+  {
+    title: 'Change Email',
+    icon: 'email'
+  },
+  {
+    title: 'Change Password',
+    icon: 'security'
+  },
 //   {
 //     title: 'Location',
 //     icon: 'location-on'
@@ -28,11 +28,11 @@ import { TouchableHighlight } from 'react-native-gesture-handler';
 //     title: 'Help',
 //     icon: 'help'
 //   },
-//   // {
-//   //   title: 'About',
-//   //   icon: 'info'
-//   // },
-// ]
+  // {
+  //   title: 'About',
+  //   icon: 'info'
+  // },
+]
 
 export default class SecurityScreen extends React.Component {
   static navigationOptions = {
@@ -68,7 +68,7 @@ export default class SecurityScreen extends React.Component {
   render() {
     return (
       <View>
-        {/* {
+        {
           list.map((item, i) => (    
               <ListItem
                 key={i}              
@@ -79,9 +79,9 @@ export default class SecurityScreen extends React.Component {
                 chevron
               />         
           ))
-        } */}
+        }
         <View>
-          <Text style={styles.descriptionText}>Security</Text>
+          {/* <Text style={styles.descriptionText}>Security</Text> */}
         </View>
       </View>
     );

@@ -5,34 +5,7 @@ import { ListItem } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Touchable } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
-
-// List of tabs on the settings screen
-// const list = [
-//   {
-//     title: 'General',
-//     icon: 'list'
-//   },
-//   {
-//     title: 'Security',
-//     icon: 'lock'
-//   },
-//   {
-//     title: 'Location',
-//     icon: 'location-on'
-//   },
-//   {
-//     title: 'Notifications',
-//     icon: 'notifications'
-//   },
-//   {
-//     title: 'Help',
-//     icon: 'help'
-//   },
-//   // {
-//   //   title: 'About',
-//   //   icon: 'info'
-//   // },
-// ]
+import ToggleSwitch from 'toggle-switch-react-native';
 
 export default class NotificationsScreen extends React.Component {
     static navigationOptions = {
@@ -41,49 +14,32 @@ export default class NotificationsScreen extends React.Component {
   constructor(props) {
     super(props);
     this.state ={
-      tabTitle: ''
+      tabTitle: '',
+      notificationsOn: false,
     };
-    this.onTabPress = this.onTabPress.bind(this);
-  }
-
-  // When tab is pressed go to corresponding page
-  onTabPress(itemTitle){
-    if(itemTitle == 'Profile'){
-      this.props.navigation.navigate('Profile');
-    }
-    else if(itemTitle == 'Surveys Taken'){
-      this.props.navigation.navigate('TakenSurveys');
-    }
-    else if(itemTitle == 'Config'){
-      this.props.navigation.navigate('Config');
-    }
-    else if(itemTitle == 'Info'){
-      this.props.navigation.navigate('Info');
-    }
-    else if(itemTitle == 'Help'){
-      this.props.navigation.navigate('Help');
-    }
   }
   
   render() {
     return (
-      <View>
-        {/* {
-          list.map((item, i) => (    
-              <ListItem
-                key={i}              
-                title={item.title}
-                leftIcon={{ name: item.icon }}
-                onPress={() => this.onTabPress(item.title)} //need this. OR else it won't work
-                bottomDivider
-                chevron
-              />         
-          ))
-        } */}
         <View>
-          <Text style={styles.descriptionText}>Notifications</Text>
+            <View style={styles.explanationStyle}>
+            <ToggleSwitch
+                    isOn={this.state.notificationsOn}
+                    onColor='green'
+                    offColor='gray'
+                    label='Notifications Services'
+                    labelStyle={styles.nameText}
+                    size='medium'
+                    onToggle={() => this.setState({ notificationsOn: !this.state.notificationsOn })}
+                    style={styles.sectionHeaderText}
+                />
+                <View style={styles.explanationStyle}>
+                    { !this.state.notificationsOn &&
+                        <ExplanationText />
+                    }
+                </View>
+            </View>
         </View>
-      </View>
     );
   }
 
@@ -128,6 +84,17 @@ const ListHeader = () => {
   );
 };
 
+// Explanation text describing the settings option
+function ExplanationText(){
+    return (
+      <Text style={styles.InstructionsText}>
+        Notifications are recommended to improve the users ease of access. 
+        These notifications include reminders (to complete/finalize survey 
+        submissions) or notify when new location-relevant surveys are available.
+      </Text>
+    )
+}
+
 const SectionHeader = ({ title }) => {
   return (
     <View style={styles.sectionHeaderContainer}>
@@ -165,67 +132,71 @@ const Color = ({ value }) => {
 
 // Styles
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  titleContainer: {
-    paddingHorizontal: 15,
-    paddingTop: 15,
-    paddingBottom: 15,
-    flexDirection: 'row',
-  },
-  titleIconContainer: {
-    marginRight: 15,
-    paddingTop: 2,
-  },
-  sectionHeaderContainer: {
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 8,
-    paddingHorizontal: 15,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#ededed',
-  },
-  sectionHeaderText: {
-    fontSize: 14,
-  },
-  sectionContentContainer: {
-    paddingTop: 8,
-    paddingBottom: 12,
-    paddingHorizontal: 15,
-  },
-  sectionContentText: {
-    color: '#808080',
-    fontSize: 14,
-  },
-  nameText: {
-    fontWeight: '600',
-    fontSize: 18,
-  },
-  slugText: {
-    color: '#a39f9f',
-    fontSize: 14,
-    backgroundColor: 'transparent',
-  },
-  descriptionText: {
-    fontSize: 14,
-    marginTop: 10,
-    color: '#4d4d4d',
-    textAlign: 'center',
-  },
-  colorContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  colorPreview: {
-    width: 17,
-    height: 17,
-    borderRadius: 2,
-    marginRight: 6,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#ccc',
-  },
-  colorTextContainer: {
-    flex: 1,
-  },
-});
+    container: {
+      flex: 1,
+      backgroundColor: '#fff',
+    },
+    titleContainer: {
+      paddingHorizontal: 15,
+      paddingTop: 15,
+      paddingBottom: 15,
+      flexDirection: 'row',
+    },
+    titleIconContainer: {
+      marginRight: 15,
+      paddingTop: 2,
+    },
+    sectionHeaderContainer: {
+      backgroundColor: '#fbfbfb',
+      paddingVertical: 8,
+      paddingHorizontal: 15,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: '#ededed',
+    },
+    sectionHeaderText: {
+      fontSize: 14,
+      marginTop: 20,
+    },
+    sectionContentContainer: {
+      paddingTop: 8,
+      paddingBottom: 12,
+      paddingHorizontal: 15,
+    },
+    explanationStyle: {
+      margin: 20,
+    },
+    sectionContentText: {
+      color: '#808080',
+      fontSize: 14,
+    },
+    nameText: {
+      fontWeight: '600',
+      fontSize: 18,
+    },
+    slugText: {
+      color: '#a39f9f',
+      fontSize: 14,
+      backgroundColor: 'transparent',
+    },
+    descriptionText: {
+      fontSize: 14,
+      marginTop: 10,
+      color: '#4d4d4d',
+      textAlign: 'center',
+    },
+    colorContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    colorPreview: {
+      width: 17,
+      height: 17,
+      borderRadius: 2,
+      marginRight: 6,
+      borderWidth: StyleSheet.hairlineWidth,
+      borderColor: '#ccc',
+    },
+    colorTextContainer: {
+      flex: 1,
+    },
+  });
