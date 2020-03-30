@@ -6,7 +6,9 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export default class TakenSurveyScreen extends React.Component {
-
+  static navigationOptions = {
+    title: 'Completed Surveys',
+  };
   constructor(props){
     super(props);
     this.state = {

@@ -52,7 +52,7 @@ export default class HomeScreen extends React.Component {
           </ScrollView>
           <View style={styles.tabBarInfoContainer}>
             <TouchableOpacity onPress={() => this.props.navigation.navigate('RelevantSurveys')} style={styles.helpLink}>
-              <Text style={styles.tabBarInfoText}>Quick Survey</Text>
+              <Text style={styles.tabBarInfoText}>Nearby Surveys</Text>
             </TouchableOpacity>
           </View>
     </View>

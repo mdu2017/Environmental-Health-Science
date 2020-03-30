@@ -16,6 +16,9 @@ import SecurityScreen from '../screens/SecurityScreen';
 import LocationScreen from '../screens/LocationScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
 import HelpScreen from '../screens/HelpScreen';
+import PendingSurveyScreen from '../screens/PendingSurveyScreen';
+import RelevantSurveyScreen from '../screens/RelevantSurveysScreen';
+import ViewSurveyScreen from '../screens/ViewSurveyScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -63,6 +66,9 @@ SurveyStack.path = '';
 const MapStack = createStackNavigator(
   {
     Map: MapScreen,
+    RelevantSurveys: RelevantSurveyScreen,
+    ViewSurvey: ViewSurveyScreen,
+    GeneralSurvey: SurveyScreen,
   },
   config
 );
@@ -99,6 +105,8 @@ LinksStack.path = '';
 const ProfileStack = createStackNavigator(
   {
     Profile: ProfileScreen,
+    PendingSurveys: PendingSurveyScreen,
+    CompletedSurveys: TakenSurveyScreen,
   },
   config
 );

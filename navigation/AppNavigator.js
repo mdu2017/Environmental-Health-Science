@@ -30,7 +30,7 @@ export default createAppContainer(
     Profile: ProfileScreen,
     Maps: MapScreen,
     RelevantSurveys: RelevantSurveyScreen,
-    TakenSurveys: TakenSurveyScreen,
+    CompletedSurveys: TakenSurveyScreen,
     PendingSurveys: PendingSurveyScreen,
     GeneralSurvey: SurveyScreen,
     Config: ConfigScreen,
