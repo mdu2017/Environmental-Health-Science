@@ -12,28 +12,11 @@ export default class RelevantSurveyScreen extends React.Component {
     return (
         <View style={styles.container}>
             <View style={styles.container}>
-                <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text>
+                {/* <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text> */}
                 
-                <script>
-                    let db = firebase.firestore()
-                    const surveys = document.querySelector('#survey-list');
-                    // Gets all the surveys, will narrow down to name of city
-                    db.collection('surveys').get().then((snapshot) => {
-                        snapshot.docs.forEach(doc => {
-                            let li = document.createElement('li')
-                            let city = document.createElement('span');
-
-                            li.setAttribute('data-id', doc.id);
-                            city.textContent = doc.data().city;
-
-                            li.appendChild(city);
-
-                            surveys.appendChild(li);
-                        })
-                    })
-                </script>
+                
             </View>
-            <View>
+            {/* <View>
                 <Button
                     style={styles.optionButton}
                     title="Back To Map"
@@ -48,7 +31,7 @@ export default class RelevantSurveyScreen extends React.Component {
                         this.props.navigation.navigate('Profile')
                     }
                 />
-            </View>
+            </View> */}
         </View>
     );
   }
@@ -71,7 +54,7 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
                         }
                         onPress={uponpress1}
                         iconLeft
-                        title=' '
+                        title=''
                         />
                     <Button
                         type="outline"
@@ -79,12 +62,12 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
                             <Icon
                             name='pencil'
                             size={15}
-                            color='green'
+                            color='black'
                             />
                         }
                         onPress={uponpress2}
                         iconRight
-                        title=' '
+                        title=''
                         />
                 {/* </View> */}
             </View>

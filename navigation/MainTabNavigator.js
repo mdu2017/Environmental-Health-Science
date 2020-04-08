@@ -9,6 +9,16 @@ import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import SurveyScreen from '../screens/SurveyScreen';
 import MapScreen from '../screens/MapScreen';
+import ProfileScreen from '../screens/ProfileScreen';
+import TakenSurveyScreen from '../screens/TakenSurveyScreen';
+import GeneralScreen from '../screens/GeneralScreen';
+import SecurityScreen from '../screens/SecurityScreen';
+import LocationScreen from '../screens/LocationScreen';
+import NotificationsScreen from '../screens/NotificationsScreen';
+import HelpScreen from '../screens/HelpScreen';
+import PendingSurveyScreen from '../screens/PendingSurveyScreen';
+import RelevantSurveyScreen from '../screens/RelevantSurveysScreen';
+import ViewSurveyScreen from '../screens/ViewSurveyScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -27,10 +37,7 @@ const HomeStack = createStackNavigator(
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? `ios-information-circle${focused ? '' : '-outline'}` : 'md-information-circle'}
-    />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-home' : 'md-home'} />
   ),
 };
 
@@ -59,6 +66,9 @@ SurveyStack.path = '';
 const MapStack = createStackNavigator(
   {
     Map: MapScreen,
+    RelevantSurveys: RelevantSurveyScreen,
+    ViewSurvey: ViewSurveyScreen,
+    GeneralSurvey: SurveyScreen,
   },
   config
 );
@@ -91,10 +101,35 @@ LinksStack.navigationOptions = {
 
 LinksStack.path = '';
 
+//Profile stack navigator (Profile is the name)
+const ProfileStack = createStackNavigator(
+  {
+    Profile: ProfileScreen,
+    PendingSurveys: PendingSurveyScreen,
+    CompletedSurveys: TakenSurveyScreen,
+  },
+  config
+);
+
+//Link stack navigation options
+ProfileStack.navigationOptions = {
+  tabBarLabel: 'Profile',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-person' : 'md-person'} />
+  ),
+};
+
+ProfileStack.path = '';
+
 //Path to settings page (Settings is the name of the navigation page)
 const SettingsStack = createStackNavigator(
   {
     Settings: SettingsScreen,
+    General: GeneralScreen,
+    Security: SecurityScreen,
+    Location: LocationScreen,
+    Notifications: NotificationsScreen,
+    Help: HelpScreen,
   },
   config
 );
@@ -103,7 +138,7 @@ const SettingsStack = createStackNavigator(
 SettingsStack.navigationOptions = {
   tabBarLabel: 'Settings',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-cog' : 'md-cog'} />
   ),
 };
 
@@ -112,9 +147,8 @@ SettingsStack.path = '';
 //Navigation tabs on the bottom of the screen
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
+  ProfileStack,
   MapStack,
-  // SurveyStack,
-  // LinksStack,
   SettingsStack,
 });
 
