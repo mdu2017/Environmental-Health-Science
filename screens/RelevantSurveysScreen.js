@@ -14,7 +14,19 @@ export default class RelevantSurveyScreen extends React.Component {
             <View style={styles.container}>
                 {/* <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text> */}
                 
-                
+                <script>
+                    let db = firebase.firestore()
+                    // Gets all the surveys, will narrow down to name of city
+                    db.collection("surveys").get().then(function(doc) {
+                        doc.docs.forEach(x => {
+                            if(x.exists) {
+                                console.log("Document data:", x.data());
+                            } else {
+                                console.log("No such document!");
+                            }
+                        })
+                    })
+                </script>
             </View>
             {/* <View>
                 <Button
