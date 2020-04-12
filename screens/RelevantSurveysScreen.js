@@ -17,6 +17,7 @@ export default class RelevantSurveyScreen extends React.Component {
                 <script>
                     let db = firebase.firestore()
                     // Gets all the surveys, will narrow down to name of city
+                    var survey = db.collection("surveys").
                     db.collection("surveys").get().then(function(doc) {
                         doc.docs.forEach(x => {
                             if(x.exists) {
