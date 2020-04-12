@@ -2,38 +2,45 @@ import React from 'react';
 import { StyleSheet, Image, Text, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Button } from 'react-native-elements';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
+
 
 export default class RelevantSurveyScreen extends React.Component {
+
+    constructor(props){
+        super(props);
+        this.state = {
+          
+        };
+      }
+
+    loadData = () => {
+        let db = firebase.firestore();
+        // Gets all the surveys, will narrow down to name of city
+        // console.log("test");
+        var surveyRef = db.collection("surveys");
+        // var testField = surveyRef.doc("General Information Survey");
+        // console.log(testField.id);
+
+        db.collection("surveys").get().then((snapshot) => {
+            // console.log(snapshot.docs);
+            snapshot.docs.forEach(doc => {
+                console.log(doc.id)
+            })
+        })
+    }
+
   render() {
     return (
         <View style={styles.container}>
+
+            {this.loadData()}
+
             <View style={styles.container}>
                 <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text>
-                
-                <View style={styles.optionIconContainer}>
-                    <LabelAndRedir 
-                        labeltext='General Information Survey' 
-                        uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
-                        uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
-                    />
-                </View>
-                
-                <View style={styles.optionIconContainer}>
-                    <LabelAndRedir 
-                        labeltext='Drinking Water Survey' 
-                        uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
-                        uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
-                    />
-                </View>
-
-                <View style={styles.optionIconContainer}>
-                    <LabelAndRedir 
-                        labeltext='Drinking Water Survey' 
-                        uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
-                        uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
-                    />
-                </View>
             </View>
+
             <View>
                 <Button
                     style={styles.optionButton}
@@ -72,7 +79,7 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
                         }
                         onPress={uponpress1}
                         iconLeft
-                        title=' '
+                        title=''
                         />
                     <Button
                         type="outline"
@@ -80,12 +87,12 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
                             <Icon
                             name='pencil'
                             size={15}
-                            color='green'
+                            color='black'
                             />
                         }
                         onPress={uponpress2}
                         iconRight
-                        title=' '
+                        title=''
                         />
                 {/* </View> */}
             </View>

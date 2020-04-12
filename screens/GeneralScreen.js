@@ -7,34 +7,37 @@ import { Touchable } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
 // List of tabs on the settings screen
-const list = [
-  {
-    title: 'General',
-    icon: 'list'
-  },
-  {
-    title: 'Security',
-    icon: 'lock'
-  },
-  {
-    title: 'Location',
-    icon: 'location-on'
-  },
-  {
-    title: 'Notifications',
-    icon: 'notifications'
-  },
-  {
-    title: 'Help',
-    icon: 'help'
-  },
-]
+// const list = [
+//   {
+//     title: 'General',
+//     icon: 'list'
+//   },
+//   {
+//     title: 'Security',
+//     icon: 'lock'
+//   },
+//   {
+//     title: 'Location',
+//     icon: 'location-on'
+//   },
+//   {
+//     title: 'Notifications',
+//     icon: 'notifications'
+//   },
+//   {
+//     title: 'Help',
+//     icon: 'help'
+//   },
+//   // {
+//   //   title: 'About',
+//   //   icon: 'info'
+//   // },
+// ]
 
-export default class SettingsScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Settings',
-  };
-
+export default class GeneralScreen extends React.Component {
+    static navigationOptions = {
+        title: 'General Settings',
+    };
   constructor(props) {
     super(props);
     this.state ={
@@ -45,17 +48,17 @@ export default class SettingsScreen extends React.Component {
 
   // When tab is pressed go to corresponding page
   onTabPress(itemTitle){
-    if(itemTitle == 'General'){
-      this.props.navigation.navigate('General');
+    if(itemTitle == 'Profile'){
+      this.props.navigation.navigate('Profile');
     }
-    else if(itemTitle == 'Security'){
-      this.props.navigation.navigate('Security');
+    else if(itemTitle == 'Surveys Taken'){
+      this.props.navigation.navigate('TakenSurveys');
     }
-    else if(itemTitle == 'Location'){
-      this.props.navigation.navigate('Location');
+    else if(itemTitle == 'Config'){
+      this.props.navigation.navigate('Config');
     }
-    else if(itemTitle == 'Notifications'){
-      this.props.navigation.navigate('Notifications');
+    else if(itemTitle == 'Info'){
+      this.props.navigation.navigate('Info');
     }
     else if(itemTitle == 'Help'){
       this.props.navigation.navigate('Help');
@@ -65,21 +68,20 @@ export default class SettingsScreen extends React.Component {
   render() {
     return (
       <View>
-        {
+        {/* {
           list.map((item, i) => (    
               <ListItem
                 key={i}              
                 title={item.title}
                 leftIcon={{ name: item.icon }}
-                onPress={() => this.onTabPress(item.title)} // need this OR else it won't work
+                onPress={() => this.onTabPress(item.title)} //need this. OR else it won't work
                 bottomDivider
                 chevron
               />         
           ))
-        }
+        } */}
         <View>
-          <Text style={styles.descriptionText}>Version 1.0.0.001</Text>
-          <Text style={styles.descriptionText}>Last Updated: Mar 29, 2020</Text>
+          <Text style={styles.descriptionText}>General</Text>
         </View>
       </View>
     );

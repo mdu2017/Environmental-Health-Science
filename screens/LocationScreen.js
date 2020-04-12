@@ -5,81 +5,39 @@ import { ListItem } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Touchable } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import ToggleSwitch from 'toggle-switch-react-native';
 
-// List of tabs on the settings screen
-const list = [
-  {
-    title: 'General',
-    icon: 'list'
-  },
-  {
-    title: 'Security',
-    icon: 'lock'
-  },
-  {
-    title: 'Location',
-    icon: 'location-on'
-  },
-  {
-    title: 'Notifications',
-    icon: 'notifications'
-  },
-  {
-    title: 'Help',
-    icon: 'help'
-  },
-]
-
-export default class SettingsScreen extends React.Component {
-  static navigationOptions = {
-    title: 'Settings',
-  };
-
+export default class LocationScreen extends React.Component {
+    static navigationOptions = {
+        title: 'Location Settings',
+    };
   constructor(props) {
     super(props);
     this.state ={
-      tabTitle: ''
+      tabTitle: '',
+      locationOn: false
     };
-    this.onTabPress = this.onTabPress.bind(this);
-  }
-
-  // When tab is pressed go to corresponding page
-  onTabPress(itemTitle){
-    if(itemTitle == 'General'){
-      this.props.navigation.navigate('General');
-    }
-    else if(itemTitle == 'Security'){
-      this.props.navigation.navigate('Security');
-    }
-    else if(itemTitle == 'Location'){
-      this.props.navigation.navigate('Location');
-    }
-    else if(itemTitle == 'Notifications'){
-      this.props.navigation.navigate('Notifications');
-    }
-    else if(itemTitle == 'Help'){
-      this.props.navigation.navigate('Help');
-    }
   }
   
   render() {
     return (
       <View>
-        {
-          list.map((item, i) => (    
-              <ListItem
-                key={i}              
-                title={item.title}
-                leftIcon={{ name: item.icon }}
-                onPress={() => this.onTabPress(item.title)} // need this OR else it won't work
-                bottomDivider
-                chevron
-              />         
-          ))
-        }
-        <View>
-          <Text style={styles.descriptionText}>Version 1.0.0.001</Text>
-          <Text style={styles.descriptionText}>Last Updated: Mar 29, 2020</Text>
+        <View style={styles.explanationStyle}>
+          <ToggleSwitch
+                isOn={this.state.locationOn}
+                onColor='green'
+                offColor='gray'
+                label='Location Services'
+                labelStyle={styles.nameText}
+                size='medium'
+                onToggle={() => this.setState({ locationOn: !this.state.locationOn })}
+                style={styles.sectionHeaderText}
+            />
+            <View style={styles.explanationStyle}>
+                { !this.state.locationOn &&
+                    <ExplanationText />
+                }
+            </View>
         </View>
       </View>
     );
@@ -125,6 +83,17 @@ const ListHeader = () => {
     </View>
   );
 };
+
+// Explanation text describing the settings option
+function ExplanationText(){
+    return (
+      <Text style={styles.InstructionsText}>
+        Location information is used to triangulate the user to allow ease of access. 
+        However, if the location services are turned off, the user will still be able 
+        to search for pertinent surveys on the Map page.
+      </Text>
+    )
+}
 
 const SectionHeader = ({ title }) => {
   return (
@@ -186,11 +155,15 @@ const styles = StyleSheet.create({
   },
   sectionHeaderText: {
     fontSize: 14,
+    marginTop: 20,
   },
   sectionContentContainer: {
     paddingTop: 8,
     paddingBottom: 12,
     paddingHorizontal: 15,
+  },
+  explanationStyle: {
+    margin: 20,
   },
   sectionContentText: {
     color: '#808080',

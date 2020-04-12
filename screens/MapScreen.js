@@ -6,7 +6,9 @@ import Marker from 'react-native-maps';
 import * as WebBrowser from 'expo-web-browser';
 
 export default class MapScreen extends React.Component {
-  
+  static navigationOptions = {
+    title: 'Map',
+  };
   constructor(props) {
     super(props);
     this.state ={

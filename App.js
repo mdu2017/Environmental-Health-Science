@@ -8,6 +8,8 @@ import * as firebase from 'firebase';
 
 import AppNavigator from './navigation/AppNavigator';
 
+import {decode, encode} from 'base-64';
+
 var firebaseConfig = {
   apiKey: "AIzaSyBl3BShVOe_77qAe_Qoz-7BJ2mC7jwELzw",
   authDomain: "environmental-health-science.firebaseapp.com",
@@ -21,6 +23,10 @@ var firebaseConfig = {
 
 export default function App(props) {
   const [isLoadingComplete, setLoadingComplete] = useState(false);
+
+  if(!global.btoa) { global.btoa = encode }
+
+  if(!global.atob) { global.atob = decode }
 
   if(!firebase.apps.length) {
     this.app = firebase.initializeApp(firebaseConfig);

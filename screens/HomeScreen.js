@@ -55,6 +55,11 @@ export default class HomeScreen extends React.Component {
         
           <InstructionsText/>
           </ScrollView>
+          <View style={styles.tabBarInfoContainer}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('RelevantSurveys')} style={styles.helpLink}>
+              <Text style={styles.tabBarInfoText}>Nearby Surveys</Text>
+            </TouchableOpacity>
+          </View>
     </View>
     );
   }
@@ -197,9 +202,10 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
+    fontSize: 18,
+    color: 'black',
     textAlign: 'center',
+    fontWeight: 'bold'
   },
   navigationFilename: {
     marginTop: 5,
