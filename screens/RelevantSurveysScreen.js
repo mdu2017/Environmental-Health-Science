@@ -11,9 +11,7 @@ export default class RelevantSurveyScreen extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-          surveyList: [
-            'filler', 'filler2',
-          ]
+          surveyList: []
         }
     };
 
@@ -56,8 +54,8 @@ export default class RelevantSurveyScreen extends React.Component {
                 {this.state.surveyList.map(elem => (
                     <LabelAndRedir 
                     labeltext={elem} 
-                    uponpress1={this.props.navigation.navigate('ViewSurvey')}
-                    uponpress2={this.props.navigation.navigate('GeneralSurvey')}
+                    uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
+                    uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
                     />
                 ))}
             </View>
@@ -147,6 +145,7 @@ export default class RelevantSurveyScreen extends React.Component {
   render() {
     return (
         <View style={styles.container}>    
+        
 
             <View style={styles.container}>
                 <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text>
@@ -157,8 +156,8 @@ export default class RelevantSurveyScreen extends React.Component {
                 {this.state.surveyList.map(elem => (
                     <LabelAndRedir 
                     labeltext={elem} 
-                    uponpress1={this.props.navigation.navigate('ViewSurvey')}
-                    uponpress2={this.props.navigation.navigate('GeneralSurvey')}
+                    uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
+                    uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
                     />
                 ))}
             </View>
@@ -182,6 +181,7 @@ export default class RelevantSurveyScreen extends React.Component {
                     onPress={() =>
                         this.props.navigation.navigate('Profile')
                     }
+                    on
                 />
             </View>
         </View>
