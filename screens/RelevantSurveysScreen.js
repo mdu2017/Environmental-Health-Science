@@ -51,8 +51,9 @@ export default class RelevantSurveyScreen extends React.Component {
         await this.readFromDB();
         return(
             <View>
-                {this.state.surveyList.map(elem => (
+                {this.state.surveyList.map((elem,i) => (
                     <LabelAndRedir 
+                    key={i}
                     labeltext={elem} 
                     uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
                     uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
@@ -153,8 +154,9 @@ export default class RelevantSurveyScreen extends React.Component {
 
             {/* Fix bug with eye and pen button (navigation broken) */}
             <View>
-                {this.state.surveyList.map(elem => (
+                {this.state.surveyList.map((elem,i) => (
                     <LabelAndRedir 
+                    key={i}
                     labeltext={elem} 
                     uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
                     uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
