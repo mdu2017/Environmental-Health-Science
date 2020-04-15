@@ -11,9 +11,7 @@ export default class RelevantSurveyScreen extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-          surveyList: [
-            
-          ]
+          surveyList: []
         }
     };
 
@@ -69,8 +67,9 @@ export default class RelevantSurveyScreen extends React.Component {
         await this.readFromDB();
         return(
             <View>
-                {this.state.surveyList.map(elem => (
+                {this.state.surveyList.map((elem,i) => (
                     <LabelAndRedir 
+                    key={i}
                     labeltext={elem} 
                     uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
                     uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
@@ -83,14 +82,16 @@ export default class RelevantSurveyScreen extends React.Component {
   render() {
     return (
         <View style={styles.container}>    
+        
 
             <View style={styles.container}>
                 <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text>
             </View>
 
             <View>
-                {this.state.surveyList.map(elem => (
+                {this.state.surveyList.map((elem,i) => (
                     <LabelAndRedir 
+                    key={i}
                     labeltext={elem} 
                     uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
                     uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
@@ -116,6 +117,7 @@ export default class RelevantSurveyScreen extends React.Component {
                     onPress={() =>
                         this.props.navigation.navigate('Profile')
                     }
+                    on
                 />
             </View>
         </View>
