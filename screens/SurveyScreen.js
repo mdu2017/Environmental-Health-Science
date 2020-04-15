@@ -42,6 +42,7 @@ export default class SurveyScreen extends React.Component {
     locationCity: '',
     locationCtry: '',
     eventName: '',
+    completed: false,
   };
 
   //Async save (saves the JSON of the state)
@@ -93,6 +94,13 @@ export default class SurveyScreen extends React.Component {
   loadPressed = () => {
     this.getSurveyData();
     console.log('Loaded data');
+  }
+
+  //Check survey as completed
+  checkCompleted = () => {
+    this.setState({
+      compelted: !this.state.completed
+    });
   }
 
   //Update full Name
@@ -265,6 +273,20 @@ export default class SurveyScreen extends React.Component {
               onPress={() => this.loadPressed()}
               iconRight
               title={'Load Survey     '}
+            />
+            
+            {/* Check survey as completed */}
+            <Button type="outline"
+              icon={
+                <Icon
+                name={'check'}
+                size={15}
+                color={'green'}
+                />
+              }
+              onPress={() => this.checkCompleted()}
+              iconRight
+              title={'Check as Completed     '}
             />
                 
                 {this.state.submitted && 
