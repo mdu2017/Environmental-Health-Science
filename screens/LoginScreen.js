@@ -125,7 +125,7 @@ export default class LoginScreen extends React.Component {
 
         </View>
 
-        {/* Login button (TODO: AUTHENTICATION NEEDS TO BE IMPLEMENTED)*/}
+        {/* Login button*/}
         <View style={styles.loginButton}>
           <Button title='Login' style={styles.loginButton} onPress={() => this.props.navigation.navigate('Home')}/>
         </View>

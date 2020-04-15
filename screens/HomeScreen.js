@@ -17,6 +17,8 @@ import {
 } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Toast from 'react-native-root-toast';
+
 
 export default class HomeScreen extends React.Component {
 
@@ -26,6 +28,19 @@ export default class HomeScreen extends React.Component {
       email: '',
       password: ''
     }
+  }
+
+  //When page loads
+  componentDidMount(){
+    //Show login notification
+    Toast.show('You have logged in', {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.TOP,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    });
   }
 
   render(){
