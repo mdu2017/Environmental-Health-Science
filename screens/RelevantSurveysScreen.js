@@ -12,7 +12,7 @@ export default class RelevantSurveyScreen extends React.Component {
         super(props);
         this.state = {
           surveyList: [
-            'filler', 'filler2',
+            
           ]
         }
     };
