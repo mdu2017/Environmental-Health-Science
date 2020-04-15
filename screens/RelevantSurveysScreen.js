@@ -11,34 +11,161 @@ export default class RelevantSurveyScreen extends React.Component {
     constructor(props){
         super(props);
         this.state = {
-          
-        };
-      }
+          surveyList: [
+            'filler', 'filler2',
+          ]
+        }
+    };
 
-    loadData = () => {
+    //update button
+    readFromDB = async () => {
+
         let db = firebase.firestore();
-        // Gets all the surveys, will narrow down to name of city
-        // console.log("test");
-        var surveyRef = db.collection("surveys");
-        // var testField = surveyRef.doc("General Information Survey");
-        // console.log(testField.id);
+        let tempList = []
 
         db.collection("surveys").get().then((snapshot) => {
             // console.log(snapshot.docs);
             snapshot.docs.forEach(doc => {
                 console.log(doc.id)
+
+                let str = doc.id;
+                tempList.push(str);
+                console.log(tempList);
+            })
+            
+            console.log("out of foreach: ");
+            console.log(tempList);
+
+            //Data is still here
+            tempList.map(elem => {
+                console.log("element is: " + elem);
+            })
+
+            //update state
+            this.setState({
+                surveyList: tempList
             })
         })
+    };
+
+    //fix page navigation issue (bug)
+    displayData = async () => {
+        await this.readFromDB();
+        return(
+            <View>
+                {this.state.surveyList.map(elem => (
+                    <LabelAndRedir 
+                    labeltext={elem} 
+                    uponpress1={this.props.navigation.navigate('ViewSurvey')}
+                    uponpress2={this.props.navigation.navigate('GeneralSurvey')}
+                    />
+                ))}
+            </View>
+        );
     }
+    
+        // this.readFromDB(db);
+
+        //print elements (ARRAY DATA GONE?? WHY??)
+        // console.log('out of db loop');
+        // console.log(tempList);
+
+        // return(
+        //     <View>
+        //         {tempList.map((val, ndx) => (
+        //             <LabelAndRedir 
+        //             labeltext={ndx} 
+        //             uponpress1={this.props.navigation.navigate('ViewSurvey')}
+        //             uponpress2={this.props.navigation.navigate('GeneralSurvey')}
+        //             />
+        //         ))}
+        //     </View>
+        // );
+
+//   async readFromDB(db){
+
+    // tempList = [];
+    // await db.collection("surveys").get().then((snapshot) => {
+
+    //     // console.log(snapshot.docs);
+    //     snapshot.docs.forEach(doc => {
+    //         console.log(doc.id)
+
+    //         let str = doc.id;
+    //         tempList.push(str);
+    //         console.log(tempList);
+    //     })
+        
+    //     console.log("out of foreach: ");
+    //     console.log(tempList);
+
+    //     //Data is still here
+    //     tempList.map(elem => {
+    //         console.log("element is: " + elem);
+    //     })
+    // })
+
+
+    // let arr = [];
+    // db.collection("surveys").get().then((snapshot) => {
+
+    //     // console.log(snapshot.docs);
+    //     snapshot.docs.forEach(doc => {
+    //         console.log(doc.id)
+
+    //         let str = doc.id;
+    //         arr.push(str);
+    //         console.log(arr);
+    //     })
+        
+    //     console.log("out of foreach: ");
+    //     console.log(arr);
+
+    //     //Data is still here
+    //     arr.map(elem => {
+    //         console.log("element is: " + elem);
+    //     })
+    // })
+    
+
+    // console.log(tempList);
+
+
+    // return(
+    //         <View>
+    //             {tempList.map((val, ndx) => (
+    //                 <LabelAndRedir 
+    //                 labeltext={ndx} 
+    //                 uponpress1={this.props.navigation.navigate('ViewSurvey')}
+    //                 uponpress2={this.props.navigation.navigate('GeneralSurvey')}
+    //                 />
+    //             ))}
+    //         </View>
+    //     );
+//   }
 
   render() {
     return (
-        <View style={styles.container}>
-
-            {this.loadData()}
+        <View style={styles.container}>    
 
             <View style={styles.container}>
                 <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text>
+            </View>
+
+            {/* Fix bug with eye and pen button (navigation broken) */}
+            <View>
+                {this.state.surveyList.map(elem => (
+                    <LabelAndRedir 
+                    labeltext={elem} 
+                    uponpress1={this.props.navigation.navigate('ViewSurvey')}
+                    uponpress2={this.props.navigation.navigate('GeneralSurvey')}
+                    />
+                ))}
+            </View>
+
+            {/* Fix stack navigation issue */}
+            <View>
+                <Button title="display surveys" onPress={e => this.displayData()}/>
             </View>
 
             <View>
@@ -161,4 +288,4 @@ const styles = StyleSheet.create({
         padding: 20,
         textAlign: 'left'
     },
-  });
+});
