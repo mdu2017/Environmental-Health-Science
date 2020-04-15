@@ -7,6 +7,7 @@ import { ScrollView, KeyboardAvoidingView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AsyncStorage } from 'react-native';
+import Toast from 'react-native-root-toast';
 
 export default class SurveyScreen extends React.Component {
   static navigationOptions = {
@@ -42,6 +43,7 @@ export default class SurveyScreen extends React.Component {
     locationCity: '',
     locationCtry: '',
     eventName: '',
+    completed: true,
   };
 
   //Async save (saves the JSON of the state)
@@ -87,12 +89,69 @@ export default class SurveyScreen extends React.Component {
     let data = JSON.stringify(this.state);
     this.saveSurveyData(data);
     console.log('Saved data');
+
+    //toast popup message
+    Toast.show('Survey Saved', {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+      onShow: () => {
+          // calls on toast\`s appear animation start
+      },
+      onShown: () => {
+          // calls on toast\`s appear animation end.
+      },
+      onHide: () => {
+          // calls on toast\`s hide animation start.
+      },
+      onHidden: () => {
+          // calls on toast\`s hide animation end.
+      }
+    });
   }
 
   //Load button pressed
   loadPressed = () => {
     this.getSurveyData();
     console.log('Loaded data');
+
+    //Show load notification
+    Toast.show('Survey Loaded', {
+      duration: Toast.durations.SHORT,
+      position: Toast.positions.BOTTOM,
+      shadow: true,
+      animation: true,
+      hideOnPress: true,
+      delay: 0,
+    });
+  }
+
+  //Check survey as completed
+  checkCompleted = () => {
+    this.setState({
+      completed: !this.state.completed
+    });
+
+    //Show completion status
+    let status = '';
+    if(this.state.completed){
+      status = 'Survey Completed';
+    }
+    else if(!this.state.completed){
+      status = "Survey In Progress";
+    }
+      
+    Toast.show(status, {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+    });
   }
 
   //Update full Name
@@ -123,6 +182,13 @@ export default class SurveyScreen extends React.Component {
     });
     console.log(this.state.eventName);
   }
+
+// You can manually hide the Toast, or it will automatically disappear after a `duration` ms timeout.
+  setTimeOut = () => {
+    setTimeout(function () {
+      Toast.hide(toast);
+    }, 100);
+  };
 
   render() {
     return (
@@ -265,6 +331,20 @@ export default class SurveyScreen extends React.Component {
               onPress={() => this.loadPressed()}
               iconRight
               title={'Load Survey     '}
+            />
+            
+            {/* Check survey as completed */}
+            <Button type="outline"
+              icon={
+                <Icon
+                name={'check'}
+                size={15}
+                color={'green'}
+                />
+              }
+              onPress={() => this.checkCompleted()}
+              iconRight
+              title={'Check/Uncheck as Completed     '}
             />
                 
                 {this.state.submitted && 
