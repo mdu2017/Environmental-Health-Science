@@ -88,7 +88,6 @@ export default class RelevantSurveyScreen extends React.Component {
                 <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text>
             </View>
 
-            {/* Fix bug with eye and pen button (navigation broken) */}
             <View>
                 {this.state.surveyList.map(elem => (
                     <LabelAndRedir 
@@ -99,7 +98,6 @@ export default class RelevantSurveyScreen extends React.Component {
                 ))}
             </View>
 
-            {/* Fix stack navigation issue */}
             <View>
                 <Button title="Refresh Survey List" onPress={() => this.refreshData()}/>
             </View>
