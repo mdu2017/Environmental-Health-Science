@@ -17,6 +17,7 @@ import {
 } from 'react-native-elements';
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { AsyncStorage } from 'react-native';
 
 import * as firebase from 'firebase';
 
@@ -33,6 +34,44 @@ export default class LoginScreen extends React.Component {
     }
 
     this.checkRemember = this.checkRemember.bind(this);
+  }
+
+  //Async save (saves the JSON of the state)
+  saveUserLogin = async (userName, pass) => {
+    try {
+      //Saves the item as a (key, JSON string)
+      await AsyncStorage.setItem('userName', userName);
+      await AsyncStorage.setItem('pass', pass);
+
+    } catch (error) {
+      // Error retrieving data
+      console.log(error.message);
+    }
+  };
+
+  //Get saved data
+  getUserLogin = async () => {
+    let userName = '';
+    let pass = '';
+    try {
+      userName = await AsyncStorage.getItem('userName') || '';
+      pass = await AsyncStorage.getItem('pass') || '';
+
+      //Update user/pass info
+      this.setState({
+        email: userName,
+        password: pass
+      });
+    
+    } catch (error) {
+      // Error retrieving data
+      console.log(error.message);
+    }
+  }
+
+  //On load (save login info if remember me is checked)
+  componentDidMount = () => {
+    this.getUserLogin();
   }
 
   //Update email input box when typing
@@ -55,8 +94,8 @@ export default class LoginScreen extends React.Component {
   }
 
   //Toggles the remember me button
-  checkRemember = () => {
-    this.setState({
+  checkRemember = async () => {
+    await this.setState({
       rememberChecked: !this.state.rememberChecked
     })
   }
@@ -71,6 +110,13 @@ export default class LoginScreen extends React.Component {
     })
     Object.assign(this.state, { isAuthenticated: true })
     console.log(this.state.isAuthenticated)
+
+    //If remember me is checked, save login info
+    if(this.state.rememberChecked){
+      let e = this.state.email;
+      let p = this.state.password;
+      this.saveUserLogin(e, p);
+    }
   }
 
   render(){
@@ -102,6 +148,8 @@ export default class LoginScreen extends React.Component {
                   color='black'
                 />
               }
+              defaultValue={this.state.email}
+              editable={true}
               onChangeText={e => this.updateEmail(e)}
               autoCompleteType='email'
               textContentType='emailAddress'
@@ -119,6 +167,8 @@ export default class LoginScreen extends React.Component {
                 color='black'
               />
             }
+            defaultValue={this.state.password}
+            editable={true}
             onChangeText={pass => this.updatePassword(pass)}
             autoCompleteType='password'
             textContentType='password'

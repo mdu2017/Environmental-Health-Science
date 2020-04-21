@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Button, SectionList } from 'react-native';
 import ListItem from 'react-native-elements';
 import SurveyList from '../components/SurveyList';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 
 export default class TakenSurveyScreen extends React.Component {
@@ -13,26 +15,52 @@ export default class TakenSurveyScreen extends React.Component {
     super(props);
     this.state = {
       surveySection: [
-        {title: 'In Progress', data: ['General Information Survey']},
-        {title: 'Completed', data: ['Drinking Water Survey', 'Environmental Conditions Survey']}
+        {title: 'Completed', data: []}
       ]
     };
   }
 
   //Can add surveys to the in progress/completed sections
-  addInProgress = () => {
+  addInProgress = (surveyName) => {
     let newSection = this.state.surveySection.slice();
-    newSection[0].data.push('New Survey');
+    newSection[0].data.push(surveyName);
 
     this.setState({
       surveySection: newSection
     });
   }
 
+  //Grab data from db when loading page
+  componentDidMount = async() => {
+    await this.readCompleted();
+  }
+
+  //Reads survey list in progress from database (not completed surveys)
+  readCompleted = async () => {
+
+    let db = firebase.firestore();
+
+    db.collection("surveys").get().then((snapshot) => {
+        // console.log(snapshot.docs);
+        snapshot.docs.forEach(doc => {
+            let surveyName = doc.get('SurveyName');
+            console.log('Survey name is: ' + surveyName);
+
+            let completedStatus = doc.get('Completed');
+            console.log('Completed status: ' + completedStatus);
+
+            //Add survey to list of in progress
+            if(completedStatus){
+              this.addInProgress(surveyName);
+            }
+        })
+      })
+    };
+
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.titleText}>Here is a list of surveys you have filled out.</Text>
+        <Text style={styles.titleText}>Completed Surveys</Text>
 
         <SectionList style={styles.sectionContainer}
           sections={this.state.surveySection}
@@ -45,12 +73,10 @@ export default class TakenSurveyScreen extends React.Component {
           keyExtractor={(item, index) => index}
         />
 
-        <Button title='Add In-Progress Survey' onPress={() => this.addInProgress()}/>
-        
         <Button
-          title="Go Back To Settings"
+          title="Go Back To Profile"
           onPress={() =>
-            this.props.navigation.navigate('Settings')
+            this.props.navigation.navigate('Profile')
           }
         />
       </View>

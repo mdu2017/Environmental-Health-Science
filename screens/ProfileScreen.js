@@ -5,6 +5,8 @@ import { ListItem } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation-stack';
 import { TouchableOpacity } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import * as firebase from 'firebase';
+import 'firebase/firestore';
 
 // List of tabs on the settings screen
 const list = [
@@ -48,15 +50,43 @@ export default class ProfileScreen extends React.Component {
       this.props.navigation.navigate('Help');
     }
   }
+
+  //Grabs profile user, email, member date, last active
+  getProfileInfo = () => {
+    let user = firebase.auth().currentUser;
+    let today = new Date();
+    let date = (today.getMonth()+1) + '-' + today.getDate()+ '-' + today.getFullYear();
+
+    // If user logged in, display username and email
+    if(user){
+      let userEmail = user.email;
+      let userName = userEmail.substring(0, userEmail.indexOf('@'));
+      return (
+        <Text style={styles.accountInfo}>
+          {'Username: ' + userName + '\n'}
+          {'Email: ' + userEmail +'\n'}
+          {'Member Since: 2020' + '\n'}
+          {'Date Last Active: ' + date}
+        </Text>
+      );
+    }
+    else{
+      return(
+        <Text style={styles.accountInfo}>
+          Profile
+          Profile
+          {'Member Since: 2020'}
+          {'Date Last Active: ' + date}
+        </Text>
+      );
+    }
+  }
   
   render() {
     return (
       <View>
         <View>
-          <Text style={styles.accountName}>Joseph R. Smith</Text>
-          <Text style={styles.accountInfo}>joesmith@gmail.com</Text>
-          <Text style={styles.accountInfo}>Member Since: 2020</Text>
-          <Text style={styles.accountInfo}>Last Survey Saved: Mar 29, 2020</Text>
+          {this.getProfileInfo()}
         </View>
         <View>
           {
