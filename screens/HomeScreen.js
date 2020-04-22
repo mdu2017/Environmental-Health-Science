@@ -35,10 +35,18 @@ export default class HomeScreen extends React.Component {
   //When page loads
   componentDidMount(){
 
+    let welcomeMsg = '';
     let user = firebase.auth().currentUser;
+    if(user){
+      welcomeMsg = 'Welcome ' + user.email + '!';
+    }
+    else{
+      welcomeMsg = 'Welcome!';
+    }
+
 
     //Show login notification
-    Toast.show('Welcome ' + user.email + '!', {
+    Toast.show(welcomeMsg, {
       duration: Toast.durations.SHORT,
       position: Toast.positions.TOP,
       shadow: true,
