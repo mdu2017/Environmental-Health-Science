@@ -5,6 +5,11 @@ import { Button } from 'react-native-elements';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
+/** Remove popup for Android timer warning */
+import { YellowBox } from 'react-native';
+YellowBox.ignoreWarnings(['Setting a timer']);
+/** *************************************** */
+
 
 export default class RelevantSurveyScreen extends React.Component {
 
@@ -33,26 +38,15 @@ export default class RelevantSurveyScreen extends React.Component {
 
     //update button
     readFromDB = async () => {
-
         let db = firebase.firestore();
         let tempList = []
 
         db.collection("surveys").get().then((snapshot) => {
-            // console.log(snapshot.docs);
             snapshot.docs.forEach(doc => {
                 console.log(doc.id)
-
                 let str = doc.id;
                 tempList.push(str);
                 console.log(tempList);
-            })
-            
-            console.log("out of foreach: ");
-            console.log(tempList);
-
-            //Data is still here
-            tempList.map(elem => {
-                console.log("element is: " + elem);
             })
 
             //update state

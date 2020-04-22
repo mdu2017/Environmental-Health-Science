@@ -19,7 +19,7 @@ import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Toast from 'react-native-root-toast';
 
-
+import 'firebase/firestore';
 import * as firebase from 'firebase';
 
 export default class HomeScreen extends React.Component {
@@ -34,8 +34,11 @@ export default class HomeScreen extends React.Component {
 
   //When page loads
   componentDidMount(){
+
+    let user = firebase.auth().currentUser;
+
     //Show login notification
-    Toast.show('You have logged in', {
+    Toast.show('Welcome ' + user.email + '!', {
       duration: Toast.durations.SHORT,
       position: Toast.positions.TOP,
       shadow: true,

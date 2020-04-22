@@ -73,9 +73,8 @@ export default class ProfileScreen extends React.Component {
     else{
       return(
         <Text style={styles.accountInfo}>
-          Profile
-          Profile
-          {'Member Since: 2020'}
+          {'Default Profile' + '\n'}
+          {'Member Since: 2020' + '\n'}
           {'Date Last Active: ' + date}
         </Text>
       );

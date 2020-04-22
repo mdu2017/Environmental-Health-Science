@@ -117,6 +117,9 @@ export default class LoginScreen extends React.Component {
       let p = this.state.password;
       this.saveUserLogin(e, p);
     }
+    else if(!this.state.rememberChecked){
+      this.saveUserLogin('','');
+    }
   }
 
   render(){
