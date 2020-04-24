@@ -19,6 +19,7 @@ import GeneralScreen from '../screens/GeneralScreen';
 import SecurityScreen from '../screens/SecurityScreen';
 import LocationScreen from '../screens/LocationScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
+import RealSurveyScreen from '../screens/RealSurveyScreen';
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -42,6 +43,7 @@ export default createAppContainer(
     Location: LocationScreen,
     Notifications: NotificationsScreen,
     Help: HelpScreen,
+    HandleSurvey: RealSurveyScreen,
   },
   {
     initialRouteName: 'Login'

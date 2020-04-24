@@ -25,11 +25,16 @@ export default class RelevantSurveyScreen extends React.Component {
         await this.readFromDB();
         return(
             <View>
-                {this.state.surveyList.map(elem => (
+                {this.state.surveyList.map((elem,i) => (
                     <LabelAndRedir 
+                    key={i}
                     labeltext={elem} 
-                    uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
-                    uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
+                    uponpress1={() => this.props.navigation.navigate('ViewRealSurvey',  {
+                        survey: elem
+                    })}
+                    uponpress2={() => this.props.navigation.navigate('HandleSurvey',  {
+                        survey: elem
+                    })}
                     />
                 ))}
             </View>
@@ -43,10 +48,8 @@ export default class RelevantSurveyScreen extends React.Component {
 
         db.collection("surveys").get().then((snapshot) => {
             snapshot.docs.forEach(doc => {
-                console.log(doc.id)
                 let str = doc.id;
                 tempList.push(str);
-                console.log(tempList);
             })
 
             //update state
@@ -56,7 +59,6 @@ export default class RelevantSurveyScreen extends React.Component {
         })
     };
 
-    //fix page navigation issue (bug)
     refreshData = async () => {
         await this.readFromDB();
         return(
@@ -65,8 +67,12 @@ export default class RelevantSurveyScreen extends React.Component {
                     <LabelAndRedir 
                     key={i}
                     labeltext={elem} 
-                    uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
-                    uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
+                    uponpress1={() => this.props.navigation.navigate('ViewRealSurvey',  {
+                        survey: elem
+                    })}
+                    uponpress2={() => this.props.navigation.navigate('HandleSurvey', {
+                        survey: elem
+                    })}
                     />
                 ))}
             </View>
@@ -87,8 +93,12 @@ export default class RelevantSurveyScreen extends React.Component {
                     <LabelAndRedir 
                     key={i}
                     labeltext={elem} 
-                    uponpress1={() => this.props.navigation.navigate('ViewSurvey')}
-                    uponpress2={() => this.props.navigation.navigate('GeneralSurvey')}
+                    uponpress1={() => this.props.navigation.navigate('ViewRealSurvey',  {
+                        survey: elem
+                    })}
+                    uponpress2={() => this.props.navigation.navigate('HandleSurvey', {
+                        survey: elem
+                    })}
                     />
                 ))}
             </View>
@@ -129,28 +139,28 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
                         type="outline"
                         icon={
                             <Icon
-                            name='eye'
-                            size={15}
-                            color='black'
+                                name='eye'
+                                size={15}
+                                color='black'
                             />
                         }
                         onPress={uponpress1}
                         iconLeft
                         title=''
-                        />
+                    />
                     <Button
                         type="outline"
                         icon={
                             <Icon
-                            name='pencil'
-                            size={15}
-                            color='black'
+                                name='pencil'
+                                size={15}
+                                color='black'
                             />
                         }
                         onPress={uponpress2}
                         iconRight
                         title=''
-                        />
+                    />
                 {/* </View> */}
             </View>
         </View>
