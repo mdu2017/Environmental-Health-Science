@@ -39,20 +39,16 @@ export default class TakenSurveyScreen extends React.Component {
   readCompleted = async () => {
 
     let db = firebase.firestore();
+    let user = firebase.auth().currentUser["email"]
+    console.log("Users: " + user)
 
-    db.collection("surveys").get().then((snapshot) => {
+    db.collection("users").doc(user).collection("completed").get().then((snapshot) => {
         // console.log(snapshot.docs);
         snapshot.docs.forEach(doc => {
-            let surveyName = doc.get('SurveyName');
+          console.log(doc)
+            let surveyName = doc.id
             console.log('Survey name is: ' + surveyName);
-
-            let completedStatus = doc.get('Completed');
-            console.log('Completed status: ' + completedStatus);
-
-            //Add survey to list of in progress
-            if(completedStatus){
-              this.addInProgress(surveyName);
-            }
+            this.addInProgress(surveyName)
         })
       })
     };

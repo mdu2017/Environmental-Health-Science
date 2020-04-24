@@ -17,11 +17,12 @@ export default class RealSurveyScreen extends React.Component {
 
         this.state = {
             list: [],
-            title: ''
+            title: '',
+            submitted: false,
+            completed: false,
         }
 
-        //this.savePressed = this.savePressed.bind(this);
-        //this.loadPressed = this.loadPressed.bind(this);
+        this.savePressed = this.savePressed.bind(this);
     }
 
     componentDidMount = async() => {
@@ -65,6 +66,56 @@ export default class RealSurveyScreen extends React.Component {
         })
     }
 
+    savePressed = async() => {
+        let data = new Object();
+        this.state.list.forEach(value => {
+            console.log("Value 0: " + value[0])
+            console.log("Value 1: " + value[1])
+            data[value[0]] = value[1]
+        })
+        console.log(data)
+
+        let user = firebase.auth().currentUser["email"];
+        console.log(user);
+        let db = firebase.firestore();
+        if(this.state.completed) {
+            await db.collection("users").doc(user).collection("completed").doc(this.state.title).set(data);
+        } else {
+            await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).set(data); 
+        }
+
+        Toast.show('Survey Saved', {
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.BOTTOM,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            delay: 0,
+        });
+    }
+
+    checkCompleted = () => {
+        this.setState({
+            completed: !this.state.completed
+        })
+
+        let status = ''
+        if(this.state.completed) {
+            status = 'Survey Completed';
+        } else {
+            status = 'Survey in Progress';
+        }
+
+        Toast.show(status, {
+            duration: Toast.durations.SHORT,
+            position: Toast.positions.BOTTOM,
+            shadow: true,
+            animation: true,
+            hideOnPress: true,
+            delay: 0,
+        });
+    }
+
     refreshData = async () => {
         await this.readFromDB(this.state.title);
         return(
@@ -79,6 +130,40 @@ export default class RealSurveyScreen extends React.Component {
         )
     }
 
+    loadCompletePressed = async() => {
+        let user = firebase.auth().currentUser["email"];
+        let db = firebase.firestore()
+        let tempList = new Array();
+        db.collection("users").doc(user).collection("completed").doc(this.state.title).get().then((doc) => {
+            var object = doc.data()
+            Object.entries(object).forEach(temp => {
+                tempList.push(temp)
+            })
+
+            this.setState({
+                list: tempList,
+                completed: true
+            })
+        })
+    }
+
+    loadIncompletePressed = async() => {
+        let user = firebase.auth().currentUser["email"];
+        let db = firebase.firestore()
+        let tempList = new Array();
+        db.collection("users").doc(user).collection("incomplete").doc(this.state.title).get().then((doc) => {
+            var object = doc.data()
+            Object.entries(object).forEach(temp => {
+                tempList.push(temp)
+            })
+
+            this.setState({
+                list: tempList,
+                completed: false
+            })
+        })
+    }
+
     render() {
         const { navigation } = this.props;
         this.state.title = navigation.getParam('survey')
@@ -86,7 +171,9 @@ export default class RealSurveyScreen extends React.Component {
             <View style={styles.container}>    
                 <KeyboardAwareScrollView enableOnAndroid={true}>
                     <Text style={styles.optionsTitleText}>{this.state.title}</Text>
-                    <Text style={styles.optionSubheadingText}>Displaying database stuff below</Text>
+                    <DisplayCompleted
+                        completed={this.state.completed}
+                    />
                     <View style={styles.container}>
                         {
                             this.state.list.map((elem,i) => (
@@ -121,9 +208,21 @@ export default class RealSurveyScreen extends React.Component {
                                     color={'green'}
                                 />
                             }
-                            onPress={() => this.loadPressed()}
+                            onPress={() => this.loadCompletePressed()}
                             iconRight
-                            title={'Load Survey     '}
+                            title={'Load Complete Survey     '}
+                        />
+                        <Button type="outline"
+                            icon={
+                                <Icon
+                                    name={'upload'}
+                                    size={15}
+                                    color={'green'}
+                                />
+                            }
+                            onPress={() => this.loadIncompletePressed()}
+                            iconRight
+                            title={'Load Incomplete Survey     '}
                         />
                         <Button type="outline"
                             icon={
@@ -160,6 +259,22 @@ export default class RealSurveyScreen extends React.Component {
                     </View>
                 </KeyboardAwareScrollView>
             </View>
+        )
+    }
+}
+
+function DisplayCompleted({completed}) {
+    if(completed) {
+        return(
+            <Text style={styles.optionSubheadingText}>
+                Completed
+            </Text>
+        )
+    } else {
+        return(
+            <Text style={styles.optionSubheadingText}>
+                Incomplete
+            </Text>
         )
     }
 }
