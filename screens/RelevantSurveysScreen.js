@@ -46,8 +46,14 @@ export default class RelevantSurveyScreen extends React.Component {
         let db = firebase.firestore();
         let tempList = []
 
-        db.collection("surveys").get().then((snapshot) => {
+        console.log("hello")
+
+        let getOptions = {
+            source: "server"
+        }
+        db.collection("surveys").get(getOptions).then((snapshot) => {
             snapshot.docs.forEach(doc => {
+                console.log("hello")
                 let str = doc.id;
                 tempList.push(str);
             })
