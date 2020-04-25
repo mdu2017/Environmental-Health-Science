@@ -29,7 +29,7 @@ export default class RelevantSurveyScreen extends React.Component {
                     <LabelAndRedir 
                     key={i}
                     labeltext={elem} 
-                    uponpress1={() => this.props.navigation.navigate('ViewRealSurvey',  {
+                    uponpress1={() => this.props.navigation.navigate('ViewSurvey',  {
                         survey: elem
                     })}
                     uponpress2={() => this.props.navigation.navigate('HandleSurvey',  {
@@ -73,7 +73,7 @@ export default class RelevantSurveyScreen extends React.Component {
                     <LabelAndRedir 
                     key={i}
                     labeltext={elem} 
-                    uponpress1={() => this.props.navigation.navigate('ViewRealSurvey',  {
+                    uponpress1={() => this.props.navigation.navigate('ViewSurvey',  {
                         survey: elem
                     })}
                     uponpress2={() => this.props.navigation.navigate('HandleSurvey', {
@@ -99,7 +99,7 @@ export default class RelevantSurveyScreen extends React.Component {
                     <LabelAndRedir 
                     key={i}
                     labeltext={elem} 
-                    uponpress1={() => this.props.navigation.navigate('ViewRealSurvey',  {
+                    uponpress1={() => this.props.navigation.navigate('ViewSurvey',  {
                         survey: elem
                     })}
                     uponpress2={() => this.props.navigation.navigate('HandleSurvey', {
