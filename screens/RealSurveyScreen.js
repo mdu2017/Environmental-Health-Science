@@ -320,7 +320,7 @@ function DisplayDatabaseStuff({element, i, updateFunction}) {
                             }}
                         />
                         <CheckboxWTaCaOP
-                            name='Rural'
+                            name='City'
                             ischecked={element[1][3]}
                             uponpress={value => {
                                 element[1][3] = true
