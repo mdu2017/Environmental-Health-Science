@@ -33,7 +33,7 @@ export default class HomeScreen extends React.Component {
   }
 
   //When page loads
-  componentDidMount(){
+  componentDidMount = async() => {
 
     let welcomeMsg = '';
     let user = firebase.auth().currentUser;

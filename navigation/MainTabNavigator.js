@@ -19,6 +19,7 @@ import HelpScreen from '../screens/HelpScreen';
 import PendingSurveyScreen from '../screens/PendingSurveyScreen';
 import RelevantSurveyScreen from '../screens/RelevantSurveysScreen';
 import ViewSurveyScreen from '../screens/ViewSurveyScreen';
+import RealSurveyScreen from '../screens/RealSurveyScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -69,6 +70,7 @@ const MapStack = createStackNavigator(
     RelevantSurveys: RelevantSurveyScreen,
     ViewSurvey: ViewSurveyScreen,
     GeneralSurvey: SurveyScreen,
+    HandleSurvey: RealSurveyScreen,
   },
   config
 );
