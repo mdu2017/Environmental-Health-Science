@@ -25,6 +25,7 @@ export default class RealSurveyScreen extends React.Component {
         this.savePressed = this.savePressed.bind(this);
     }
 
+    //On load generate the fields and survey page
     componentDidMount = async() => {
         await this.readFromDB(this.state.title);
         return(
@@ -39,6 +40,7 @@ export default class RealSurveyScreen extends React.Component {
         )
     }
 
+    //Update value of each field when it is changed (i is the index of the field, name is the new value)
     updateValue = (i,name) => {
         let tempList = this.state.list;
         tempList[i][1] = name;
@@ -47,6 +49,7 @@ export default class RealSurveyScreen extends React.Component {
         })
     }
 
+    //Fill list with fields from survey
     readFromDB = async(temp) => {
         let db = firebase.firestore();
         var tempList = new Array();
@@ -54,10 +57,14 @@ export default class RealSurveyScreen extends React.Component {
         var getOptions = {
             source: 'server'
         }
+
         db.collection("surveys").doc(temp).get(getOptions).then((doc) => {
             var object = doc.data()
+
+            //For each field in the survey -> add to the list
             Object.entries(object).forEach(temp => {
                 tempList.push(temp)
+                console.log('temp is: ' + temp);
             })
 
             this.setState({
@@ -66,6 +73,9 @@ export default class RealSurveyScreen extends React.Component {
         })
     }
 
+    //Save to DB when save pressed
+    // Value[0] is the field name
+    // Value[1] is the field value
     savePressed = async() => {
         let data = new Object();
         this.state.list.forEach(value => {
@@ -78,6 +88,8 @@ export default class RealSurveyScreen extends React.Component {
         let user = firebase.auth().currentUser["email"];
         console.log(user);
         let db = firebase.firestore();
+
+        //Update the corresponding survey depending if completed or not
         if(this.state.completed) {
             await db.collection("users").doc(user).collection("completed").doc(this.state.title).set(data);
         } else {
@@ -94,8 +106,9 @@ export default class RealSurveyScreen extends React.Component {
         });
     }
 
-    checkCompleted = () => {
-        this.setState({
+    //Toggles if a survey is completed/in-progress
+    checkCompleted = async() => {
+        await this.setState({
             completed: !this.state.completed
         })
 
@@ -116,6 +129,7 @@ export default class RealSurveyScreen extends React.Component {
         });
     }
 
+    //Refresh function for reloading data
     refreshData = async () => {
         await this.readFromDB(this.state.title);
         return(
@@ -130,6 +144,8 @@ export default class RealSurveyScreen extends React.Component {
         )
     }
 
+
+    //Load the completed survey
     loadCompletePressed = async() => {
         let user = firebase.auth().currentUser["email"];
         let db = firebase.firestore()
@@ -147,6 +163,7 @@ export default class RealSurveyScreen extends React.Component {
         })
     }
 
+    //Load the in-progress survey
     loadIncompletePressed = async() => {
         let user = firebase.auth().currentUser["email"];
         let db = firebase.firestore()
