@@ -63,7 +63,7 @@ export default class PendingSurveyScreen extends React.Component {
           renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           renderItem={({item}) => 
           <TouchableOpacity>
-            <Text style={styles.item} onPress={() => this.props.navigation.navigate('GeneralSurvey')}>{item}</Text>
+            <Text style={styles.item} onPress={() => this.props.navigation.navigate('HandleSurvey')}>{item}</Text>
           </TouchableOpacity>
         }
           keyExtractor={(item, index) => index}
