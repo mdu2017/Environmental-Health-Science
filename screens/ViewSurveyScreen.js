@@ -8,6 +8,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AsyncStorage } from 'react-native';
 import Toast from 'react-native-root-toast';
+import MultiSelect from 'react-native-multiple-select';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -17,9 +18,11 @@ export default class RealSurveyScreen extends React.Component {
 
         this.state = {
             list: [],
-            title: '',
+            sectionTitles: [],
             submitted: false,
             completed: false,
+            new: false,
+            docNum: 0
         }
     }
 
@@ -38,79 +41,150 @@ export default class RealSurveyScreen extends React.Component {
     }
 
     readFromDB = async(temp) => {
-        let db = firebase.firestore();
-        var tempList = new Array();
+        if(!this.state.new) {
+            let db = firebase.firestore();
+            let user = firebase.auth().currentUser;
+            var tempList = new Array();
+            var titleList = new Array();
 
-        var getOptions = {
-            source: 'server'
+            var getOptions = {
+                source: 'server'
+            }
+            db.collection("surveys").doc(user).collection("incomplete").doc(temp).collection("number").get("" + this.state.docNum).then((doc) => {
+                var object = doc.data()
+                tempList.push(object)
+                console.log(object)
+
+                titleList = Object.keys(object["sections"])
+
+                var layer1list = new Array();
+                tempList.forEach((layer1) => {
+                    Object.values(layer1).forEach((layer2) => {
+                        var layer2list = new Array();
+                        Object.values(layer2).forEach((layer3) => {
+                            var layer3list = new Array();
+                            Object.values(layer3).map((layer4,i) => {
+                                var layer4list = new Array();
+                                layer4list = Object.values(layer4)
+                                layer3list.push(layer4list)
+                            })
+                            layer2list.push(layer3list)
+                        })
+                        layer1list.push(layer2list)
+                    })
+                    tempList.push(layer1list)
+                })
+
+                this.setState({
+                    list: layer1list,
+                    sectionTitles: titleList
+                })
+            })
+        } else {
+            let db = firebase.firestore();
+            var tempList = new Array();
+            var titleList = new Array();
+
+            var getOptions = {
+                source: 'server'
+            }
+            db.collection("surveys").doc(temp).get(getOptions).then((doc) => {
+                var object = doc.data()
+                tempList.push(object)
+                console.log(object)
+
+                titleList = Object.keys(object["sections"])
+
+                var layer1list = new Array();
+                tempList.forEach((layer1) => {
+                    Object.values(layer1).forEach((layer2) => {
+                        var layer2list = new Array();
+                        Object.values(layer2).forEach((layer3) => {
+                            var layer3list = new Array();
+                            Object.values(layer3).map((layer4,i) => {
+                                var layer4list = new Array();
+                                layer4list = Object.values(layer4)
+                                layer3list.push(layer4list)
+                            })
+                            layer2list.push(layer3list)
+                        })
+                        layer1list.push(layer2list)
+                    })
+                    tempList.push(layer1list)
+                })
+
+                this.setState({
+                    list: layer1list,
+                    sectionTitles: titleList
+                })
+            })
         }
-        db.collection("surveys").doc(temp).get(getOptions).then((doc) => {
-            var object = doc.data()
-            Object.entries(object).forEach(temp => {
-                tempList.push(temp)
-            })
-
-            this.setState({
-                list: tempList
-            })
-        })
     }
 
     render() {
         const { navigation } = this.props;
         this.state.title = navigation.getParam('survey')
+        this.state.new = navigation.getParam('new')
+        if(navigation.getParam('new')) {
+            var tempID = 0;
+            let db = firebase.firestore();
+            let user = firebase.auth().currentUser["email"]
+            let getOptions = {
+                source: "server"
+            }
+            db.collection("users").doc(user).collection("incomplete").doc(navigation.getParam('survey')).collection("number").get(getOptions).then((snapshot) => {
+                snapshot.forEach(() => {
+                    tempID++
+                })
+
+                this.state.docNum = tempID
+            })
+        } else {
+            this.state.docNum = navigations.getParam('docNum')
+        }
+        
         return (
             <View style={styles.container}>    
                 <KeyboardAwareScrollView enableOnAndroid={true}>
                     <Text style={styles.optionsTitleText}>{this.state.title}</Text>
                     <DisplayCompleted
-                        completed={this.state.completed}
+                        completed={"View Only"}
                     />
                     <View style={styles.container}>
-                        {
-                            this.state.list.map((elem,i) => (
-                                <DisplayDatabaseStuff
-                                    element={this.state.list[i]}
-                                    key={i}
-                                    i={i}
-                                    updateFunction={(i,elem) => this.updateValue(i,elem)}
-                                />
+                    {
+                            this.state.list.map((object,i) => (
+                                object.map((value,j) => (
+                                    value.map((stupid,k) => (
+                                        value.map((stupid2,m) => (
+                                            <DisplayDatabaseStuff
+                                                element={this.state.list[i][j][k][m]}
+                                                key={k}
+                                                i={i}
+                                                j={j}
+                                                k={k}
+                                                m={m}
+                                                sectionTitle={this.state.sectionTitles[j]}
+                                                updateFunction={() => {}}
+                                            />
+                                        ))
+                                    ))
+                                ))
                             ))
                         }
                     </View>
 
                     <View style={styles.containerStacked}>
-                    <Button
-                      type="outline"
-                      icon={
-                        <Icon
-                          name='pencil'
-                          size={15}
-                          color='green'
-                        />
-                      }
-                      onPress={() => this.props.navigation.navigate('HandleSurvey',  {
-                        survey: this.state.title
-                      })}
-                      iconRight
-                      title='Edit Survey    '
-                    />
-                        
-                    </View>
-
-                    <View style={styles.containerStacked}>
-                        <Button
-                            type="outline"
+                        <Button type="outline"
                             icon={
                                 <Icon
-                                    name='arrow-left'
+                                    name={'save'}
                                     size={15}
-                                    color='blue'
+                                    color={'green'}
                                 />
                             }
-                            onPress={() => this.props.navigation.navigate('RelevantSurveys')}
-                            iconLeft
-                            title='   Back To Surveys'
+                            onPress={() => this.savePressed()}
+                            iconRight
+                            title={'Save Progress     '}
                         />
                     </View>
                 </KeyboardAwareScrollView>
@@ -120,123 +194,114 @@ export default class RealSurveyScreen extends React.Component {
 }
 
 function DisplayCompleted({completed}) {
-    if(completed) {
-        return(
-            <Text style={styles.optionSubheadingText}>
-                Completed
-            </Text>
-        )
-    } else {
-        return(
-            <Text style={styles.optionSubheadingText}>
-                Incomplete
-            </Text>
-        )
-    }
+    return(
+        <Text style={styles.optionSubheadingText}>
+            {completed}
+        </Text>
+    )
 }
 
-function DisplayDatabaseStuff({element, i, updateFunction}) {
-    if(Array.isArray(element[1])) {
-        if(element[1].length === 4) {
-            return (
-                <View>
-                    <LabelForInput customLabel={element[0]}/>
-                    <View style={styles.optionMultipleButtons}>
-                        <CheckboxWTaCaOP
-                            name='Suburban'
-                            ischecked={element[1][0]}
-                            uponpress={() => null}
-                        />
-                        <CheckboxWTaCaOP
-                            name='Rural'
-                            ischecked={element[1][1]}
-                            uponpress={() => null}
-                        />
-                        <CheckboxWTaCaOP
-                            name='Industrial'
-                            ischecked={element[1][2]}
-                            uponpress={() => null}
-                        />
-                        <CheckboxWTaCaOP
-                            name='City'
-                            ischecked={element[1][3]}
-                            uponpress={() => null}
-                        />
-                    </View>
-                </View>
-            )
-        } else {
-            return (
-                <View>
-                    <LabelForInput customLabel={element[0]}/>
-                    <View style={styles.optionMultipleButtons}>
-                        <CheckboxWTaCaOP
-                            name='Wind'
-                            ischecked={element[1][0]}
-                            uponpress={() => null}
-                        />
-                        <CheckboxWTaCaOP
-                            name='Flood'
-                            ischecked={element[1][1]}
-                            uponpress={() => null}
-                        />
-                        <CheckboxWTaCaOP
-                            name='Storm Surge'
-                            ischecked={element[1][2]}
-                            uponpress={() => null}
-                        />
-                        <CheckboxWTaCaOP
-                            name='Other'
-                            ischecked={element[1][3]}
-                            uponpress={() => null}
-                        />
-                    </View>
-
+function DisplayDatabaseStuff({element, i, j, k, m, updateFunction, sectionTitle}) {
+    if(i===0) {
+        switch(element["fieldType"]) {
+            case "TEXTENTRY":
+                return (
                     <View>
-                        { element[1][3] &&
-                            <Input
-                                labelStyle={styles.optionText}
-                                placeholder={element[0]}
-                                containerStyle={styles.containerInput}
-                                onChangeText={() => null}
-                            />
-                        }
+                        <Text style={styles.optionLargeHeadingText}>{sectionTitle}</Text>
+                        <DisplayTextEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
                     </View>
-                </View>
-            )
+                )
+            case "SELECTONE":
+                return (
+                    <View>
+                        <Text style={styles.optionLargeHeadingText}>{sectionTitle}</Text>
+                        <DisplayOneEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
+                    </View>
+                )
+            case "SELECTMULTIPLE":
+                    return (
+                        <View>
+                            <Text style={styles.optionLargeHeadingText}>{sectionTitle}</Text>
+                            <DisplayMultiEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
+                        </View>
+                    )
         }
-    } else if(typeof(element[1]) === 'string') {
-        var temp = element[1]
-        return (
-            <View>
-                <LabelForInput customLabel={element[0]}/>
-                <Input value={temp} 
-                    editable={false}
-                    placeholder='Enter info'
-                />
-            </View>
-        )
-        // return (
-        //     <View>
-        //         <Text>String</Text>
-        //     </View>
-        // )
+    }
+    switch(element["fieldType"]) {
+        case "TEXTENTRY":
+            return <DisplayTextEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
+        case "SELECTONE":
+            return <DisplayOneEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
+        case "SELECTMULTIPLE":
+            return <DisplayMultiEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
     }
     return (
         <View>
-            <LabelForInput customLabel={element[0]}/>
-            <Input value={element[1]["City"]} 
-                editable={false}
-                placeholder='City'
+            <Text>Should never display due to agreed upon types</Text>
+        </View>
+    )
+}
+
+function DisplayMultiEntry({element, i, j, k, m, updateFunction}) {
+    var list = new Array();
+    element["field"].map((value,i) => {
+        list.push({id: i + '', name: value})
+    })
+    return (
+        <View>
+            <LabelForInput customLabel={element["prompt"]}/>
+            <MultiSelect
+                items={list}
+                onSelectedItemsChange={(values)=> {
+                    updateFunction(i,j,k,m,values,3)
+                }}
+                hideSubmitButton={true}
+                uniqueKey="id"
             />
-            <Input value={element[1]["Country"]} 
+            <View>
+                {
+                    element["answer"].map((value,i) => (
+                        <Text style={{fontSize: 20, marginTop: 1}} key={i}>{value}</Text>
+                    ))
+                }
+            </View>
+        </View>
+    )
+}
+
+function DisplayOneEntry({element, i, j, k, m, updateFunction}) {
+    var list = new Array();
+    element["field"].map((value,i) => {
+        list.push({id: i + '', name: value})
+    })
+    return (
+        <View>
+            <LabelForInput customLabel={element["prompt"]}/>
+            <MultiSelect
+                items={list}
+                onSelectedItemsChange={(values)=> {
+                    updateFunction(i,j,k,m,values,2)
+                }}
+                hideSubmitButton={true}
+                uniqueKey="id"
+            />
+            <View>
+                <Text style={{fontSize: 20, marginTop: 1}} key={i}>{element["answer"]}       </Text>
+            </View>
+        </View>
+    )
+}
+
+function DisplayTextEntry({element, i, j, k, m, updateFunction}) {
+    return (
+        <View>
+            <LabelForInput customLabel={element["prompt"]}/>
+            <Input
+                value={element["field"]}
+                placeholder={"Enter " + element["prompt"]}
                 editable={false}
-                placeholder='Country'
             />
         </View>
-        // <View>
-        //     <Text>Object</Text>
-        // </View>
     )
 }
 

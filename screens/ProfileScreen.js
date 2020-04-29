@@ -11,7 +11,7 @@ import 'firebase/firestore';
 // List of tabs on the settings screen
 const list = [
   {
-    title: 'Pending Surveys',
+    title: 'Pending Completion Surveys',
     icon: 'timer'
   },
   {
@@ -34,19 +34,19 @@ export default class ProfileScreen extends React.Component {
 
   // When tab is pressed go to corresponding page
   onTabPress(itemTitle){
-    if(itemTitle == 'Account'){
+    if(itemTitle == 'Account') {
       this.props.navigation.navigate('Profile');
     }
-    else if(itemTitle == 'Pending Surveys'){
+    else if(itemTitle == 'Pending Completion Surveys') {
       this.props.navigation.navigate('PendingSurveys');
     }
-    else if(itemTitle == 'Completed Surveys'){
+    else if(itemTitle == 'Completed Surveys') {
       this.props.navigation.navigate('CompletedSurveys');
     }
-    else if(itemTitle == 'Info'){
+    else if(itemTitle == 'Info') {
       this.props.navigation.navigate('Info');
     }
-    else if(itemTitle == 'Help'){
+    else if(itemTitle == 'Help') {
       this.props.navigation.navigate('Help');
     }
   }

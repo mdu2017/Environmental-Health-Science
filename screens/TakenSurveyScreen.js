@@ -68,13 +68,6 @@ export default class TakenSurveyScreen extends React.Component {
         }
           keyExtractor={(item, index) => index}
         />
-
-        <Button
-          title="Go Back To Profile"
-          onPress={() =>
-            this.props.navigation.navigate('Profile')
-          }
-        />
       </View>
     );
   }

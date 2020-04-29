@@ -100,10 +100,12 @@ export default class RelevantSurveyScreen extends React.Component {
                     key={i}
                     labeltext={elem} 
                     uponpress1={() => this.props.navigation.navigate('ViewSurvey',  {
-                        survey: elem
+                        survey: elem,
+                        new: true
                     })}
                     uponpress2={() => this.props.navigation.navigate('HandleSurvey', {
-                        survey: elem
+                        survey: elem,
+                        new: true
                     })}
                     />
                 ))}

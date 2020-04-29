@@ -16,17 +16,23 @@ export default class PendingSurveyScreen extends React.Component {
     this.state = {
       surveySection: [
         {title: 'In Progress', data: []},
-      ]
+      ],
+      transitionFunctions: []
     };
   }
 
   //Can add surveys to the in progress/completed sections
-  addInProgress = (surveyName) => {
+  addInProgress = (surveyName,transitionFunction) => {
     let newSection = this.state.surveySection.slice();
     newSection[0].data.push(surveyName);
 
+    let tempArray = this.state.transitionFunctions
+
+    tempArray.push(transitionFunction)
+
     this.setState({
-      surveySection: newSection
+      surveySection: newSection,
+      transitionFunctions: transitionFunction
     });
   }
 
@@ -40,40 +46,42 @@ export default class PendingSurveyScreen extends React.Component {
 
     let db = firebase.firestore();
     let user = firebase.auth().currentUser["email"]
-    console.log("Users: " + user)
 
-    db.collection("users").doc(user).collection("incomplete").get().then((snapshot) => {
-        // console.log(snapshot.docs);
-        snapshot.docs.forEach(doc => {
-          console.log(doc)
-            let surveyName = doc.id
-            console.log('Survey name is: ' + surveyName);
-            this.addInProgress(surveyName)
+    let getOptions = {
+      source: "server"
+    }
+
+    db.collection("users").doc(user).collection("incomplete").get(getOptions).then((snapshot) => {
+      console.log("hi")
+      snapshot.forEach((doc) => {
+        console.log(doc)
+        db.collection("users").doc(user).collection("incomplete").doc(doc.id).collection("number").get(getOptions).then((shotsnap) => {
+          shotsnap.forEach((specificDoc) => {
+            this.addInProgress(doc.id + " " + specificDoc.id, () => {this.props.navigations.navigate('ViewSurvey', {
+              survey: doc.id + " " + specificDoc.id,
+              new: false,
+              docNum: specificDoc.id
+            })})
+          })
         })
       })
-    };
+    })
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.titleText}>Pending Surveys</Text>
+        <Text style={styles.titleText}>Pending Completion Surveys</Text>
 
         <SectionList style={styles.sectionContainer}
           sections={this.state.surveySection}
           renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
           renderItem={({item}) => 
-          <TouchableOpacity>
-            <Text style={styles.item} onPress={() => this.props.navigation.navigate('HandleSurvey')}>{item}</Text>
-          </TouchableOpacity>
-        }
-          keyExtractor={(item, index) => index}
-        />
-
-        <Button
-          title="Go Back To Profile"
-          onPress={() =>
-            this.props.navigation.navigate('Profile')
+            <TouchableOpacity>
+              <Text style={styles.item}>{item}</Text>
+            </TouchableOpacity>
           }
+          keyExtractor={(item, index) => index}
         />
       </View>
     );

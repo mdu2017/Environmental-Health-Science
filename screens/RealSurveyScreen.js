@@ -20,7 +20,11 @@ export default class RealSurveyScreen extends React.Component {
             submitted: false,
             completed: false,
             list: [],
-            sectionTitles: []
+            sectionTitles: [],
+            new: false,
+            docNum: 0,
+            originalList: [],
+            originalCompleted: false
         }
 
         this.savePressed = this.savePressed.bind(this);
@@ -38,7 +42,6 @@ export default class RealSurveyScreen extends React.Component {
 
     //Update value of each field when it is changed (i is the index of the field, name is the new value)
     updateValue = (i,j,k,m,name,type) => {
-        console.log("Called")
         if(type===1) {
             let tempList = this.state.list;
             tempList[i][j][k][m]["field"] = name;
@@ -52,13 +55,10 @@ export default class RealSurveyScreen extends React.Component {
                 list: tempList
             })
         } else if(type===3) {
-            console.log(name)
             let tempList=this.state.list
             if(tempList[i][j][k][m]["answer"].includes(tempList[i][j][k][m]["field"][name])) {
                 var remove = tempList[i][j][k][m]["field"][name]
-                console.log(remove)
                 var index = tempList[i][j][k][m]["answer"].indexOf(tempList[i][j][k][m]["field"][name])
-                console.log(index)
                 tempList[i][j][k][m]["answer"].splice(index,1);
             } else {
                 tempList[i][j][k][m]["answer"].push(tempList[i][j][k][m]["field"][name])
@@ -71,90 +71,308 @@ export default class RealSurveyScreen extends React.Component {
 
     //Fill list with fields from survey
     readFromDB = async(temp) => {
-        let db = firebase.firestore();
-        var tempList = new Array();
-        var titleList = new Array();
+        if(!this.state.new) {
+            if(!this.state.completed) {
+                let db = firebase.firestore();
+                let user = firebase.auth().currentUser;
+                var tempList = new Array();
+                var titleList = new Array();
 
-        var getOptions = {
-            source: 'server'
-        }
-        db.collection("surveys").doc(temp).get(getOptions).then((doc) => {
-            var object = doc.data()
-            tempList.push(object)
-            console.log(object)
+                var getOptions = {
+                    source: 'server'
+                }
+                db.collection("surveys").doc(user).collection("incomplete").doc(temp).collection("number").get("" + this.state.docNum).then((doc) => {
+                    var object = doc.data()
+                    tempList.push(object)
+                    
+                    titleList = Object.keys(object["sections"])
 
-            titleList = Object.keys(object["sections"])
-
-            var layer1list = new Array();
-            tempList.forEach((layer1) => {
-                Object.values(layer1).forEach((layer2) => {
-                    var layer2list = new Array();
-                    Object.values(layer2).forEach((layer3) => {
-                        var layer3list = new Array();
-                        Object.values(layer3).map((layer4,i) => {
-                            var layer4list = new Array();
-                            layer4list = Object.values(layer4)
-                            layer3list.push(layer4list)
+                    var layer1list = new Array();
+                    tempList.forEach((layer1) => {
+                        Object.values(layer1).forEach((layer2) => {
+                            var layer2list = new Array();
+                            Object.values(layer2).forEach((layer3) => {
+                                var layer3list = new Array();
+                                Object.values(layer3).map((layer4,i) => {
+                                    var layer4list = new Array();
+                                    layer4list = Object.values(layer4)
+                                    layer3list.push(layer4list)
+                                })
+                                layer2list.push(layer3list)
+                            })
+                            layer1list.push(layer2list)
                         })
-                        layer2list.push(layer3list)
+                        tempList.push(layer1list)
                     })
-                    layer1list.push(layer2list)
-                })
-                tempList.push(layer1list)
-            })
 
-            this.setState({
-                list: layer1list,
-                sectionTitles: titleList
+                    this.setState({
+                        list: layer1list,
+                        originalList: layer1list,
+                        sectionTitles: titleList
+                    })
+                })
+            } else {
+                let db = firebase.firestore();
+                let user = firebase.auth().currentUser;
+                var tempList = new Array();
+                var titleList = new Array();
+
+                var getOptions = {
+                    source: 'server'
+                }
+                db.collection("surveys").doc(user).collection("completed").doc(temp).collection("number").get("" + this.state.docNum).then((doc) => {
+                    var object = doc.data()
+                    tempList.push(object)
+                    
+                    titleList = Object.keys(object["sections"])
+
+                    var layer1list = new Array();
+                    tempList.forEach((layer1) => {
+                        Object.values(layer1).forEach((layer2) => {
+                            var layer2list = new Array();
+                            Object.values(layer2).forEach((layer3) => {
+                                var layer3list = new Array();
+                                Object.values(layer3).map((layer4,i) => {
+                                    var layer4list = new Array();
+                                    layer4list = Object.values(layer4)
+                                    layer3list.push(layer4list)
+                                })
+                                layer2list.push(layer3list)
+                            })
+                            layer1list.push(layer2list)
+                        })
+                        tempList.push(layer1list)
+                    })
+
+                    this.setState({
+                        list: layer1list,
+                        originalList: layer1list,
+                        sectionTitles: titleList
+                    })
+                })
+            }
+        } else {
+            let db = firebase.firestore();
+            var tempList = new Array();
+            var titleList = new Array();
+
+            var getOptions = {
+                source: 'server'
+            }
+            db.collection("surveys").doc(temp).get(getOptions).then((doc) => {
+                var object = doc.data()
+                tempList.push(object)
+                
+                titleList = Object.keys(object["sections"])
+
+                var layer1list = new Array();
+                tempList.forEach((layer1) => {
+                    Object.values(layer1).forEach((layer2) => {
+                        var layer2list = new Array();
+                        Object.values(layer2).forEach((layer3) => {
+                            var layer3list = new Array();
+                            Object.values(layer3).map((layer4,i) => {
+                                var layer4list = new Array();
+                                layer4list = Object.values(layer4)
+                                layer3list.push(layer4list)
+                            })
+                            layer2list.push(layer3list)
+                        })
+                        layer1list.push(layer2list)
+                    })
+                    tempList.push(layer1list)
+                })
+
+                this.setState({
+                    list: layer1list,
+                    originalList: layer1list,
+                    sectionTitles: titleList
+                })
             })
-        })
+        }
     }
 
     //Save to DB when save pressed
     // Value[0] is the field name
     // Value[1] is the field value
     savePressed = async() => {
-        let data = new Object();
+        if(this.state.completed===this.state.originalCompleted) {
+            if(this.state.docNum===0) {
+                let data = new Object();
 
-        data = {
-            "sections": {}
-        }
-
-        console.log("\n\n")
-        this.state.list.forEach((layer1) => {
-            layer1.map((layer2,j) => {
-                var currentSection=this.state.sectionTitles[j]
-                data["sections"][currentSection] = {
-                    "questions": {}
+                data = {
+                    "sections": {}
                 }
-                layer2.map((layer3,i) => {
-                    var question= "question" + i
-                    layer3.forEach(important => {
-                        data["sections"][currentSection]["questions"][question] = important
+
+                this.state.list.forEach((layer1) => {
+                    layer1.map((layer2,j) => {
+                        var currentSection=this.state.sectionTitles[j]
+                        data["sections"][currentSection] = {
+                            "questions": {}
+                        }
+                        layer2.map((layer3,i) => {
+                            var question= "question" + i
+                            layer3.forEach(important => {
+                                data["sections"][currentSection]["questions"][question] = important
+                            })
+                        })
                     })
                 })
-            })
-        })
-        console.log(data)
 
-        let user = firebase.auth().currentUser["email"];
-        let db = firebase.firestore();
+                let user = firebase.auth().currentUser["email"];
+                let db = firebase.firestore();
 
-        //Update the corresponding survey depending if completed or not
-        if(this.state.completed) {
-            await db.collection("users").doc(user).collection("completed").doc(this.state.title).set(data);
+                //Update the corresponding survey depending if completed or not
+                if(this.state.completed) {
+                    await db.collection("users").doc(user).collection("completed").doc(this.state.title).set({garbage: "yes"});
+                    await db.collection("users").doc(user).collection("completed").doc(this.state.title).collection("number").doc('' + this.state.docNum).set(data);
+                } else {
+                    await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).set({garbage: "yes"});
+                    await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).collection("number").doc('' + this.state.docNum).set(data); 
+                }
+
+                Toast.show('Survey Saved', {
+                    duration: Toast.durations.SHORT,
+                    position: Toast.positions.BOTTOM,
+                    shadow: true,
+                    animation: true,
+                    hideOnPress: true,
+                    delay: 0,
+                });
+            } else {
+                let data = new Object();
+
+                data = {
+                    "sections": {}
+                }
+
+                this.state.list.forEach((layer1) => {
+                    layer1.map((layer2,j) => {
+                        var currentSection=this.state.sectionTitles[j]
+                        data["sections"][currentSection] = {
+                            "questions": {}
+                        }
+                        layer2.map((layer3,i) => {
+                            var question= "question" + i
+                            layer3.forEach(important => {
+                                data["sections"][currentSection]["questions"][question] = important
+                            })
+                        })
+                    })
+                })
+
+                let user = firebase.auth().currentUser["email"];
+                let db = firebase.firestore();
+
+                //Update the corresponding survey depending if completed or not
+                if(this.state.completed) {
+                    await db.collection("users").doc(user).collection("completed").doc(this.state.title).set({garbage: "yes"});
+                    await db.collection("users").doc(user).collection("completed").doc(this.state.title).collection("number").doc('' + this.state.docNum).set(data);
+                } else {
+                    await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).set({garbage: "yes"});
+                    await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).collection("number").doc('' + this.state.docNum).set(data); 
+                }
+
+                Toast.show('Survey Saved', {
+                    duration: Toast.durations.SHORT,
+                    position: Toast.positions.BOTTOM,
+                    shadow: true,
+                    animation: true,
+                    hideOnPress: true,
+                    delay: 0,
+                });
+            }
         } else {
-            await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).set(data); 
-        }
+            if(this.state.docNum===0) {
+                let data = new Object();
 
-        Toast.show('Survey Saved', {
-            duration: Toast.durations.SHORT,
-            position: Toast.positions.BOTTOM,
-            shadow: true,
-            animation: true,
-            hideOnPress: true,
-            delay: 0,
-        });
+                data = {
+                    "sections": {}
+                }
+
+                this.state.list.forEach((layer1) => {
+                    layer1.map((layer2,j) => {
+                        var currentSection=this.state.sectionTitles[j]
+                        data["sections"][currentSection] = {
+                            "questions": {}
+                        }
+                        layer2.map((layer3,i) => {
+                            var question= "question" + i
+                            layer3.forEach(important => {
+                                data["sections"][currentSection]["questions"][question] = important
+                            })
+                        })
+                    })
+                })
+
+                let user = firebase.auth().currentUser["email"];
+                let db = firebase.firestore();
+
+                //Update the corresponding survey depending if completed or not
+                if(this.state.completed) {
+                    await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).collection("number").doc('' + this.state.docNum).delete();
+                    await db.collection("users").doc(user).collection("completed").doc(this.state.title).set({garbage: "yes"});
+                    await db.collection("users").doc(user).collection("completed").doc(this.state.title).collection("number").doc('' + this.state.docNum).set(data);
+                } else {
+                    await db.collection("users").doc(user).collection("completed").doc(this.state.title).collection("number").doc('' + this.state.docNum).delete();
+                    await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).set({garbage: "yes"});
+                    await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).collection("number").doc('' + this.state.docNum).set(data); 
+                }
+
+                Toast.show('Survey Saved', {
+                    duration: Toast.durations.SHORT,
+                    position: Toast.positions.BOTTOM,
+                    shadow: true,
+                    animation: true,
+                    hideOnPress: true,
+                    delay: 0,
+                });
+            } else {
+                let data = new Object();
+
+                data = {
+                    "sections": {}
+                }
+
+                this.state.list.forEach((layer1) => {
+                    layer1.map((layer2,j) => {
+                        var currentSection=this.state.sectionTitles[j]
+                        data["sections"][currentSection] = {
+                            "questions": {}
+                        }
+                        layer2.map((layer3,i) => {
+                            var question= "question" + i
+                            layer3.forEach(important => {
+                                data["sections"][currentSection]["questions"][question] = important
+                            })
+                        })
+                    })
+                })
+
+                let user = firebase.auth().currentUser["email"];
+                let db = firebase.firestore();
+
+                //Update the corresponding survey depending if completed or not
+                if(this.state.completed) {
+                    await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).collection("number").doc('' + this.state.docNum).delete();
+                    await db.collection("users").doc(user).collection("completed").doc(this.state.title).set({garbage: "yes"});
+                    await db.collection("users").doc(user).collection("completed").doc(this.state.title).collection("number").doc('' + this.state.docNum).set(data);
+                } else {
+                    await db.collection("users").doc(user).collection("completed").doc(this.state.title).collection("number").doc('' + this.state.docNum).delete();
+                    await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).set({garbage: "yes"});
+                    await db.collection("users").doc(user).collection("incomplete").doc(this.state.title).collection("number").doc('' + this.state.docNum).set(data); 
+                }
+
+                Toast.show('Survey Saved', {
+                    duration: Toast.durations.SHORT,
+                    position: Toast.positions.BOTTOM,
+                    shadow: true,
+                    animation: true,
+                    hideOnPress: true,
+                    delay: 0,
+                });
+            }
+        }
     }
 
     //Toggles if a survey is completed/in-progress
@@ -170,6 +388,8 @@ export default class RealSurveyScreen extends React.Component {
             status = 'Survey in Progress';
         }
 
+        // SHOULD MARKING A SURVEY AS COMPLETE SAVE THE SURVEY?
+
         Toast.show(status, {
             duration: Toast.durations.SHORT,
             position: Toast.positions.BOTTOM,
@@ -180,56 +400,34 @@ export default class RealSurveyScreen extends React.Component {
         });
     }
 
-    //Refresh function for reloading data
-    refreshData = async () => {
-        await this.readFromDB(this.state.title);
-        return(
-            <View>
-                {}
-            </View>
-        )
-    }
-
-
-    //Load the completed survey
-    loadCompletePressed = async() => {
-        let user = firebase.auth().currentUser["email"];
-        let db = firebase.firestore()
-        let tempList = new Array();
-        db.collection("users").doc(user).collection("completed").doc(this.state.title).get().then((doc) => {
-            var object = doc.data()
-            Object.entries(object).forEach(temp => {
-                tempList.push(temp)
-            })
-
-            this.setState({
-                list: tempList,
-                completed: true
-            })
-        })
-    }
-
-    //Load the in-progress survey
-    loadIncompletePressed = async() => {
-        let user = firebase.auth().currentUser["email"];
-        let db = firebase.firestore()
-        let tempList = new Array();
-        db.collection("users").doc(user).collection("incomplete").doc(this.state.title).get().then((doc) => {
-            var object = doc.data()
-            Object.entries(object).forEach(temp => {
-                tempList.push(temp)
-            })
-
-            this.setState({
-                list: tempList,
-                completed: false
-            })
-        })
-    }
-
     render() {
         const { navigation } = this.props;
         this.state.title = navigation.getParam('survey')
+        this.state.new = navigation.getParam('new')
+        if(navigation.getParam('new')) {
+            var tempID = 0;
+            let db = firebase.firestore();
+            let user = firebase.auth().currentUser["email"]
+            let getOptions = {
+                source: "server"
+            }
+            db.collection("users").doc(user).collection("incomplete").doc(navigation.getParam('survey')).collection("number").get(getOptions).then((snapshot) => {
+                snapshot.forEach(() => {
+                    tempID++
+                })
+
+                this.state.docNum = tempID
+            })
+            this.state.completed = false;
+            this.state.originalCompleted = false;
+        } else {
+            this.state.docNum = navigations.getParam('docNum')
+            if(navigations.getParam('completed')) {
+                this.state.completed = true
+                this.state.originalCompleted = true;
+            }
+        }
+        
         return (
             <View style={styles.container}>    
                 <KeyboardAwareScrollView enableOnAndroid={true}>
@@ -272,30 +470,6 @@ export default class RealSurveyScreen extends React.Component {
                             onPress={() => this.savePressed()}
                             iconRight
                             title={'Save Progress     '}
-                        />
-                        <Button type="outline"
-                            icon={
-                                <Icon
-                                    name={'upload'}
-                                    size={15}
-                                    color={'green'}
-                                />
-                            }
-                            onPress={() => this.loadCompletePressed()}
-                            iconRight
-                            title={'Load Complete Survey     '}
-                        />
-                        <Button type="outline"
-                            icon={
-                                <Icon
-                                    name={'upload'}
-                                    size={15}
-                                    color={'green'}
-                                />
-                            }
-                            onPress={() => this.loadIncompletePressed()}
-                            iconRight
-                            title={'Load Incomplete Survey     '}
                         />
                         <Button type="outline"
                             icon={
@@ -365,7 +539,10 @@ function DisplayDatabaseStuff({element, i, j, k, m, updateFunction, sectionTitle
     switch(element["fieldType"]) {
         case "TEXTENTRY":
             return <DisplayTextEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
-        
+        case "SELECTONE":
+            return <DisplayOneEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
+        case "SELECTMULTIPLE":
+            return <DisplayMultiEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
     }
     return (
         <View>
@@ -387,6 +564,7 @@ function DisplayMultiEntry({element, i, j, k, m, updateFunction}) {
                 onSelectedItemsChange={(values)=> {
                     updateFunction(i,j,k,m,values,3)
                 }}
+                hideSubmitButton={true}
                 uniqueKey="id"
             />
             <View>
@@ -413,6 +591,7 @@ function DisplayOneEntry({element, i, j, k, m, updateFunction}) {
                 onSelectedItemsChange={(values)=> {
                     updateFunction(i,j,k,m,values,2)
                 }}
+                hideSubmitButton={true}
                 uniqueKey="id"
             />
             <View>
