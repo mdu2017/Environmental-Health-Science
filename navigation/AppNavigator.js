@@ -20,6 +20,9 @@ import SecurityScreen from '../screens/SecurityScreen';
 import LocationScreen from '../screens/LocationScreen';
 import NotificationsScreen from '../screens/NotificationsScreen';
 import RealSurveyScreen from '../screens/RealSurveyScreen';
+import ChangeEmailScreen from '../screens/ChangeEmailScreen';
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import ConfirmLoginPage from '../screens/ConfirmLoginPage';
 
 export default createAppContainer(
   createSwitchNavigator({
@@ -44,6 +47,9 @@ export default createAppContainer(
     Notifications: NotificationsScreen,
     Help: HelpScreen,
     HandleSurvey: RealSurveyScreen,
+    ChangeEmail: ChangeEmailScreen,
+    ChangePassword: ChangePasswordScreen,
+    ConfirmLogin: ConfirmLoginPage,
   },
   {
     initialRouteName: 'Login'

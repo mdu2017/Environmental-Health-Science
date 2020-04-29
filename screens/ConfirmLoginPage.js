@@ -29,11 +29,9 @@ export default class LoginScreen extends React.Component {
     this.state = {
       email: '',
       password: '',
-      rememberChecked: false,
-      user: null
+      navigations: null,
     }
 
-    this.checkRemember = this.checkRemember.bind(this);
   }
 
   //Async save (saves the JSON of the state)
@@ -123,6 +121,9 @@ export default class LoginScreen extends React.Component {
   }
 
   render(){
+    const { navigation } = this.props;
+    this.state.navigations = navigation.getParam('change')
+    console.log(this.state.navigations)
     return (
       <View style={styles.container}>
 
@@ -177,29 +178,14 @@ export default class LoginScreen extends React.Component {
             textContentType='password'
             returnKeyType='done'
           />
-
-          {/* Remember */}
-          <CheckBox
-            title='Remember me?'
-            onPress={() => this.checkRemember()}
-            checked={this.state.rememberChecked}
-          />
-
-          {/* Sign Up Link */}
-          <View style={styles.signUpContainer}>
-            <TouchableOpacity onPress={() => this.goToSignupPage()}>
-              <Text style={styles.signUpLink}>New User? Sign Up Here!</Text>
-            </TouchableOpacity>
-          </View>
-
         </View>
 
         {/* Login button*/}
         <View style={styles.loginButton}>
-          <Button title='Login' style={styles.loginButton} onPress={() => {
+          <Button title='Submit' style={styles.loginButton} onPress={() => {
             this.onPressLogin().then(() => {
               if(this.state.isAuthenticated) {
-                this.props.navigation.navigate('Home');
+                this.state.navigations()
               } else {
                 console.log("Failed to login");
                 // SHOW ERROR MESSAGE SAYING LOGIN FAILED
@@ -221,7 +207,7 @@ LoginScreen.navigationOptions = {
 function WelcomeText() {
   return (
     <Text style={styles.welcomeTxt}>
-      Welcome to Environmental Heath Science!
+      Please Enter Credentials to Continue
     </Text>
   );
 }
@@ -236,6 +222,7 @@ const styles = StyleSheet.create({
   loginButton: {
     marginHorizontal: '25%',
     width: '50%',
+    paddingTop: 20,
   },
   welcomeTxt: {
     marginTop: 50,

@@ -48,20 +48,15 @@ export default class SecurityScreen extends React.Component {
 
   // When tab is pressed go to corresponding page
   onTabPress(itemTitle){
-    if(itemTitle == 'Profile'){
-      this.props.navigation.navigate('Profile');
+    if(itemTitle == 'Change Email'){
+      this.props.navigation.navigate('ConfirmLogin', {
+        change: () => this.props.navigation.navigate('ChangeEmail')
+      });
     }
-    else if(itemTitle == 'Surveys Taken'){
-      this.props.navigation.navigate('TakenSurveys');
-    }
-    else if(itemTitle == 'Config'){
-      this.props.navigation.navigate('Config');
-    }
-    else if(itemTitle == 'Info'){
-      this.props.navigation.navigate('Info');
-    }
-    else if(itemTitle == 'Help'){
-      this.props.navigation.navigate('Help');
+    else if(itemTitle == 'Change Password'){
+      this.props.navigation.navigate('ConfirmLogin', {
+        change: () => this.props.navigations.navigate('ChangePassword')
+      });
     }
   }
   

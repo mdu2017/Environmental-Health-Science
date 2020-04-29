@@ -3,11 +3,12 @@ import React from 'react';
 import { StyleSheet, Image, Text, View } from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 import { CheckBox, Input, Button } from 'react-native-elements';
-import { ScrollView, KeyboardAvoidingView } from 'react-native';
+import { ScrollView, KeyboardAvoidingView, Picker } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { AsyncStorage } from 'react-native';
 import Toast from 'react-native-root-toast';
+import MultiSelect from 'react-native-multiple-select';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
@@ -16,10 +17,10 @@ export default class RealSurveyScreen extends React.Component {
         super(props);
 
         this.state = {
-            list: [],
-            title: '',
             submitted: false,
             completed: false,
+            list: [],
+            sectionTitles: []
         }
 
         this.savePressed = this.savePressed.bind(this);
@@ -30,45 +31,81 @@ export default class RealSurveyScreen extends React.Component {
         await this.readFromDB(this.state.title);
         return(
             <View>
-                {this.state.list.map((elem,i) => (
-                    <DisplayDatabaseStuff
-                        key={i}
-                        element={elem}
-                    />
-                ))}
+                {}
             </View>
         )
     }
 
     //Update value of each field when it is changed (i is the index of the field, name is the new value)
-    updateValue = (i,name) => {
-        let tempList = this.state.list;
-        tempList[i][1] = name;
-        this.setState({
-            list: tempList
-        })
+    updateValue = (i,j,k,m,name,type) => {
+        console.log("Called")
+        if(type===1) {
+            let tempList = this.state.list;
+            tempList[i][j][k][m]["field"] = name;
+            this.setState({
+                list: tempList
+            })
+        } else if(type===2) {
+            let tempList = this.state.list;
+            tempList[i][j][k][m]["answer"] = tempList[i][j][k][m]["field"][name];
+            this.setState({
+                list: tempList
+            })
+        } else if(type===3) {
+            console.log(name)
+            let tempList=this.state.list
+            if(tempList[i][j][k][m]["answer"].includes(tempList[i][j][k][m]["field"][name])) {
+                var remove = tempList[i][j][k][m]["field"][name]
+                console.log(remove)
+                var index = tempList[i][j][k][m]["answer"].indexOf(tempList[i][j][k][m]["field"][name])
+                console.log(index)
+                tempList[i][j][k][m]["answer"].splice(index,1);
+            } else {
+                tempList[i][j][k][m]["answer"].push(tempList[i][j][k][m]["field"][name])
+            }
+            this.setState({
+                list: tempList
+            })
+        }
     }
 
     //Fill list with fields from survey
     readFromDB = async(temp) => {
         let db = firebase.firestore();
         var tempList = new Array();
+        var titleList = new Array();
 
         var getOptions = {
             source: 'server'
         }
-
         db.collection("surveys").doc(temp).get(getOptions).then((doc) => {
             var object = doc.data()
+            tempList.push(object)
+            console.log(object)
 
-            //For each field in the survey -> add to the list
-            Object.entries(object).forEach(temp => {
-                tempList.push(temp)
-                console.log('temp is: ' + temp);
+            titleList = Object.keys(object["sections"])
+
+            var layer1list = new Array();
+            tempList.forEach((layer1) => {
+                Object.values(layer1).forEach((layer2) => {
+                    var layer2list = new Array();
+                    Object.values(layer2).forEach((layer3) => {
+                        var layer3list = new Array();
+                        Object.values(layer3).map((layer4,i) => {
+                            var layer4list = new Array();
+                            layer4list = Object.values(layer4)
+                            layer3list.push(layer4list)
+                        })
+                        layer2list.push(layer3list)
+                    })
+                    layer1list.push(layer2list)
+                })
+                tempList.push(layer1list)
             })
 
             this.setState({
-                list: tempList
+                list: layer1list,
+                sectionTitles: titleList
             })
         })
     }
@@ -78,15 +115,29 @@ export default class RealSurveyScreen extends React.Component {
     // Value[1] is the field value
     savePressed = async() => {
         let data = new Object();
-        this.state.list.forEach(value => {
-            console.log("Value 0: " + value[0])
-            console.log("Value 1: " + value[1])
-            data[value[0]] = value[1]
+
+        data = {
+            "sections": {}
+        }
+
+        console.log("\n\n")
+        this.state.list.forEach((layer1) => {
+            layer1.map((layer2,j) => {
+                var currentSection=this.state.sectionTitles[j]
+                data["sections"][currentSection] = {
+                    "questions": {}
+                }
+                layer2.map((layer3,i) => {
+                    var question= "question" + i
+                    layer3.forEach(important => {
+                        data["sections"][currentSection]["questions"][question] = important
+                    })
+                })
+            })
         })
         console.log(data)
 
         let user = firebase.auth().currentUser["email"];
-        console.log(user);
         let db = firebase.firestore();
 
         //Update the corresponding survey depending if completed or not
@@ -108,7 +159,7 @@ export default class RealSurveyScreen extends React.Component {
 
     //Toggles if a survey is completed/in-progress
     checkCompleted = async() => {
-        await this.setState({
+        this.setState({
             completed: !this.state.completed
         })
 
@@ -134,12 +185,7 @@ export default class RealSurveyScreen extends React.Component {
         await this.readFromDB(this.state.title);
         return(
             <View>
-                {this.state.list.map((elem,i) => (
-                    <DisplayDatabaseStuff
-                        key={i}
-                        element={elem}
-                    />
-                ))}
+                {}
             </View>
         )
     }
@@ -193,13 +239,23 @@ export default class RealSurveyScreen extends React.Component {
                     />
                     <View style={styles.container}>
                         {
-                            this.state.list.map((elem,i) => (
-                                <DisplayDatabaseStuff
-                                    element={this.state.list[i]}
-                                    key={i}
-                                    i={i}
-                                    updateFunction={(i,elem) => this.updateValue(i,elem)}
-                                />
+                            this.state.list.map((object,i) => (
+                                object.map((value,j) => (
+                                    value.map((stupid,k) => (
+                                        value.map((stupid2,m) => (
+                                            <DisplayDatabaseStuff
+                                                element={this.state.list[i][j][k][m]}
+                                                key={k}
+                                                i={i}
+                                                j={j}
+                                                k={k}
+                                                m={m}
+                                                sectionTitle={this.state.sectionTitles[j]}
+                                                updateFunction={(i,j,k,m,value,type) => this.updateValue(i,j,k,m,value,type)}
+                                            />
+                                        ))
+                                    ))
+                                ))
                             ))
                         }
                     </View>
@@ -258,22 +314,6 @@ export default class RealSurveyScreen extends React.Component {
                             <Text style={styles.messageText}>Successfully Submitted!</Text>
                         }
                     </View>
-
-                    <View style={styles.containerStacked}>
-                        <Button
-                            type="outline"
-                            icon={
-                                <Icon
-                                    name='arrow-left'
-                                    size={15}
-                                    color='blue'
-                                />
-                            }
-                            onPress={() => this.props.navigation.navigate('RelevantSurveys')}
-                            iconLeft
-                            title='   Back To Surveys'
-                        />
-                    </View>
                 </KeyboardAwareScrollView>
             </View>
         )
@@ -296,8 +336,103 @@ function DisplayCompleted({completed}) {
     }
 }
 
-function DisplayDatabaseStuff({element, i, updateFunction}) {
-    console.log(element);
+function DisplayDatabaseStuff({element, i, j, k, m, updateFunction, sectionTitle}) {
+    if(i===0) {
+        switch(element["fieldType"]) {
+            case "TEXTENTRY":
+                return (
+                    <View>
+                        <Text style={styles.optionLargeHeadingText}>{sectionTitle}</Text>
+                        <DisplayTextEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
+                    </View>
+                )
+            case "SELECTONE":
+                return (
+                    <View>
+                        <Text style={styles.optionLargeHeadingText}>{sectionTitle}</Text>
+                        <DisplayOneEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
+                    </View>
+                )
+            case "SELECTMULTIPLE":
+                    return (
+                        <View>
+                            <Text style={styles.optionLargeHeadingText}>{sectionTitle}</Text>
+                            <DisplayMultiEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
+                        </View>
+                    )
+        }
+    }
+    switch(element["fieldType"]) {
+        case "TEXTENTRY":
+            return <DisplayTextEntry i={i} j={j} k={k} m={m} element={element} updateFunction={updateFunction}/>
+        
+    }
+    return (
+        <View>
+            <Text>Should never display due to agreed upon types</Text>
+        </View>
+    )
+}
+
+function DisplayMultiEntry({element, i, j, k, m, updateFunction}) {
+    var list = new Array();
+    element["field"].map((value,i) => {
+        list.push({id: i + '', name: value})
+    })
+    return (
+        <View>
+            <LabelForInput customLabel={element["prompt"]}/>
+            <MultiSelect
+                items={list}
+                onSelectedItemsChange={(values)=> {
+                    updateFunction(i,j,k,m,values,3)
+                }}
+                uniqueKey="id"
+            />
+            <View>
+                {
+                    element["answer"].map((value,i) => (
+                        <Text style={{fontSize: 20, marginTop: 1}} key={i}>{value}</Text>
+                    ))
+                }
+            </View>
+        </View>
+    )
+}
+
+function DisplayOneEntry({element, i, j, k, m, updateFunction}) {
+    var list = new Array();
+    element["field"].map((value,i) => {
+        list.push({id: i + '', name: value})
+    })
+    return (
+        <View>
+            <LabelForInput customLabel={element["prompt"]}/>
+            <MultiSelect
+                items={list}
+                onSelectedItemsChange={(values)=> {
+                    updateFunction(i,j,k,m,values,2)
+                }}
+                uniqueKey="id"
+            />
+            <View>
+                <Text style={{fontSize: 20, marginTop: 1}} key={i}>{element["answer"]}       </Text>
+            </View>
+        </View>
+    )
+}
+
+function DisplayTextEntry({element, i, j, k, m, updateFunction}) {
+    return (
+        <View>
+            <LabelForInput customLabel={element["prompt"]}/>
+            <Input
+                value={element["field"]}
+                placeholder={"Enter " + element["prompt"]}
+                onChangeText={(value) => updateFunction(i,j,k,m,value,1)}
+            />
+        </View>
+    )
 }
 
 function LabelForInput({customLabel}){
@@ -389,6 +524,13 @@ const styles = StyleSheet.create({
       paddingLeft: 10,
       fontStyle: 'italic'
     },
+    optionLargeHeadingText: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 10,
+        paddingLeft: 10,
+      },
     messageText: {
       textAlign: 'center',
       fontSize: 20,
