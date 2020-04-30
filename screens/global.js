@@ -1,0 +1,1 @@
+global.locationEnabled=true;

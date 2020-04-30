@@ -99,7 +99,7 @@ export default class RelevantSurveyScreen extends React.Component {
         <View style={styles.container}>    
         
 
-            <View>
+            <View  style={styles.optionMultipleButtons}>
                 {this.state.surveyList.map((elem,i) => (
                     <LabelAndRedir 
                     key={i}
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     },
     optionMultipleButtons: {
         flexDirection: "row",  
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-around',
         paddingLeft: 25,
         paddingRight: 25,
     },

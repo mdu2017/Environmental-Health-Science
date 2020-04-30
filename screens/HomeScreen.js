@@ -18,6 +18,7 @@ import {
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Toast from 'react-native-root-toast';
+import './global.js';
 
 import 'firebase/firestore';
 import * as firebase from 'firebase';
@@ -56,6 +57,21 @@ export default class HomeScreen extends React.Component {
     });
   }
 
+  checkLocationService = () => {
+    if(global.locationEnabled) {
+      this.props.navigation.navigate('Maps')
+    } else {
+      Toast.show("Enable Location", {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+      });
+    }
+  }
+
   render(){
     return (
       <View style={styles.container}>
@@ -76,7 +92,7 @@ export default class HomeScreen extends React.Component {
           <InstructionsText/>
           </ScrollView>
           <View style={styles.tabBarInfoContainer}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('Maps')} style={styles.helpLink}>
+            <TouchableOpacity onPress={() => this.checkLocationService()} style={styles.helpLink}>
               <Text style={styles.tabBarInfoText}>Nearby Surveys</Text>
             </TouchableOpacity>
           </View>
