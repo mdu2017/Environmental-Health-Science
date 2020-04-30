@@ -1,10 +1,12 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, SectionList } from 'react-native';
+import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 import ListItem from 'react-native-elements';
 import SurveyList from '../components/SurveyList';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+
+var i=0;
 
 
 export default class PendingSurveyScreen extends React.Component {
@@ -14,25 +16,28 @@ export default class PendingSurveyScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      surveySection: [
-        {title: 'In Progress', data: []},
-      ],
+      title: 'In Progress',
+      data: [],
       transitionFunctions: []
     };
   }
 
   //Can add surveys to the in progress/completed sections
   addInProgress = (surveyName,transitionFunction) => {
-    let newSection = this.state.surveySection.slice();
-    newSection[0].data.push(surveyName);
+    let tempData = new Array()
+    let tempFunction = this.state.transitionFunctions
 
-    let tempArray = this.state.transitionFunctions
+    let object = {
+      key: surveyName
+    }
 
-    tempArray.push(transitionFunction)
+    tempData.push(object)
+    tempFunction.push(transitionFunction)
+
 
     this.setState({
-      surveySection: newSection,
-      transitionFunctions: transitionFunction
+      data: tempData,
+      transitionFunctions: tempFunction
     });
   }
 
@@ -51,17 +56,28 @@ export default class PendingSurveyScreen extends React.Component {
       source: "server"
     }
 
+    let tempData = new Array()
+    let tempFunction = new Array()
+
     db.collection("users").doc(user).collection("incomplete").get(getOptions).then((snapshot) => {
-      console.log("hi")
       snapshot.forEach((doc) => {
-        console.log(doc)
         db.collection("users").doc(user).collection("incomplete").doc(doc.id).collection("number").get(getOptions).then((shotsnap) => {
           shotsnap.forEach((specificDoc) => {
-            this.addInProgress(doc.id + " " + specificDoc.id, () => {this.props.navigations.navigate('ViewSurvey', {
+            
+            let object = {
+              key: doc.id + " " + specificDoc.id
+            }
+            tempData.push(object)
+            tempFunction.push(() => {this.props.navigation.navigate('ViewSurvey', {
               survey: doc.id + " " + specificDoc.id,
               new: false,
               docNum: specificDoc.id
             })})
+            this.setState({
+              data:tempData,
+              transitionFunctions: tempFunction
+            })
+            i=0
           })
         })
       })
@@ -73,20 +89,29 @@ export default class PendingSurveyScreen extends React.Component {
       <View style={styles.container}>
         <Text style={styles.titleText}>Pending Completion Surveys</Text>
 
-        <SectionList style={styles.sectionContainer}
-          sections={this.state.surveySection}
-          renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-          renderItem={({item}) => 
-            <TouchableOpacity>
-              <Text style={styles.item}>{item}</Text>
-            </TouchableOpacity>
-          }
-          keyExtractor={(item, index) => index}
+        <FlatList
+          data={this.state.data}
+          renderItem={({item}) => (
+            <RenderListItem item={item} i={i++} value={this.state.transitionFunctions}/>
+          )}
         />
       </View>
     );
   }
 };
+
+function RenderListItem({item, i, value}) {
+  console.log(item)
+  console.log(i)
+  console.log(value)
+  return (
+    <Button type="outline"
+      onPress={() => value[i]()}
+      iconRight
+      title={item.key}
+    />
+  )
+}
 
 const styles = StyleSheet.create({
   titleText: {

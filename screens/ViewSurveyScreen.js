@@ -122,6 +122,7 @@ export default class RealSurveyScreen extends React.Component {
     }
 
     render() {
+        console.log("Made it")
         const { navigation } = this.props;
         this.state.title = navigation.getParam('survey')
         this.state.new = navigation.getParam('new')
@@ -140,7 +141,7 @@ export default class RealSurveyScreen extends React.Component {
                 this.state.docNum = tempID
             })
         } else {
-            this.state.docNum = navigations.getParam('docNum')
+            this.state.docNum = navigation.getParam('docNum')
         }
         
         return (

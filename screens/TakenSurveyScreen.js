@@ -46,9 +46,9 @@ export default class TakenSurveyScreen extends React.Component {
         // console.log(snapshot.docs);
         snapshot.docs.forEach(doc => {
           console.log(doc)
-            let surveyName = doc.id
-            console.log('Survey name is: ' + surveyName);
-            this.addInProgress(surveyName)
+          let surveyName = doc.id
+          console.log('Survey name is: ' + surveyName);
+          this.addInProgress(surveyName)
         })
       })
     };
