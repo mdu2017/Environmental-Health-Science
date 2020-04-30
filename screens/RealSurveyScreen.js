@@ -85,7 +85,7 @@ export default class RealSurveyScreen extends React.Component {
                 var getOptions = {
                     source: 'server'
                 }
-                db.collection("surveys").doc(user).collection("incomplete").doc(temp).collection("number").get("" + this.state.docNum).then((doc) => {
+                db.collection("users").doc(user.email).collection("incomplete").doc(temp).collection("number").doc("" + this.state.docNum).get().then((doc) => {
                     var object = doc.data()
                     tempList.push(object)
                     
@@ -124,7 +124,7 @@ export default class RealSurveyScreen extends React.Component {
                 var getOptions = {
                     source: 'server'
                 }
-                db.collection("surveys").doc(user).collection("completed").doc(temp).collection("number").get("" + this.state.docNum).then((doc) => {
+                db.collection("users").doc(user.email).collection("completed").doc(temp).collection("number").doc("" + this.state.docNum).get().then((doc) => {
                     var object = doc.data()
                     tempList.push(object)
                     
@@ -425,8 +425,8 @@ export default class RealSurveyScreen extends React.Component {
             this.state.completed = false;
             this.state.originalCompleted = false;
         } else {
-            this.state.docNum = navigations.getParam('docNum')
-            if(navigations.getParam('completed')) {
+            this.state.docNum = navigation.getParam('docNum')
+            if(navigation.getParam('completed')) {
                 this.state.completed = true
                 this.state.originalCompleted = true;
             }
@@ -444,7 +444,7 @@ export default class RealSurveyScreen extends React.Component {
                             this.state.list.map((object,i) => (
                                 object.map((value,j) => (
                                     value.map((stupid,k) => (
-                                        value.map((stupid2,m) => (
+                                        stupid.map((stupid2,m) => (
                                             <DisplayDatabaseStuff
                                                 element={this.state.list[i][j][k][m]}
                                                 key={k}

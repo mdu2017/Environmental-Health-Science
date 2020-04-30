@@ -22,25 +22,6 @@ export default class PendingSurveyScreen extends React.Component {
     };
   }
 
-  //Can add surveys to the in progress/completed sections
-  addInProgress = (surveyName,transitionFunction) => {
-    let tempData = new Array()
-    let tempFunction = this.state.transitionFunctions
-
-    let object = {
-      key: surveyName
-    }
-
-    tempData.push(object)
-    tempFunction.push(transitionFunction)
-
-
-    this.setState({
-      data: tempData,
-      transitionFunctions: tempFunction
-    });
-  }
-
   //Grab data from db when loading page
   componentDidMount = async() => {
     await this.readInProgress();
@@ -69,7 +50,7 @@ export default class PendingSurveyScreen extends React.Component {
             }
             tempData.push(object)
             tempFunction.push(() => {this.props.navigation.navigate('ViewSurvey', {
-              survey: doc.id + " " + specificDoc.id,
+              survey: doc.id,
               new: false,
               docNum: specificDoc.id
             })})

@@ -26,7 +26,8 @@ export default class RealSurveyScreen extends React.Component {
             submitted: false,
             completed: false,
             new: false,
-            docNum: 0
+            docNum: 0,
+            title: ''
         }
     }
 
@@ -46,44 +47,91 @@ export default class RealSurveyScreen extends React.Component {
 
     readFromDB = async(temp) => {
         if(!this.state.new) {
-            let db = firebase.firestore();
-            let user = firebase.auth().currentUser;
-            var tempList = new Array();
-            var titleList = new Array();
+            if(!this.state.completed) {
+                console.log("Hello")
+                let db = firebase.firestore();
+                let user = firebase.auth().currentUser;
+                var tempList = new Array();
+                var titleList = new Array();
 
-            var getOptions = {
-                source: 'server'
-            }
-            db.collection("surveys").doc(user).collection("incomplete").doc(temp).collection("number").get("" + this.state.docNum).then((doc) => {
-                var object = doc.data()
-                tempList.push(object)
-                console.log(object)
+                var getOptions = {
+                    source: 'server'
+                }
+                console.log(temp)
+                console.log(user.email)
+                console.log(this.state.docNum)
+                db.collection("users").doc(user.email).collection("incomplete").doc(temp).collection("number").doc("" + this.state.docNum).get().then((doc) => {
+                    var object = doc.data()
+                    tempList.push(object)
 
-                titleList = Object.keys(object["sections"])
+                    titleList = Object.keys(object["sections"])
 
-                var layer1list = new Array();
-                tempList.forEach((layer1) => {
-                    Object.values(layer1).forEach((layer2) => {
-                        var layer2list = new Array();
-                        Object.values(layer2).forEach((layer3) => {
-                            var layer3list = new Array();
-                            Object.values(layer3).map((layer4,i) => {
-                                var layer4list = new Array();
-                                layer4list = Object.values(layer4)
-                                layer3list.push(layer4list)
+                    var layer1list = new Array();
+                    tempList.forEach((layer1) => {
+                        Object.values(layer1).forEach((layer2) => {
+                            var layer2list = new Array();
+                            Object.values(layer2).forEach((layer3) => {
+                                var layer3list = new Array();
+                                Object.values(layer3).map((layer4,i) => {
+                                    var layer4list = new Array();
+                                    layer4list = Object.values(layer4)
+                                    layer3list.push(layer4list)
+                                })
+                                layer2list.push(layer3list)
                             })
-                            layer2list.push(layer3list)
+                            layer1list.push(layer2list)
                         })
-                        layer1list.push(layer2list)
+                        tempList.push(layer1list)
                     })
-                    tempList.push(layer1list)
-                })
 
-                this.setState({
-                    list: layer1list,
-                    sectionTitles: titleList
+                    this.setState({
+                        list: layer1list,
+                        sectionTitles: titleList
+                    })
                 })
-            })
+            } else {
+                console.log("Hello")
+                let db = firebase.firestore();
+                let user = firebase.auth().currentUser;
+                var tempList = new Array();
+                var titleList = new Array();
+
+                var getOptions = {
+                    source: 'server'
+                }
+                console.log(temp)
+                console.log(user.email)
+                console.log(this.state.docNum)
+                db.collection("users").doc(user.email).collection("completed").doc(temp).collection("number").doc("" + this.state.docNum).get().then((doc) => {
+                    var object = doc.data()
+                    tempList.push(object)
+
+                    titleList = Object.keys(object["sections"])
+
+                    var layer1list = new Array();
+                    tempList.forEach((layer1) => {
+                        Object.values(layer1).forEach((layer2) => {
+                            var layer2list = new Array();
+                            Object.values(layer2).forEach((layer3) => {
+                                var layer3list = new Array();
+                                Object.values(layer3).map((layer4,i) => {
+                                    var layer4list = new Array();
+                                    layer4list = Object.values(layer4)
+                                    layer3list.push(layer4list)
+                                })
+                                layer2list.push(layer3list)
+                            })
+                            layer1list.push(layer2list)
+                        })
+                        tempList.push(layer1list)
+                    })
+
+                    this.setState({
+                        list: layer1list,
+                        sectionTitles: titleList
+                    })
+                })
+            }
         } else {
             let db = firebase.firestore();
             var tempList = new Array();
@@ -95,7 +143,6 @@ export default class RealSurveyScreen extends React.Component {
             db.collection("surveys").doc(temp).get(getOptions).then((doc) => {
                 var object = doc.data()
                 tempList.push(object)
-                console.log(object)
 
                 titleList = Object.keys(object["sections"])
 
@@ -125,8 +172,16 @@ export default class RealSurveyScreen extends React.Component {
         }
     }
 
+    loadSurvey() {
+        this.props.navigation.navigate('HandleSurvey', {
+            survey: this.state.title,
+            new: this.state.new,
+            docNum: this.state.docNum,
+            completed: this.state.completed
+        })
+    }
+
     render() {
-        console.log("Made it")
         const { navigation } = this.props;
         this.state.title = navigation.getParam('survey')
         this.state.new = navigation.getParam('new')
@@ -146,8 +201,12 @@ export default class RealSurveyScreen extends React.Component {
             })
         } else {
             this.state.docNum = navigation.getParam('docNum')
+            if(navigation.getParam('completed')) {
+                this.state.completed = true
+                this.state.originalCompleted = true;
+            }
         }
-        
+        console.log("Here")
         return (
             <View style={styles.container}>    
                 <KeyboardAwareScrollView enableOnAndroid={true}>
@@ -187,9 +246,9 @@ export default class RealSurveyScreen extends React.Component {
                                     color={'green'}
                                 />
                             }
-                            onPress={() => this.savePressed()}
+                            onPress={() => this.loadSurvey()}
                             iconRight
-                            title={'Save Progress     '}
+                            title={'Edit Current    '}
                         />
                     </View>
                 </KeyboardAwareScrollView>
@@ -257,9 +316,7 @@ function DisplayMultiEntry({element, i, j, k, m, updateFunction}) {
             <LabelForInput customLabel={element["prompt"]}/>
             <MultiSelect
                 items={list}
-                onSelectedItemsChange={(values)=> {
-                    updateFunction(i,j,k,m,values,3)
-                }}
+                onSelectedItemsChange={(values)=> {}}
                 hideSubmitButton={true}
                 uniqueKey="id"
             />
@@ -284,9 +341,7 @@ function DisplayOneEntry({element, i, j, k, m, updateFunction}) {
             <LabelForInput customLabel={element["prompt"]}/>
             <MultiSelect
                 items={list}
-                onSelectedItemsChange={(values)=> {
-                    updateFunction(i,j,k,m,values,2)
-                }}
+                onSelectedItemsChange={(values)=> {}}
                 hideSubmitButton={true}
                 uniqueKey="id"
             />
@@ -335,6 +390,13 @@ const styles = StyleSheet.create({
       flex: 1,
       paddingTop: 50,
     },
+    optionLargeHeadingText: {
+        fontSize: 40,
+        fontWeight: 'bold',
+        marginTop: 10,
+        marginBottom: 10,
+        paddingLeft: 10,
+      },
     optionsTitleText: {
       textAlign: 'center',
       fontSize: 32,

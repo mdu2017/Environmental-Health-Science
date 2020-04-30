@@ -1,77 +1,98 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, SectionList } from 'react-native';
+import { StyleSheet, Text, View, Button, FlatList } from 'react-native';
 import ListItem from 'react-native-elements';
 import SurveyList from '../components/SurveyList';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
+var i=0;
 
-export default class TakenSurveyScreen extends React.Component {
+
+export default class PendingSurveyScreen extends React.Component {
   static navigationOptions = {
-    title: 'Completed Surveys',
+    title: 'Pending Surveys',
   };
   constructor(props){
     super(props);
     this.state = {
-      surveySection: [
-        {title: 'Completed', data: []}
-      ]
+      title: 'In Progress',
+      data: [],
+      transitionFunctions: []
     };
-  }
-
-  //Can add surveys to the in progress/completed sections
-  addInProgress = (surveyName) => {
-    let newSection = this.state.surveySection.slice();
-    newSection[0].data.push(surveyName);
-
-    this.setState({
-      surveySection: newSection
-    });
   }
 
   //Grab data from db when loading page
   componentDidMount = async() => {
-    await this.readCompleted();
+    await this.readInProgress();
   }
 
   //Reads survey list in progress from database (not completed surveys)
-  readCompleted = async () => {
+  readInProgress = async () => {
 
     let db = firebase.firestore();
     let user = firebase.auth().currentUser["email"]
-    console.log("Users: " + user)
 
-    db.collection("users").doc(user).collection("completed").get().then((snapshot) => {
-        // console.log(snapshot.docs);
-        snapshot.docs.forEach(doc => {
-          console.log(doc)
-          let surveyName = doc.id
-          console.log('Survey name is: ' + surveyName);
-          this.addInProgress(surveyName)
+    let getOptions = {
+      source: "server"
+    }
+
+    let tempData = new Array()
+    let tempFunction = new Array()
+
+    db.collection("users").doc(user).collection("completed").get(getOptions).then((snapshot) => {
+      snapshot.forEach((doc) => {
+        db.collection("users").doc(user).collection("completed").doc(doc.id).collection("number").get(getOptions).then((shotsnap) => {
+          shotsnap.forEach((specificDoc) => {
+            
+            let object = {
+              key: doc.id + " " + specificDoc.id
+            }
+            tempData.push(object)
+            tempFunction.push(() => {this.props.navigation.navigate('ViewSurvey', {
+              survey: doc.id,
+              new: false,
+              docNum: specificDoc.id
+            })})
+            this.setState({
+              data:tempData,
+              transitionFunctions: tempFunction
+            })
+            i=0
+          })
         })
       })
-    };
+    })
+  };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.titleText}>Completed Surveys</Text>
+        <Text style={styles.titleText}>Pending Completion Surveys</Text>
 
-        <SectionList style={styles.sectionContainer}
-          sections={this.state.surveySection}
-          renderSectionHeader={({section}) => <Text style={styles.sectionHeader}>{section.title}</Text>}
-          renderItem={({item}) => 
-          <TouchableOpacity>
-            <Text style={styles.item} onPress={() => this.props.navigation.navigate('HandleSurvey')}>{item}</Text>
-          </TouchableOpacity>
-        }
-          keyExtractor={(item, index) => index}
+        <FlatList
+          data={this.state.data}
+          renderItem={({item}) => (
+            <RenderListItem item={item} i={i++} value={this.state.transitionFunctions}/>
+          )}
         />
       </View>
     );
   }
 };
+
+function RenderListItem({item, i, value}) {
+  console.log(item)
+  console.log(i)
+  console.log(value)
+  return (
+    <Button type="outline"
+      onPress={() => value[i]()}
+      iconRight
+      title={item.key}
+    />
+  )
+}
 
 const styles = StyleSheet.create({
   titleText: {
