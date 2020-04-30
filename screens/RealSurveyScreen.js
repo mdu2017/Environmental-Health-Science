@@ -41,6 +41,9 @@ export default class RealSurveyScreen extends React.Component {
     //On load generate the fields and survey page
     componentDidMount = async() => {
         await this.readFromDB(this.state.title);
+        this.setState({
+            completed: this.state.originalCompleted
+        })
         return(
             <View>
                 {}
@@ -219,8 +222,9 @@ export default class RealSurveyScreen extends React.Component {
                             "questions": {}
                         }
                         layer2.map((layer3,i) => {
-                            var question= "question" + i
-                            layer3.forEach(important => {
+                            
+                            layer3.map((important,k) => {
+                                var question= "question" + k
                                 data["sections"][currentSection]["questions"][question] = important
                             })
                         })
@@ -261,13 +265,15 @@ export default class RealSurveyScreen extends React.Component {
                             "questions": {}
                         }
                         layer2.map((layer3,i) => {
-                            var question= "question" + i
-                            layer3.forEach(important => {
+                            
+                            layer3.map((important,k) => {
+                                var question= "question" + k
                                 data["sections"][currentSection]["questions"][question] = important
                             })
                         })
                     })
                 })
+
 
                 let user = firebase.auth().currentUser["email"];
                 let db = firebase.firestore();
@@ -305,8 +311,10 @@ export default class RealSurveyScreen extends React.Component {
                             "questions": {}
                         }
                         layer2.map((layer3,i) => {
-                            var question= "question" + i
-                            layer3.forEach(important => {
+                            
+                            layer3.map((important,k) => {
+                                var question= "question" + k
+                               
                                 data["sections"][currentSection]["questions"][question] = important
                             })
                         })
@@ -349,8 +357,10 @@ export default class RealSurveyScreen extends React.Component {
                             "questions": {}
                         }
                         layer2.map((layer3,i) => {
-                            var question= "question" + i
-                            layer3.forEach(important => {
+                            
+                            layer3.map((important,k) => {
+                                var question= "question" + k
+                                
                                 data["sections"][currentSection]["questions"][question] = important
                             })
                         })
@@ -381,16 +391,75 @@ export default class RealSurveyScreen extends React.Component {
                 });
             }
         }
+
+        console.log("hey")
+        
+        this.state.list.map((layer1,i) => {
+            layer1.map((layer2,j) => {
+                layer2.map((layer3,k) => {
+                    layer3.map((layer4,m) => {
+                        console.log(layer4)
+                        console.log(this.state.originalList[i][j][k][m])
+                        switch(layer4["fieldType"]) {
+                            case "TEXTENTRY":
+                                if(layer4["field"]!==this.state.originalList[i][j][k][m]["field"]) {
+                                    var prompt = layer4["prompt"]
+                                    if(layer4["field"]==="") {
+                                        await axios.post('https://env-health-survey-gen.herokuapp.com/surveyQuestion/decrementResponses/', {q: prompt})
+                                    } else {
+                                        await axios.post('https://env-health-survey-gen.herokuapp.com/surveyQuestion/incrementResponses/', {q: prompt})
+                                    }
+                                }
+                                break;
+                            case "SELECTONE":
+                                if(layer4["answer"]!==this.state.originalList[i][j][k][m]["answer"]) {
+                                    var prompt = layer4["prompt"]
+                                    if(layer4["answer"]==="") {
+                                        await axios.post('https://env-health-survey-gen.herokuapp.com/surveyQuestion/decrementResponses/', {q: prompt})
+                                    } else {
+                                        await axios.post('https://env-health-survey-gen.herokuapp.com/surveyQuestion/incrementResponses/', {q: prompt})
+                                    }
+                                }
+                                break;
+                            case "SELECTMULTIPLE":
+                                var prompt = layer4["prompt"]
+                                if(layer4["answer"].length !== this.state.originalList[i][j][k][m]["answer"]) {
+                                    if(layer4["answer"].length===0) {
+                                        await axios.post('https://env-health-survey-gen.herokuapp.com/surveyQuestion/decrementResponses/', {q: prompt})
+                                    } else {
+                                        await axios.post('https://env-health-survey-gen.herokuapp.com/surveyQuestion/incrementResponses/', {q: prompt})
+                                    }
+                                } else {
+                                    var unchanged = true;
+                                    layer4["answer"].map((value,i) => {
+                                        if(value!==this.state.originalList[i][j][k][m]["answer"][i]) {
+                                            unchanged = false;
+                                        }
+                                    })
+                                    if(!unchanged) {
+                                        if(layer4["answer"].length===0) {
+                                            await axios.post('https://env-health-survey-gen.herokuapp.com/surveyQuestion/decrementResponses/', {q: prompt})
+                                        } else {
+                                            await axios.post('https://env-health-survey-gen.herokuapp.com/surveyQuestion/incrementResponses/', {q: prompt})
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+                    })
+                })
+            })
+        })
     }
 
     //Toggles if a survey is completed/in-progress
     checkCompleted = async() => {
-        await this.setState({
+        this.setState({
             completed: !this.state.completed
         })
 
         let status = ''
-        if(this.state.completed) {
+        if(!this.state.completed) {
             status = 'Survey Completed';
         } else {
             status = 'Survey in Progress';
@@ -423,15 +492,18 @@ export default class RealSurveyScreen extends React.Component {
                 snapshot.forEach(() => {
                     tempID++
                 })
-
-                this.state.docNum = tempID
+                db.collection("users").doc(user).collection("completed").doc(navigation.getParam('survey')).collection("number").get(getOptions).then((snapshot) => {
+                    snapshot.forEach(() => {
+                        tempID++
+                    })
+    
+                    this.state.docNum = tempID
+                })
             })
-            this.state.completed = false;
             this.state.originalCompleted = false;
         } else {
             this.state.docNum = navigation.getParam('docNum')
             if(navigation.getParam('completed')) {
-                this.state.completed = true
                 this.state.originalCompleted = true;
             }
         }
