@@ -397,7 +397,7 @@ export default class RealSurveyScreen extends React.Component {
         this.state.list.map((layer1,i) => {
             layer1.map((layer2,j) => {
                 layer2.map((layer3,k) => {
-                    layer3.map((layer4,m) => {
+                    layer3.map(async(layer4,m) => {
                         console.log(layer4)
                         console.log(this.state.originalList[i][j][k][m])
                         switch(layer4["fieldType"]) {
