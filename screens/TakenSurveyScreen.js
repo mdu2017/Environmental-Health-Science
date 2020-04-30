@@ -52,7 +52,8 @@ export default class PendingSurveyScreen extends React.Component {
             tempFunction.push(() => {this.props.navigation.navigate('ViewSurvey', {
               survey: doc.id,
               new: false,
-              docNum: specificDoc.id
+              docNum: specificDoc.id,
+              completed: true
             })})
             this.setState({
               data:tempData,

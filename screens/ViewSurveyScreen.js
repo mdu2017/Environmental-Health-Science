@@ -218,11 +218,11 @@ export default class RealSurveyScreen extends React.Component {
                     {
                             this.state.list.map((object,i) => (
                                 object.map((value,j) => (
-                                    value.map((stupid,k) => (
-                                        value.map((stupid2,m) => (
+                                    value.map((temp,k) => (
+                                        temp.map((useless,m) => (
                                             <DisplayDatabaseStuff
                                                 element={this.state.list[i][j][k][m]}
-                                                key={k}
+                                                key={m}
                                                 i={i}
                                                 j={j}
                                                 k={k}
@@ -266,7 +266,7 @@ function DisplayCompleted({completed}) {
 }
 
 function DisplayDatabaseStuff({element, i, j, k, m, updateFunction, sectionTitle}) {
-    if(i===0) {
+    if(m===0) {
         switch(element["fieldType"]) {
             case "TEXTENTRY":
                 return (
