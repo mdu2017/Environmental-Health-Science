@@ -6,83 +6,23 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { Touchable } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 
-// List of tabs on the settings screen
-// const list = [
-//   {
-//     title: 'General',
-//     icon: 'list'
-//   },
-//   {
-//     title: 'Security',
-//     icon: 'lock'
-//   },
-//   {
-//     title: 'Location',
-//     icon: 'location-on'
-//   },
-//   {
-//     title: 'Notifications',
-//     icon: 'notifications'
-//   },
-//   {
-//     title: 'Help',
-//     icon: 'help'
-//   },
-//   // {
-//   //   title: 'About',
-//   //   icon: 'info'
-//   // },
-// ]
-
 export default class LocationScreen extends React.Component {
   static navigationOptions = {
-    title: 'Help',
+    title: 'About',
 };
   constructor(props) {
     super(props);
     this.state ={
-      tabTitle: ''
     };
-    this.onTabPress = this.onTabPress.bind(this);
-  }
-
-  // When tab is pressed go to corresponding page
-  onTabPress(itemTitle){
-    if(itemTitle == 'Profile'){
-      this.props.navigation.navigate('Profile');
-    }
-    else if(itemTitle == 'Surveys Taken'){
-      this.props.navigation.navigate('TakenSurveys');
-    }
-    else if(itemTitle == 'Config'){
-      this.props.navigation.navigate('Config');
-    }
-    else if(itemTitle == 'Info'){
-      this.props.navigation.navigate('Info');
-    }
-    else if(itemTitle == 'Help'){
-      this.props.navigation.navigate('Help');
-    }
   }
   
   render() {
     return (
       <View>
-        {/* {
-          list.map((item, i) => (    
-              <ListItem
-                key={i}              
-                title={item.title}
-                leftIcon={{ name: item.icon }}
-                onPress={() => this.onTabPress(item.title)} //need this. OR else it won't work
-                bottomDivider
-                chevron
-              />         
-          ))
-        } */}
-        <View>
-          <Text style={styles.descriptionText}>Help</Text>
-        </View>
+        <Text style={styles.headingText}>Developed By{'\n'} </Text>
+        <Text style={styles.welcomeTxt}>Mark Du{'\n'}Schaeffer Duncan{'\n'}Matt Giles{'\n'}</Text>
+        <Text style={styles.headingText}>Special Thanks{'\n'}</Text>
+        <Text style={styles.welcomeTxt}>Dr. Matthew Fendt{'\n'}Dr. Benjamin Ryan{'\n'}</Text>
       </View>
     );
   }
@@ -164,7 +104,78 @@ const Color = ({ value }) => {
 };
 
 // Styles
+// CSS Styling for login screen
 const styles = StyleSheet.create({
+  loginButton: {
+    marginHorizontal: '25%',
+    width: '50%',
+  },
+  headingText: {
+    fontSize: 32,
+    textAlign: 'center',
+    color: 'rgba(0, 20, 115, 0.9)',
+  },
+  welcomeTxt: {
+    marginTop: 10,
+    color: 'rgba(0,50,0,0.8)',
+    fontSize: 22,
+    lineHeight: 22,
+    textAlign: 'center',
+  },
+  contentContainer: {
+    paddingTop: 30,
+  },
+  welcomeContainer: {
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 20,
+  },
+  welcomeImage: {
+    width: 100,
+    height: 80,
+    resizeMode: 'contain',
+    marginTop: 75,
+    marginLeft: -10,
+  },
+  getStartedContainer: {
+    alignItems: 'center',
+    marginHorizontal: 50,
+  },
+  homeScreenFilename: {
+    marginVertical: 7,
+  },
+  codeHighlightText: {
+    color: 'rgba(96,100,109, 0.8)',
+  },
+  codeHighlightContainer: {
+    backgroundColor: 'rgba(0,0,0,0.05)',
+    borderRadius: 3,
+    paddingHorizontal: 4,
+  },
+  getStartedText: {
+    fontSize: 17,
+    color: 'rgba(96,100,109, 1)',
+    lineHeight: 24,
+    textAlign: 'center',
+  },
+  navigationFilename: {
+    marginTop: 5,
+  },
+  signUpContainer: {
+    marginTop: 15,
+    marginBottom: 20,
+    alignItems: 'center',
+  },
+  signUpLink: {
+    color: 'rgba(10,0,200,0.7)',
+    fontSize: 18,
+    lineHeight: 20,
+    textAlign: 'center',
+  },
+  helpLinkText: {
+    fontSize: 14,
+    color: '#2e78b7',
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff',

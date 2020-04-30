@@ -18,6 +18,7 @@ import {
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AsyncStorage } from 'react-native';
+import Toast from 'react-native-root-toast';
 
 import * as firebase from 'firebase';
 
@@ -29,7 +30,7 @@ export default class LoginScreen extends React.Component {
     this.state = {
       email: '',
       password: '',
-      rememberChecked: false,
+      rememberChecked: true,
       user: null
     }
 
@@ -101,25 +102,41 @@ export default class LoginScreen extends React.Component {
   }
 
   onPressLogin = async() => {
-    console.log(this.state.email);
+    let valid = true;
+    let errorCode = '';
+    let errorMessage = '';
     await firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.password).catch(function(error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorCode);
-      console.log(errorMessage);
+      errorCode = error.code;
+      errorMessage = error.message;
+      if (errorCode === 'auth/wrong-password' || errorCode === 'auth/invalid-email' || errorCode === 'auth/user-not-found'){
+        valid = false;
+      }
     })
-    Object.assign(this.state, { isAuthenticated: true })
-    console.log(this.state.isAuthenticated)
 
-    //If remember me is checked, save login info
-    if(this.state.rememberChecked){
-      let e = this.state.email;
-      let p = this.state.password;
-      this.saveUserLogin(e, p);
+    //Check for valid credentials
+    if(valid){
+      await Object.assign(this.state, { isAuthenticated: true });
+      //If remember me is checked, save login info
+      if(this.state.rememberChecked){
+        let e = this.state.email;
+        let p = this.state.password;
+        this.saveUserLogin(e, p);
+      }
+      else if(!this.state.rememberChecked){
+        this.saveUserLogin('','');
+      }
     }
-    else if(!this.state.rememberChecked){
-      this.saveUserLogin('','');
-    }
+    else{
+      //Show error message
+      Toast.show('Error: ' + errorCode.substring(errorCode.indexOf('/')+1), {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+      });
+      }
   }
 
   render(){

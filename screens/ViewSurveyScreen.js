@@ -12,6 +12,10 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 
 export default class RealSurveyScreen extends React.Component {
+    static navigationOptions = {
+        title: 'Back',
+    };
+    
     constructor(props) {
         super(props);
 

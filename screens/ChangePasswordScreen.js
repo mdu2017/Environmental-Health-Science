@@ -3,8 +3,12 @@ import React from 'react';
 import { StyleSheet, Image, Text, View } from 'react-native';
 import { Input, Button } from 'react-native-elements';
 import * as firebase from 'firebase';
+import Toast from 'react-native-root-toast';
 
 export default class ChangePassword extends React.Component {
+  static navigationOptions = {
+    title: 'Change Password',
+  };
     constructor(props) {
         super(props);
 
@@ -68,7 +72,7 @@ export default class ChangePassword extends React.Component {
                         />
                     </View>
                     <View style={styles.getStartedContainer}>
-                        <LabelForInput customLabel="Confirm new Email"/>
+                        <LabelForInput customLabel="Confirm new Password"/>
 
                         {/* Email */}
                         <Input 
@@ -86,16 +90,36 @@ export default class ChangePassword extends React.Component {
                         <Button title='Submit' style={styles.loginButton} onPress={() => {
                             this.onPressLogin().then(() => {
                                 if(this.state.changed) {
-                                    console.log("Success")
+                                    
                                     // SHOW THAT CHANGE WAS SUCCESSFUL
                                     var currEmail = firebase.auth().currentUser.email;
                                     this.setState({
                                         email: currEmail,
                                         changed: false
                                     })
+
+                                  //Show success notification
+                                    Toast.show('Your password has been updated!', {
+                                      duration: Toast.durations.SHORT,
+                                      position: Toast.positions.BOTTOM,
+                                      shadow: true,
+                                      animation: true,
+                                      hideOnPress: true,
+                                      delay: 0,
+                                    });
+                                  
                                 } else {
                                     console.log("Failed to login");
                                     // SHOW ERROR MESSAGE SAYING LOGIN FAILED
+                                    //Show success notification
+                                    Toast.show('Error: invalid password', {
+                                      duration: Toast.durations.SHORT,
+                                      position: Toast.positions.BOTTOM,
+                                      shadow: true,
+                                      animation: true,
+                                      hideOnPress: true,
+                                      delay: 0,
+                                    });
                                 }
                             })
                         }}/>

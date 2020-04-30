@@ -20,6 +20,9 @@ import PendingSurveyScreen from '../screens/PendingSurveyScreen';
 import RelevantSurveyScreen from '../screens/RelevantSurveysScreen';
 import ViewSurveyScreen from '../screens/ViewSurveyScreen';
 import RealSurveyScreen from '../screens/RealSurveyScreen';
+import ChangeEmailScreen from '../screens/ChangeEmailScreen';
+import ChangePasswordScreen from '../screens/ChangePasswordScreen';
+import ConfirmLoginPage from '../screens/ConfirmLoginPage';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -45,41 +48,41 @@ HomeStack.navigationOptions = {
 HomeStack.path = '';
 
 //Survey stack navigator (Survey is the name)
-const SurveyStack = createStackNavigator(
-  {
-    Survey: SurveyScreen,
-    Map: MapScreen,
-  },
-  config
-);
+// const SurveyStack = createStackNavigator(
+//   {
+//     Survey: SurveyScreen,
+//     Map: MapScreen,
+//   },
+//   config
+// );
 
-//Link stack navigation options
-SurveyStack.navigationOptions = {
-  tabBarLabel: 'Survey',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-clipboard' : 'md-clipboard'} />
-  ),
-};
+// //Link stack navigation options
+// SurveyStack.navigationOptions = {
+//   tabBarLabel: 'Survey',
+//   tabBarIcon: ({ focused }) => (
+//     <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-clipboard' : 'md-clipboard'} />
+//   ),
+// };
 
-SurveyStack.path = '';
+// SurveyStack.path = '';
 
 //Map stack navigator (Map is the navigation page name)
 const MapStack = createStackNavigator(
   {
-    Map: MapScreen,
     RelevantSurveys: RelevantSurveyScreen,
     ViewSurvey: ViewSurveyScreen,
     GeneralSurvey: SurveyScreen,
     HandleSurvey: RealSurveyScreen,
+    Maps: MapScreen,
   },
   config
 );
 
 //Map stack navigation options
 MapStack.navigationOptions = {
-  tabBarLabel: 'Map',
+  tabBarLabel: 'Surveys',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-globe' : 'md-globe'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-paper-outline' : 'md-paper'} />
   ),
 };
 
@@ -132,6 +135,9 @@ const SettingsStack = createStackNavigator(
     Location: LocationScreen,
     Notifications: NotificationsScreen,
     Help: HelpScreen,
+    ChangeEmail: ChangeEmailScreen,
+    ChangePassword: ChangePasswordScreen,
+    ConfirmLogin: ConfirmLoginPage,
   },
   config
 );
