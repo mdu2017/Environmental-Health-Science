@@ -14,7 +14,7 @@ import 'firebase/firestore';
 
 export default class RealSurveyScreen extends React.Component {
     static navigationOptions = {
-        title: 'Back',
+        title: 'View Survey',
     };
     
     constructor(props) {

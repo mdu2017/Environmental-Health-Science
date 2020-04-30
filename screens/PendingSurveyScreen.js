@@ -11,7 +11,7 @@ var i=0;
 
 export default class PendingSurveyScreen extends React.Component {
   static navigationOptions = {
-    title: 'Pending Surveys',
+    title: 'Incomplete Surveys',
   };
   constructor(props){
     super(props);
@@ -68,7 +68,7 @@ export default class PendingSurveyScreen extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.titleText}>Pending Completion Surveys</Text>
+        <Text style={styles.titleText}>Click Survey Below to Edit</Text>
 
         <FlatList
           data={this.state.data}

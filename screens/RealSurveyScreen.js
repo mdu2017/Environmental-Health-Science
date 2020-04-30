@@ -13,9 +13,7 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 
 export default class RealSurveyScreen extends React.Component {
-    static navigationOptions = {
-        title: 'Back',
-    };
+    
     
     constructor(props) {
         super(props);
@@ -33,6 +31,12 @@ export default class RealSurveyScreen extends React.Component {
 
         this.savePressed = this.savePressed.bind(this);
     }
+    static navigationOptions =({navigation})=> ({
+        title: 'Survey',
+        // headerRight:(
+        //   <Button title='Save progress' onPress={() => this.savePressed()}/>
+        // )
+      });
 
     //On load generate the fields and survey page
     componentDidMount = async() => {

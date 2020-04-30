@@ -13,6 +13,9 @@ YellowBox.ignoreWarnings(['Setting a timer']);
 
 export default class RelevantSurveyScreen extends React.Component {
 
+    static navigationOptions = {
+        title: 'Relevant Surveys',
+    };
     constructor(props){
         super(props);
         this.state = {
@@ -90,10 +93,6 @@ export default class RelevantSurveyScreen extends React.Component {
         <View style={styles.container}>    
         
 
-            <View style={styles.container}>
-                <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text>
-            </View>
-
             <View>
                 {this.state.surveyList.map((elem,i) => (
                     <LabelAndRedir 
@@ -113,24 +112,6 @@ export default class RelevantSurveyScreen extends React.Component {
 
             <View>
                 <Button title="Refresh Survey List" onPress={() => this.refreshData()}/>
-            </View>
-
-            <View>
-                <Button
-                    style={styles.optionButton}
-                    title="Back To Map"
-                    onPress={() =>
-                        this.props.navigation.navigate('Map')
-                    }
-                />
-                <Button
-                    style={styles.optionButton}
-                    title="Back To Profile"
-                    onPress={() =>
-                        this.props.navigation.navigate('Profile')
-                    }
-                    on
-                />
             </View>
         </View>
     );

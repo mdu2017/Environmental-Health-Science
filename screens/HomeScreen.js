@@ -97,7 +97,7 @@ function onPressSignOut() {
 function WelcomeText() {
   return (
     <Text style={styles.welcomeTxt}>
-      Welcome to the Environmental Health Science App Homepage!
+      Welcome to the Environmental-Health-Science App Homepage!
     </Text>
   );
 }
@@ -108,7 +108,7 @@ function InstructionsText(){
     <Text style={styles.InstructionsText}>
       {/* Click on the 'Survey' tab below to fill out an Environmental Assessment Form. {"\n\n"}
       <Text style={styles.orText}>OR</Text> {"\n\n"} */}
-      Click on the 'Map' tab to find a relevant survey for your location.
+      {"Click on the 'Surveys' tab to view a complete list of surveys.\n\nClick on the 'Nearby Surveys' button to go to a map screen with relevent surveys.\n\nClick on the 'Profile' tab to view your completed and incomplete surveys."}
     </Text>
   )
 }
