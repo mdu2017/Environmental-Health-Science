@@ -106,9 +106,8 @@ function WelcomeText() {
 function InstructionsText(){
   return (
     <Text style={styles.InstructionsText}>
-      {/* Click on the 'Survey' tab below to fill out an Environmental Assessment Form. {"\n\n"}
-      <Text style={styles.orText}>OR</Text> {"\n\n"} */}
-      Click on the 'Map' tab to find a relevant survey for your location.
+      Click on the <Text style={styles.specialChars}>Surveys</Text> tab to find a list of all available surveys nearby. {'\n\n'}
+      You may also click on <Text style={styles.specialChars}>Nearby Surveys</Text> to find a survey based on location.
     </Text>
   )
 }
@@ -133,6 +132,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
+  },
+  specialChars: {
+    color: '#806e6e',
+    fontStyle: 'italic',
   },
   homeLogin: {
     fontSize: 25,

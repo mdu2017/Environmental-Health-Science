@@ -163,7 +163,7 @@ export default class RealSurveyScreen extends React.Component {
 
     //Toggles if a survey is completed/in-progress
     checkCompleted = async() => {
-        this.setState({
+        await this.setState({
             completed: !this.state.completed
         })
 

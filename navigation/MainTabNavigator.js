@@ -82,7 +82,7 @@ const MapStack = createStackNavigator(
 MapStack.navigationOptions = {
   tabBarLabel: 'Surveys',
   tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-paper-outline' : 'md-paper'} />
+    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-paper' : 'md-paper'} />
   ),
 };
 
