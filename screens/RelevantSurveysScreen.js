@@ -100,7 +100,7 @@ export default class RelevantSurveyScreen extends React.Component {
         
 
             <View style={styles.container}>
-                <Text style={styles.optionSubheadingText}>Location-Relevant Surveys</Text>
+                <Text style={styles.optionSubheadingText}>Nearby Surveys</Text>
             </View>
 
             <View>
@@ -140,8 +140,8 @@ export default class RelevantSurveyScreen extends React.Component {
 
 function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
     return (
-        <View>
-            <View style={styles.optionMultipleButtons}>
+        <View style={styles.iconStyle}>
+            {/* <View style={styles.optionMultipleButtons}> */}
                 {/* <View> */}
                     <Text style={styles.optionsTitleText}>{labeltext}</Text>
                     <Button
@@ -153,6 +153,7 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
                                 color='black'
                             />
                         }
+                        style={styles.iconStyle}
                         onPress={uponpress1}
                         iconLeft
                         title=''
@@ -166,12 +167,13 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
                                 color='black'
                             />
                         }
+                        style={styles.iconStyle}
                         onPress={uponpress2}
                         iconRight
                         title=''
                     />
                 {/* </View> */}
-            </View>
+            {/* </View> */}
         </View>
     );
   }
@@ -182,7 +184,7 @@ const styles = StyleSheet.create({
       padding: '5%',
     },
     optionsTitleText: {
-      fontSize: 20,
+      fontSize: 24,
       marginLeft: 25,
       marginTop: 10,
       marginBottom: 15,
@@ -191,6 +193,7 @@ const styles = StyleSheet.create({
     optionIconContainer: {
       paddingTop: 15,
       justifyContent: 'flex-start',
+      flexDirection: 'row'
     },
     option: {
       backgroundColor: '#fdfdfd',
@@ -234,4 +237,8 @@ const styles = StyleSheet.create({
         padding: 20,
         textAlign: 'left'
     },
+    iconStyle: {
+        flexDirection: 'row-reverse',
+        padding: 10
+    }
 });
