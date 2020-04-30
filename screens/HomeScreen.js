@@ -134,6 +134,10 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#fff',
   },
+  specialChars: {
+    color: '#806e6e',
+    fontStyle: 'italic',
+  },
   homeLogin: {
     fontSize: 25,
     textAlign: 'right',

@@ -13,9 +13,15 @@ YellowBox.ignoreWarnings(['Setting a timer']);
 
 export default class RelevantSurveyScreen extends React.Component {
 
-    static navigationOptions = {
+    static navigationOptions =({navigation})=> ({
         title: 'Relevant Surveys',
-    };
+        headerTitleStyle:{
+            fontSize:24,
+            marginTop:5,
+            alignSelf:'center'
+        },
+      });
+
     constructor(props){
         super(props);
         this.state = {
@@ -109,7 +115,6 @@ export default class RelevantSurveyScreen extends React.Component {
                     />
                 ))}
             </View>
-
             <View>
                 <Button title="Refresh Survey List" onPress={() => this.refreshData()}/>
             </View>
@@ -159,8 +164,7 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
 const styles = StyleSheet.create({
     container: {
       flex: 1,
-      paddingTop: 30,
-      paddingBottom: 70,
+      padding: '5%',
     },
     optionsTitleText: {
       fontSize: 20,
@@ -187,17 +191,15 @@ const styles = StyleSheet.create({
     optionSubheadingText: {
         textAlign: 'center',
         fontSize: 30,
-        marginTop: 30,
-        marginBottom: 15,
         textDecorationLine: 'underline',
         fontWeight: 'bold',
     },
     optionButton: {
         fontSize: 15,
-        paddingBottom: 20,
-        paddingTop: 20,
+        paddingBottom: '1%',
+        paddingTop: '1%',
         textAlign: 'center',
-        padding: 50
+        padding: '1%',
     },
     optionSurveyButton: {
         fontSize: 20,
