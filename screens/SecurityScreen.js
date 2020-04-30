@@ -49,14 +49,16 @@ export default class SecurityScreen extends React.Component {
   // When tab is pressed go to corresponding page
   onTabPress(itemTitle){
     if(itemTitle == 'Change Email'){
-      this.props.navigation.navigate('ConfirmLogin', {
-        change: () => this.props.navigation.navigate('ChangeEmail')
-      });
+      // this.props.navigation.navigate('ConfirmLogin', {
+      //   change: () => this.props.navigation.navigate('ChangeEmail')
+      // });
+      this.props.navigation.navigate('ChangeEmail');
     }
     else if(itemTitle == 'Change Password'){
-      this.props.navigation.navigate('ConfirmLogin', {
-        change: () => this.props.navigations.navigate('ChangePassword')
-      });
+    //   this.props.navigation.navigate('ConfirmLogin', {
+    //     change: () => this.props.navigations.navigate('ChangePassword')
+    // });
+    this.props.navigation.navigate('ChangePassword');
     }
   }
   
@@ -98,6 +100,7 @@ export default class SecurityScreen extends React.Component {
     }
   };
 }
+
 
 const ListHeader = () => {
   const { manifest } = Constants;

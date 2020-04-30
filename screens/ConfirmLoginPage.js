@@ -18,14 +18,20 @@ import {
 import { MonoText } from '../components/StyledText';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { AsyncStorage } from 'react-native';
+import Toast from 'react-native-root-toast';
+import Constants from 'expo-constants';
 
 import * as firebase from 'firebase';
 
 export default class LoginScreen extends React.Component {
 
+  static navigationOptions = {
+    title: 'Confirm Credentials',
+  };
+
   constructor(props){
     super(props);
-    this.unsubscriber = null;
+    // this.unsubscriber = null;
     this.state = {
       email: '',
       password: '',
@@ -98,26 +104,31 @@ export default class LoginScreen extends React.Component {
     })
   }
 
-  onPressLogin = async() => {
-    console.log(this.state.email);
+  validateCredentials = async() => {
+    let valid = true;
     await firebase.auth().signInWithEmailAndPassword(this.state.email,this.state.password).catch(function(error) {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log(errorCode);
-      console.log(errorMessage);
+      let errorCode = error.code;
+      let errorMessage = error.message;
+      if (errorCode === 'auth/wrong-password' || errorCode === 'auth/invalid-email' || errorCode === 'auth/user-not-found'){
+        valid = false;
+      }
     })
-    Object.assign(this.state, { isAuthenticated: true })
-    console.log(this.state.isAuthenticated)
 
-    //If remember me is checked, save login info
-    if(this.state.rememberChecked){
-      let e = this.state.email;
-      let p = this.state.password;
-      this.saveUserLogin(e, p);
+    if(valid){
+      await Object.assign(this.state, { isAuthenticated: true });
+      this.props.navigation.navigate('Security');
     }
-    else if(!this.state.rememberChecked){
-      this.saveUserLogin('','');
-    }
+    else{
+      //Show error notification
+      Toast.show('Error: invalid credentials', {
+        duration: Toast.durations.SHORT,
+        position: Toast.positions.BOTTOM,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+      });
+      }
   }
 
   render(){
@@ -182,16 +193,17 @@ export default class LoginScreen extends React.Component {
 
         {/* Login button*/}
         <View style={styles.loginButton}>
-          <Button title='Submit' style={styles.loginButton} onPress={() => {
-            this.onPressLogin().then(() => {
+        <Button title='Submit' style={styles.loginButton} onPress={() => this.validateCredentials()}/>
+        {/* <Button title='Submit' style={styles.loginButton} onPress={() => {
+            this.validateCredentials().then(() => {
               if(this.state.isAuthenticated) {
-                this.state.navigations()
+                this.state.navigations();
               } else {
                 console.log("Failed to login");
                 // SHOW ERROR MESSAGE SAYING LOGIN FAILED
               }
             })
-          }}/>
+          }}/> */}
         </View>
       </View>
     </View>
@@ -199,9 +211,10 @@ export default class LoginScreen extends React.Component {
   }
 }
 
-LoginScreen.navigationOptions = {
-  header: null,
-};
+// LoginScreen.navigationOptions = {
+//   header: null,
+// };
+
 
 //Displays welcome text
 function WelcomeText() {

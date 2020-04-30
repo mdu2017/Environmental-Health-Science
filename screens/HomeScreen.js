@@ -60,14 +60,8 @@ export default class HomeScreen extends React.Component {
     return (
       <View style={styles.container}>
 
-        {/* Login button on the homepage */}
-        <TouchableOpacity onPress={() => {
-            onPressSignOut()
-            this.props.navigation.navigate('Login')
-          }}>
-          <Text style={styles.homeLogin}>Sign out</Text>
-        </TouchableOpacity>
-
+        <Text style={styles.homeLogin}/>
+        
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}>
@@ -82,7 +76,7 @@ export default class HomeScreen extends React.Component {
           <InstructionsText/>
           </ScrollView>
           <View style={styles.tabBarInfoContainer}>
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('RelevantSurveys')} style={styles.helpLink}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('Maps')} style={styles.helpLink}>
               <Text style={styles.tabBarInfoText}>Nearby Surveys</Text>
             </TouchableOpacity>
           </View>
@@ -216,7 +210,7 @@ const styles = StyleSheet.create({
       ios: {
         shadowColor: 'black',
         shadowOffset: { width: 0, height: -3 },
-        shadowOpacity: 0.1,
+        shadowOpacity: 0.2,
         shadowRadius: 3,
       },
       android: {
@@ -224,14 +218,14 @@ const styles = StyleSheet.create({
       },
     }),
     alignItems: 'center',
-    backgroundColor: '#fbfbfb',
+    backgroundColor: '#3ade62',
     paddingVertical: 20,
   },
   tabBarInfoText: {
     fontSize: 18,
-    color: 'black',
+    color: 'rgba(15,15,15,0.8)',
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
   },
   navigationFilename: {
     marginTop: 5,

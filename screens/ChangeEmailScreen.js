@@ -5,6 +5,11 @@ import { Input, Button } from 'react-native-elements';
 import * as firebase from 'firebase';
 
 export default class ChangeEmail extends React.Component {
+
+  static navigationOptions = {
+    title: 'Change Email',
+  };
+
     constructor(props) {
         super(props);
 

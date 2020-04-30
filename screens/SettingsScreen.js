@@ -1,17 +1,19 @@
 import Constants from 'expo-constants';
 import React from 'react';
-import { SectionList, Image, StyleSheet, Text, View } from 'react-native';
+import { SectionList, Image, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Touchable } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import { Button } from 'react-native-elements';    
+
 
 // List of tabs on the settings screen
 const list = [
-  {
-    title: 'General',
-    icon: 'list'
-  },
+  // {
+  //   title: 'General',
+  //   icon: 'list'
+  // },
   {
     title: 'Security',
     icon: 'lock'
@@ -20,20 +22,24 @@ const list = [
     title: 'Location',
     icon: 'location-on'
   },
+  // {
+  //   title: 'Notifications',
+  //   icon: 'notifications'
+  // },
   {
-    title: 'Notifications',
-    icon: 'notifications'
-  },
-  {
-    title: 'Help',
+    title: 'About',
     icon: 'help'
   },
 ]
 
 export default class SettingsScreen extends React.Component {
-  static navigationOptions = {
+  static navigationOptions =({navigation})=> ({
     title: 'Settings',
-  };
+    headerRight:(
+      <Button title='Sign Out' onPress={() => navigation.navigate('Login')}/>
+    )
+  });
+
 
   constructor(props) {
     super(props);
@@ -43,21 +49,22 @@ export default class SettingsScreen extends React.Component {
     this.onTabPress = this.onTabPress.bind(this);
   }
 
+
   // When tab is pressed go to corresponding page
   onTabPress(itemTitle){
-    if(itemTitle == 'General'){
-      this.props.navigation.navigate('General');
-    }
-    else if(itemTitle == 'Security'){
-      this.props.navigation.navigate('Security');
+    // if(itemTitle == 'General'){
+    //   this.props.navigation.navigate('General');
+    // }
+    if(itemTitle == 'Security'){
+      this.props.navigation.navigate('ConfirmLogin');
     }
     else if(itemTitle == 'Location'){
       this.props.navigation.navigate('Location');
     }
-    else if(itemTitle == 'Notifications'){
-      this.props.navigation.navigate('Notifications');
-    }
-    else if(itemTitle == 'Help'){
+    // else if(itemTitle == 'Notifications'){
+    //   this.props.navigation.navigate('Notifications');
+    // }
+    else if(itemTitle == 'About'){
       this.props.navigation.navigate('Help');
     }
   }
@@ -78,8 +85,8 @@ export default class SettingsScreen extends React.Component {
           ))
         }
         <View>
-          <Text style={styles.descriptionText}>Version 1.0.0.001</Text>
-          <Text style={styles.descriptionText}>Last Updated: Mar 29, 2020</Text>
+          <Text style={styles.descriptionText}>Version 1.3</Text>
+          <Text style={styles.descriptionText}>Last Updated: Apr 30, 2020</Text>
         </View>
       </View>
     );
