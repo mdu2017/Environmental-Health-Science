@@ -1,6 +1,6 @@
 import * as WebBrowser from 'expo-web-browser';
 import React from 'react';
-import { StyleSheet, Image, Text, View } from 'react-native';
+import { StyleSheet, Image, Text, View, YellowBox } from 'react-native';
 import Touchable from 'react-native-platform-touchable';
 import { CheckBox, Input, Button } from 'react-native-elements';
 import { ScrollView, KeyboardAvoidingView, Picker } from 'react-native';
@@ -11,6 +11,9 @@ import Toast from 'react-native-root-toast';
 import MultiSelect from 'react-native-multiple-select';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
+
+
+
 
 export default class RealSurveyScreen extends React.Component {
     
@@ -478,6 +481,8 @@ export default class RealSurveyScreen extends React.Component {
     }
 
     render() {
+        console.ignoredYellowBox = true
+        console.disableYellowBox = true
         const { navigation } = this.props;
         this.state.title = navigation.getParam('survey')
         this.state.new = navigation.getParam('new')

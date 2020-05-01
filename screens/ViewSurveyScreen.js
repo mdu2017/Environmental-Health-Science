@@ -182,6 +182,8 @@ export default class RealSurveyScreen extends React.Component {
     }
 
     render() {
+        console.ignoredYellowBox = true
+        console.disableYellowBox = true
         const { navigation } = this.props;
         this.state.title = navigation.getParam('survey')
         this.state.new = navigation.getParam('new')

@@ -6,6 +6,7 @@ import { createStackNavigator } from 'react-navigation-stack';
 import { Touchable } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
 import ToggleSwitch from 'toggle-switch-react-native';
+import './global.js';
 
 export default class LocationScreen extends React.Component {
     static navigationOptions = {
@@ -17,6 +18,12 @@ export default class LocationScreen extends React.Component {
       tabTitle: '',
       locationOn: false
     };
+  }
+
+  componentDidMount = () => {
+    this.setState({
+      locationOn: global.locationEnabled
+    })
   }
   
   render() {
@@ -30,7 +37,10 @@ export default class LocationScreen extends React.Component {
                 label='Location Services'
                 labelStyle={styles.nameText}
                 size='medium'
-                onToggle={() => this.setState({ locationOn: !this.state.locationOn })}
+                onToggle={() => {
+                  this.setState({ locationOn: !this.state.locationOn })
+                  global.locationEnabled=!this.state.locationOn
+                }}
                 style={styles.sectionHeaderText}
             />
             <View style={styles.explanationStyle}>
@@ -90,7 +100,7 @@ function ExplanationText(){
       <Text style={styles.InstructionsText}>
         Location information is used to triangulate the user to allow ease of access. 
         However, if the location services are turned off, the user will still be able 
-        to search for pertinent surveys on the Map page.
+        to search for pertinent surveys on the Surveys page.
       </Text>
     )
 }
