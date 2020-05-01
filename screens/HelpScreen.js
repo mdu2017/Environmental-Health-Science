@@ -1,10 +1,11 @@
 import Constants from 'expo-constants';
 import React from 'react';
 import { SectionList, Image, StyleSheet, Text, View } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Button } from 'react-native-elements';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Touchable } from 'react-native';
 import { TouchableHighlight } from 'react-native-gesture-handler';
+import * as WebBrowser from 'expo-web-browser';
 
 export default class LocationScreen extends React.Component {
   static navigationOptions = {
@@ -19,10 +20,16 @@ export default class LocationScreen extends React.Component {
   render() {
     return (
       <View>
-        <Text style={styles.headingText}>Developed By{'\n'} </Text>
+        <Text style={styles.headingText}>Developers{'\n'} </Text>
         <Text style={styles.welcomeTxt}>Mark Du{'\n'}Schaeffer Duncan{'\n'}Matt Giles{'\n'}</Text>
         <Text style={styles.headingText}>Special Thanks{'\n'}</Text>
         <Text style={styles.welcomeTxt}>Dr. Matthew Fendt{'\n'}Dr. Benjamin Ryan{'\n'}</Text>
+        <Button
+          onPress={() => WebBrowser.openBrowserAsync('https://github.com/SchaefferDuncan/Environmental-Health-Science/blob/master/README.md')}
+          iconRight
+          title="Project Repository"
+          style={styles.optionButton}
+          />
       </View>
     );
   }
@@ -239,4 +246,11 @@ const styles = StyleSheet.create({
   colorTextContainer: {
     flex: 1,
   },
+  optionButton: {
+    fontSize: 15,
+    paddingBottom: 20,
+    paddingTop: 20,
+    textAlign: 'center',
+    padding: 70
+},
 });
