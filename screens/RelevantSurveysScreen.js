@@ -126,7 +126,10 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
         <View style={styles.iconStyle}>
             {/* <View style={styles.optionMultipleButtons}> */}
                 {/* <View> */}
+                <View>
                     <Text style={styles.optionsTitleText}>{labeltext}</Text>
+                </View>
+                <View>
                     <Button
                         type="outline"
                         icon={
@@ -141,6 +144,7 @@ function LabelAndRedir({labeltext,uponpress1,uponpress2}) {
                         iconLeft
                         title=''
                     />
+                </View>
                     <Button
                         type="outline"
                         icon={
@@ -167,7 +171,7 @@ const styles = StyleSheet.create({
       padding: '5%',
     },
     optionsTitleText: {
-      fontSize: 24,
+      fontSize: 20,
       marginLeft: 25,
       marginTop: 10,
       marginBottom: 15,
@@ -222,6 +226,7 @@ const styles = StyleSheet.create({
     },
     iconStyle: {
         flexDirection: 'row-reverse',
+        justifyContent: 'flex-end',
         padding: 10
     }
 });
